@@ -5,7 +5,10 @@ import { observable } from "mobx";
 import LoginRegister from "./views/loginRegister";
 import Start from "./components/start/start";
 
-import { CSSTransition } from "react-transition-group";
+// import { CSSTransition } from "react-transition-group";
+import Transition from "react-transition-group/Transition";
+
+// import { Transition } from "react-transition-group";
 
 import { Wrapper } from "./app-styled";
 
@@ -24,6 +27,16 @@ class App extends Component {
 			classNames: "fade"
 		};
 
+		const defaultStyle = {
+			transition: `all 1s ease-in-out`,
+			opacity: 0
+		};
+
+		const transitionStyles = {
+			entering: { opacity: 0 },
+			entered: { opacity: 1 }
+		};
+
 		return (
 			<Wrapper
 				backgroundImage={
@@ -32,7 +45,28 @@ class App extends Component {
 						: require("./assets/img/closeDoor.jpg")
 				}
 			>
-				{this.store.started ? <LoginRegister /> : <Start />}
+				<Transition
+					timeout={1000}
+					mountOnEnter
+					unmountOnExit
+					in={!this.store.started}
+				>
+					<Start
+						
+					/>
+					
+				</Transition>
+				<Transition
+					timeout={1000}
+					mountOnEnter
+					unmountOnExit
+					in={this.store.started}
+				>
+					<LoginRegister
+						
+					/>
+					
+				</Transition>
 			</Wrapper>
 		);
 	}

@@ -27,20 +27,32 @@ a {
 	color: white;
 }
 
+/* @keyframes fade {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+.activated {
+	animation: fade 1s forwards;
+} */
 .fade-enter {
 	opacity: 0.01;
-  }
-  
-  .fade-enter-active {
+}
+
+.fade-enter-active {
 	opacity: 1;
 	transition: opacity 5000ms ease-in;
-  }
-  
-  .fade-leave {
+}
+
+.fade-leave {
 	opacity: 1;
-  }
-  
-  .fade-leave.fade-leave-active {
+}
+
+.fade-leave.fade-leave-active {
 	opacity: 0.01;
 	transition: opacity 5000ms ease-in;
-  }
+}
