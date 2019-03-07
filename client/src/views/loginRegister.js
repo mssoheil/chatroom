@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
-import { observable, action } from "mobx";
+import { observable } from "mobx";
 import Login from "./../components/login/login";
 import Register from "./../components/register/register";
 import { Wrapper } from "./loginRegister-styled";

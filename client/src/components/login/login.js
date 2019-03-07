@@ -1,9 +1,12 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { inject, observer } from "mobx-react";
-import { observable, action } from "mobx";
+import { observable } from "mobx";
 
-import {
+import InputField from "./../../components/inputField/inputField";
+
+import { TweenLite } from "gsap/all";
+/* import {
 	TweenMax,
 	CSSPlugin,
 	ScrollToPlugin,
@@ -11,7 +14,7 @@ import {
 	Elastic,
 	TweenLite,
 	TimelineLite
-} from "gsap/all";
+} from "gsap/all"; */
 
 import { Wrapper } from "./login-styled";
 
@@ -29,22 +32,34 @@ class Login extends Component {
 	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
-	
-
 	componentDidMount() {
-		this.myTween = TweenLite.to(this.myElement, 1, {y: "100px", opacity: 1})
+		this.myTween = TweenLite.to(this.myElement, 1, { y: "100px", opacity: 1 });
 	}
 	render() {
 		return (
-			<Wrapper ref={div => this.myElement = div}>
-				<a
-					
+			<Wrapper ref={div => (this.myElement = div)}>
+				{/* <h3
 					onClick={() => {
 						this.loginRegisterStore.changeLoginMode();
 					}}
 				>
 					sign up
-				</a>
+				</h3> */}
+
+				<InputField
+					type="email"
+					label="Email"
+					barColor="#fff"
+					labelColor="#fff"
+					barActiveColor="#9c379c"
+					color="#fff"
+					speed={0.3}
+					inputWidth="100%"
+					inputHeight="60px"
+					id="loginEmail"
+					prefix="mo"
+					suffix="bo"
+				/>
 				{/* <a
 					ref={div => this.myElement = div}
 					onClick={() => {

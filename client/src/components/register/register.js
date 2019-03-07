@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from "react";
 
 import { inject, observer } from "mobx-react";
-import { observable, action } from "mobx";
-import TextField from "@material-ui/core/TextField";
-import purple from "@material-ui/core/colors/purple";
-import grey from "@material-ui/core/colors/grey";
-import {
-	withStyles,
-	MuiThemeProvider,
-	createMuiTheme
-} from "@material-ui/core/styles";
+import { observable } from "mobx";
+// import TextField from "@material-ui/core/TextField";
+// import purple from "@material-ui/core/colors/purple";
+// import grey from "@material-ui/core/colors/grey";
+// import {
+// 	withStyles,
+// 	MuiThemeProvider,
+// 	createMuiTheme
+// } from "@material-ui/core/styles";
 
 // const styles = theme => ({
 // 	textField: {
@@ -38,18 +38,18 @@ class Register extends Component {
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	render() {
-		const { classes } = this.props;
+		// const { classes } = this.props;
 
 		return (
 			<Fragment>
 				
-				<a
+				<h3
 					onClick={() => {
 						this.loginRegisterStore.changeLoginMode();
 					}}
 				>
 					sign in
-				</a>
+				</h3>
 			</Fragment>
 		);
 	}

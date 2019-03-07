@@ -1,6 +1,5 @@
-import React, { Component } from "react";
 
-import { observable, action, computed } from "mobx";
+import { observable } from "mobx";
 
 export default class Register {
 	@observable
