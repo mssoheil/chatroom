@@ -98,7 +98,7 @@ const Input = styled.input`
 		border: none;
 		outline: none;
 		& ~ ${Label} {
-			transform: translate(0%, -50%) scale(0.75);
+			transform: translate(0%, -40%) scale(0.75);
 			transition: all ${props => props.speed}s;
 		}
 
@@ -111,7 +111,7 @@ const Input = styled.input`
 	}
 	&.activeInput {
 		& ~ ${Label} {
-			transform: translate(0%, -50%) scale(0.75);
+			transform: translate(0%, -40%) scale(0.75);
 			transition: all ${props => props.speed}s;
 		}
 		& ~ ${Bar}:before, & ~ ${Bar}:after {

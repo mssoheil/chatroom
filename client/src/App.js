@@ -5,12 +5,27 @@ import { observable } from "mobx";
 import LoginRegister from "./views/loginRegister";
 import Start from "./components/start/start";
 
+import purple from "@material-ui/core/colors/purple";
+
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+
 // import { CSSTransition } from "react-transition-group";
 import Transition from "react-transition-group/Transition";
 
 // import { Transition } from "react-transition-group";
 
 import { Wrapper } from "./app-styled";
+
+const theme = createMuiTheme({
+	palette: {
+		primary: purple,
+		yoona: "#612345"
+	},
+
+	status: {
+		danger: "orange"
+	}
+});
 
 @inject("stores")
 @observer
@@ -45,28 +60,24 @@ class App extends Component {
 						: require("./assets/img/closeDoor.jpg")
 				}
 			>
-				<Transition
-					timeout={1000}
-					mountOnEnter
-					unmountOnExit
-					in={!this.store.started}
-				>
-					<Start
-						
-					/>
-					
-				</Transition>
-				<Transition
-					timeout={1000}
-					mountOnEnter
-					unmountOnExit
-					in={this.store.started}
-				>
-					<LoginRegister
-						
-					/>
-					
-				</Transition>
+				<MuiThemeProvider theme={theme}>
+					<Transition
+						timeout={1000}
+						mountOnEnter
+						unmountOnExit
+						in={!this.store.started}
+					>
+						<Start />
+					</Transition>
+					<Transition
+						timeout={1000}
+						mountOnEnter
+						unmountOnExit
+						in={this.store.started}
+					>
+						<LoginRegister />
+					</Transition>
+				</MuiThemeProvider>
 			</Wrapper>
 		);
 	}
