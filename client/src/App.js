@@ -14,7 +14,7 @@ import Transition from "react-transition-group/Transition";
 
 // import { Transition } from "react-transition-group";
 
-import { Wrapper } from "./app-styled";
+import { Wrapper, WrapperImg } from "./app-styled";
 
 const theme = createMuiTheme({
 	palette: {
@@ -54,12 +54,13 @@ class App extends Component {
 
 		return (
 			<Wrapper
-				backgroundImage={
+				
+			>
+			<WrapperImg src={
 					this.store.isSignedIn
 						? require("./assets/img/openDoor.jpg")
 						: require("./assets/img/closeDoor.jpg")
-				}
-			>
+				}/>
 				<MuiThemeProvider theme={theme}>
 					<Transition
 						timeout={1000}

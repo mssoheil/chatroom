@@ -11,12 +11,26 @@ const fade = keyframes`
 
 const Wrapper = styled.div`
 	width: 100%;
-	height: 100vh;
-	background: url(${props => props.backgroundImage}) no-repeat center center;
-	background-size: cover;
-	animation: ${fade} 0.3s forwards;
+	height: 100%;
+
 	display: flex;
 	align-items: center;
 `;
+const WrapperImg = styled.img`
+	min-height: 100%;
+	min-width: 1024px;
 
-export { Wrapper };
+	/* Set up proportionate scaling */
+	width: 100%;
+	height: auto;
+
+	/* Set up positioning */
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	animation: ${fade} 0.3s forwards;
+	
+`;
+
+export { Wrapper, WrapperImg };

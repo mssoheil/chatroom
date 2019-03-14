@@ -3,17 +3,17 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 
 const Wrapper = styled.div`
-	background: #333;
-	pointer-events: ${props => props.loginMode ? "auto" : "none"};
+    background: #333;
+	pointer-events: ${props => props.loginMode ? "none" : "auto"};
 	border-radius: 10px;
 	opacity: 0;
 	padding: 20px;
 	font-family: cursive !important;
-
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	backface-visibility: hidden;
+	transform: rotateY(180deg);
 `;
 
 const ChangeModeRow = styled.div`
@@ -28,6 +28,7 @@ const ChangeMode = styled.h3`
 	font-weight: 500;
 	text-transform: uppercase;
 	color: #fff;
+	cursor: pointer;
 	position: relative;
 	&:before,
 	&:after {
@@ -46,7 +47,6 @@ const ChangeMode = styled.h3`
 		left: 50%;
 	}
 	&:hover {
-		cursor: pointer;
 		&:before,
 		&:after {
 			width: 50%;

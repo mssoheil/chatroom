@@ -69,6 +69,9 @@ const InputField = props => {
 					color={color}
 					speed={speed}
 					id={id}
+					changeVal={val => {
+						props.changeVal(val);
+					}}
 				/>
 			</InputWrapper>
 			<SuffixWrapper>{suffix ? suffix : null}</SuffixWrapper>

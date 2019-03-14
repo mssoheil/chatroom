@@ -3,12 +3,11 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import { observable } from "mobx";
 
-import InputField from "./../../components/inputField/inputField";
-
 import { withTheme } from "@material-ui/core/styles";
 
-
 import { MorphReplace } from "react-svg-morph";
+
+import InputField from "./../../components/inputField/inputField";
 
 import PasswordShow from "./../passwordShow/passwordShow";
 import PasswordHide from "./../passwordHide/passwordHide";
@@ -77,17 +76,23 @@ class Login extends Component {
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	componentDidMount() {
-		this.myTween = TweenLite.to(this.myElement, 1, { y: "100px", opacity: 1 });
+		// this.myTween = TweenLite.to(this.myElement, 1, { y: "100px", opacity: 1 });
+		this.myTween = TweenLite.to(this.myElement, 1, { opacity: 1 });
 	}
 	render() {
 		// const { palette } = this.props.theme;
 		return (
-			<Wrapper ref={div => (this.myElement = div)}>
+			<Wrapper
+				ref={div => (this.myElement = div)}
+				loginMode={this.loginRegisterStore.loginMode}
+			>
 				<ChangeModeRow>
-					<ChangeModeText>
-						Not registered yet? 
-					</ChangeModeText>
-					<ChangeMode>
+					<ChangeModeText>Not registered yet?</ChangeModeText>
+					<ChangeMode
+						onClick={() => {
+							this.loginRegisterStore.changeLoginMode();
+						}}
+					>
 						Sign up
 					</ChangeMode>
 				</ChangeModeRow>
@@ -116,6 +121,9 @@ class Login extends Component {
 							<MailIcon viewBox="0 0 50 50" fill="#bbb" />
 						</div>
 					}
+					changeVal={val => {
+						this.store.changeEmail(val)
+					}}
 				/>
 				<br />
 				<InputField
@@ -209,7 +217,9 @@ class Login extends Component {
 							)}
 						</MorphReplace>
 					</div>
-					<CheckboxText onClick={this.toggleStayLogin.bind(this)}>Remember Me</CheckboxText>
+					<CheckboxText onClick={this.toggleStayLogin.bind(this)}>
+						Remember Me
+					</CheckboxText>
 				</CheckboxRow>
 				<br />
 				<ButtonHolder>

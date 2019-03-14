@@ -34,6 +34,7 @@ class AnimatedInput extends Component {
 		this.setState({
 			fieldValue: e.target.value
 		});
+		this.props.changeVal(this.state.fieldValue);
 	}
 	render() {
 		const {
@@ -67,6 +68,10 @@ class AnimatedInput extends Component {
 					color={color}
 					speed={speed}
 					onChange={this.changeInput}
+					val={this.state.fieldValue}
+					changeVal={val => {
+						this.props.changeVal(val);
+					}}
 				/>
 				<Label
 					htmlFor={id}
