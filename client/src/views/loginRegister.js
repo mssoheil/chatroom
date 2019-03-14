@@ -15,13 +15,7 @@ class LoginRegister extends Component {
 		return (
 			<Wrapper>
 				<WrapperFlip>
-					<WrapperInner
-						style={{
-							transform: this.store.loginMode
-								? "rotateY(0deg)"
-								: "rotateY(180deg)"
-						}}
-					>
+					<WrapperInner loginMode={this.store.loginMode}>
 						<Login />
 						<Register />
 					</WrapperInner>

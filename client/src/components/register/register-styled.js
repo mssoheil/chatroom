@@ -2,9 +2,10 @@ import styled from "styled-components";
 
 import Button from "@material-ui/core/Button";
 
+
 const Wrapper = styled.div`
-    background: #333;
-	pointer-events: ${props => props.loginMode ? "none" : "auto"};
+	background: #333;
+	pointer-events: ${props => (props.loginMode ? "none" : "auto")};
 	border-radius: 10px;
 	opacity: 0;
 	padding: 20px;
@@ -14,6 +15,11 @@ const Wrapper = styled.div`
 	height: 100%;
 	backface-visibility: hidden;
 	transform: rotateY(180deg);
+	@media screen and (max-width: 900px) {
+		transform: unset;
+		opacity: ${props => (props.loginMode ? 0 : 1)} !important;
+		transition: opacity 1s;
+	}
 `;
 
 const ChangeModeRow = styled.div`
