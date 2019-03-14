@@ -79,6 +79,7 @@ class Login extends Component {
 		// this.myTween = TweenLite.to(this.myElement, 1, { y: "100px", opacity: 1 });
 		this.myTween = TweenLite.to(this.myElement, 1, { opacity: 1 });
 	}
+
 	render() {
 		// const { palette } = this.props.theme;
 		return (
@@ -91,6 +92,12 @@ class Login extends Component {
 					<ChangeMode
 						onClick={() => {
 							this.loginRegisterStore.changeLoginMode();
+							this.store.changeEmail("");
+							this.store.changePassword("");
+							this.store.changeRememberMe(false);
+							this.setState({
+								password: true
+							});
 						}}
 					>
 						Sign up
@@ -121,8 +128,9 @@ class Login extends Component {
 							<MailIcon viewBox="0 0 50 50" fill="#bbb" />
 						</div>
 					}
+					val={this.store.email}
 					changeVal={val => {
-						this.store.changeEmail(val)
+						this.store.changeEmail(val);
 					}}
 				/>
 				<br />
@@ -188,12 +196,18 @@ class Login extends Component {
 							</MorphReplace>
 						</div>
 					}
+					val={this.store.password}
+					changeVal={val => {
+						this.store.changePassword(val);
+					}}
 				/>
 				<br />
 
 				<CheckboxRow>
 					<div
-						onClick={this.toggleStayLogin.bind(this)}
+						onClick={() => {
+							this.store.toggleRememberMe();
+						}}
 						style={{ cursor: "pointer" }}
 					>
 						<MorphReplace
@@ -202,7 +216,7 @@ class Login extends Component {
 							viewBox="0 0 20 20"
 							duration={400}
 						>
-							{this.state.stayLogin ? (
+							{this.store.rememberMe ? (
 								<CheckboxIndicator
 									viewBox="0 0 24 24"
 									key="checked"
@@ -217,7 +231,11 @@ class Login extends Component {
 							)}
 						</MorphReplace>
 					</div>
-					<CheckboxText onClick={this.toggleStayLogin.bind(this)}>
+					<CheckboxText
+						onClick={() => {
+							this.store.toggleRememberMe();
+						}}
+					>
 						Remember Me
 					</CheckboxText>
 				</CheckboxRow>

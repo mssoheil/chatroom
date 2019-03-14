@@ -62,17 +62,18 @@ class AnimatedInput extends Component {
 		return (
 			<Wrapper>
 				<Input
-					className={this.state.fieldValue !== "" ? "activeInput" : null}
+					className={this.props.val !== "" ? "activeInput" : null}
 					id={id}
 					type={type}
 					color={color}
 					speed={speed}
 					onChange={this.changeInput}
-					val={this.state.fieldValue}
+					value={this.props.val}
 					changeVal={val => {
 						this.props.changeVal(val);
 					}}
 				/>
+				{console.log("D", this.props.val)}
 				<Label
 					htmlFor={id}
 					inputHeight={inputHeight}

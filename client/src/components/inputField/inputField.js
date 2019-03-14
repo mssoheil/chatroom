@@ -69,6 +69,7 @@ const InputField = props => {
 					color={color}
 					speed={speed}
 					id={id}
+					val={props.val}
 					changeVal={val => {
 						props.changeVal(val);
 					}}

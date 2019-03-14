@@ -7,6 +7,7 @@ export default class Login {
 	@action
 	changeEmail(val) {
 		this.email = val;
+		console.log("IH", this.email);
 	}
 
 	@observable
@@ -21,7 +22,14 @@ export default class Login {
 	rememberMe = false;
 
 	@action
-	changeRememberbe() {
+	toggleRememberMe(val) {
+		
 		this.rememberMe = !this.rememberMe;
+		
+	}
+	changeRememberMe(val) {
+		
+		this.rememberMe = val;
+		
 	}
 }

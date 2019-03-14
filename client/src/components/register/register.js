@@ -84,7 +84,6 @@ class Register extends Component {
 			password: "",
 			passwordConfirm: ""
 		});
-		
 	}
 
 	render() {
@@ -100,6 +99,13 @@ class Register extends Component {
 					<ChangeMode
 						onClick={() => {
 							this.loginRegisterStore.changeLoginMode();
+							this.store.changeEmail("");
+							this.store.changePassword("");
+							this.store.changePasswordConfirm("");
+							this.setState({
+								password: true,
+								passwordConfirm: true
+							})
 						}}
 					>
 						Sign In
@@ -130,6 +136,10 @@ class Register extends Component {
 							<MailIcon viewBox="0 0 50 50" fill="#bbb" />
 						</div>
 					}
+					val={this.store.email}
+					changeVal={val => {
+						this.store.changeEmail(val);
+					}}
 				/>
 				<br />
 				<InputField
@@ -194,6 +204,10 @@ class Register extends Component {
 							</MorphReplace>
 						</div>
 					}
+					val={this.store.password}
+					changeVal={val => {
+						this.store.changePassword(val);
+					}}
 				/>
 				<br />
 
@@ -259,6 +273,10 @@ class Register extends Component {
 							</MorphReplace>
 						</div>
 					}
+					val={this.store.passwordConfirm}
+					changeVal={val => {
+						this.store.changePasswordConfirm(val);
+					}}
 				/>
 				<br />
 				<ButtonHolder>
