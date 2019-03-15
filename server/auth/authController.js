@@ -31,10 +31,7 @@ router.post("/register", (req, res) => {
 			newUser
 				.save()
 				.then(user => {
-					var token = jwt.sign({ id: user._id }, secretCode, {
-						expiresIn: "1d"
-					});
-					res.status(200).send({ auth: true, token: token });
+					res.status(200).send("User created successfully");
 				})
 				.catch(err => {
 					res.status(500).send("could not register user" + err);
@@ -59,7 +56,10 @@ router.post("/login", (req, res) => {
 			}
 			bcrypt.compare(req.body.password, user.password, (err, matched) => {
 				if (err) {
-					return console.log(err);
+					if (environment !== "production") {
+						console.log("Authentication faild", err);
+					}
+					return;
 				}
 				if (matched) {
 					const token = jwt.sign({ id: user._id }, secretCode, {
