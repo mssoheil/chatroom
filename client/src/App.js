@@ -19,7 +19,7 @@ import { Wrapper, WrapperImg } from "./app-styled";
 const theme = createMuiTheme({
 	palette: {
 		primary: purple,
-		yoona: "#612345"
+		secondary: "#612345"
 	},
 
 	status: {

@@ -297,7 +297,7 @@ class Register extends Component {
 						)}
 					</MorphReplace>
 				</div> */}
-				{/* <div>{console.log("object", palette.yoona)}</div> */}
+				{/* <div>{console.log("object", palette.secondary)}</div> */}
 				{/* <a
 					ref={div => this.myElement = div}
 					onClick={() => {
