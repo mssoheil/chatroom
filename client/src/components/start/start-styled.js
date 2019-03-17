@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 	cursor: pointer;
 	transition: all 0.3s;
 	position: absolute;
-	left: calc((100% / 2) - 50px);
+	left: calc((98% / 2) - 50px);
 	&:hover {
 		background: rgba(255, 255, 255, 0.1);
 		transition: all 0.3s;

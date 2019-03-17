@@ -15,7 +15,7 @@ const WrapperFlip = styled.div`
 	width: 33%;
 	height: 400px;
 	position: absolute;
-	left: 35%;
+	left: 30%;
 	top: 20%;
 	padding: 20px;
 	@media screen and (max-width: 1300px) {

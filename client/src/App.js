@@ -5,6 +5,7 @@ import { observable } from "mobx";
 import LoginRegister from "./views/loginRegister";
 import Start from "./components/start/start";
 
+
 import purple from "@material-ui/core/colors/purple";
 
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
@@ -18,8 +19,10 @@ import { Wrapper, WrapperImg } from "./app-styled";
 
 const theme = createMuiTheme({
 	palette: {
-		primary: purple,
-		secondary: "#612345"
+		primary: {
+			main: purple[500]
+		}
+		// secondary: "#612345"
 	},
 
 	status: {
@@ -53,14 +56,14 @@ class App extends Component {
 		// };
 
 		return (
-			<Wrapper
-				
-			>
-			<WrapperImg src={
-					this.store.isSignedIn
-						? require("./assets/img/openDoor.jpg")
-						: require("./assets/img/closeDoor.jpg")
-				}/>
+			<Wrapper>
+				<WrapperImg
+					src={
+						this.store.isSignedIn
+							? require("./assets/img/openDoor.jpg")
+							: require("./assets/img/closeDoor.jpg")
+					}
+				/>
 				<MuiThemeProvider theme={theme}>
 					<Transition
 						timeout={1000}
@@ -83,5 +86,6 @@ class App extends Component {
 		);
 	}
 }
+
 
 export default App;
