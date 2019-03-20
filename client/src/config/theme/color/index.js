@@ -2,7 +2,7 @@ import color from "color";
 
 import purple from "@material-ui/core/colors/purple";
 
-let primary = color(purple);
+let primary = color(purple[500]);
 let secondary = color("#333333");
 
 export default {

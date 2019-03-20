@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { inject, observer } from "mobx-react";
 import { observable } from "mobx";
@@ -17,15 +17,10 @@ import PasswordUnlock from "./../passwordUnlock/passwordUnlock";
 
 import MailIcon from "./../mailIcon/mailIcon";
 
-import CheckboxIndicator from "./../checkboxIndicator/checkboxIndicator";
-import CheckboxContainer from "./../checkboxContainer/checkboxContainer";
-
 import { TweenLite } from "gsap/all";
 
 import {
 	Wrapper,
-	CheckboxRow,
-	CheckboxText,
 	ButtonHolder,
 	Btn,
 	ChangeModeRow,

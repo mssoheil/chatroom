@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import Button from "@material-ui/core/Button";
 
-
 const Wrapper = styled.div`
 	background: #333;
 	pointer-events: ${props => (props.loginMode ? "none" : "auto")};
@@ -61,15 +60,6 @@ const ChangeMode = styled.h3`
 	}
 `;
 
-const CheckboxRow = styled.div`
-	display: flex;
-	align-items: center;
-`;
-const CheckboxText = styled.h3`
-	color: #fff;
-	font-weight: 400;
-	cursor: pointer;
-`;
 const ButtonHolder = styled.div`
 	display: flex;
 	justify-content: center;
@@ -82,8 +72,6 @@ const Btn = styled(Button)`
 
 export {
 	Wrapper,
-	CheckboxRow,
-	CheckboxText,
 	ButtonHolder,
 	Btn,
 	ChangeMode,

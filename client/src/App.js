@@ -5,7 +5,6 @@ import { observable } from "mobx";
 import LoginRegister from "./views/loginRegister";
 import Start from "./components/start/start";
 
-
 import purple from "@material-ui/core/colors/purple";
 
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
@@ -23,6 +22,9 @@ const theme = createMuiTheme({
 			main: purple[500]
 		}
 		// secondary: "#612345"
+	},
+	typography: {
+		useNextVariants: true
 	},
 
 	status: {
@@ -86,6 +88,5 @@ class App extends Component {
 		);
 	}
 }
-
 
 export default App;
