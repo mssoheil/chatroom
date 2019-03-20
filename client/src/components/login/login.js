@@ -81,7 +81,6 @@ class Login extends Component {
 	}
 
 	render() {
-		// const { palette } = this.props.theme;
 		const { customTheme } = this.props;
 		return (
 			<Wrapper

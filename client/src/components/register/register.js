@@ -82,7 +82,7 @@ class Register extends Component {
 	}
 
 	render() {
-		// const { classes } = this.props;
+		const { customTheme } = this.props;
 
 		return (
 			<Wrapper
@@ -100,7 +100,7 @@ class Register extends Component {
 							this.setState({
 								password: true,
 								passwordConfirm: true
-							})
+							});
 						}}
 					>
 						Sign In
@@ -117,10 +117,10 @@ class Register extends Component {
 				<InputField
 					type="email"
 					label="Email"
-					barColor="#fff"
-					labelColor="#fff"
-					barActiveColor="#9c379c"
-					color="#fff"
+					barColor={customTheme.color.secondary}
+					labelColor={customTheme.color.secondary}
+					barActiveColor={customTheme.color.primary}
+					color={customTheme.color.secondary}
 					speed={0.3}
 					inputWidth="100%"
 					inputHeight="60px"
@@ -128,7 +128,7 @@ class Register extends Component {
 					suffix={<div style={{ width: 40 }} />}
 					prefix={
 						<div style={{ width: 30 }}>
-							<MailIcon viewBox="0 0 50 50" fill="#bbb" />
+							<MailIcon viewBox="0 0 50 50" fill={customTheme.color.gray} />
 						</div>
 					}
 					val={this.store.email}
@@ -140,10 +140,10 @@ class Register extends Component {
 				<InputField
 					type={this.state.password ? "password" : "text"}
 					label="Password"
-					barColor="#fff"
-					labelColor="#fff"
-					barActiveColor="#9c379c"
-					color="#fff"
+					barColor={customTheme.color.secondary}
+					labelColor={customTheme.color.secondary}
+					barActiveColor={customTheme.color.primary}
+					color={customTheme.color.secondary}
 					speed={0.3}
 					inputWidth="100%"
 					inputHeight="60px"
@@ -163,13 +163,13 @@ class Register extends Component {
 									<PasswordShow
 										viewBox="0 0 700 700"
 										key="checked"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								) : (
 									<PasswordHide
 										viewBox="0 0 550 550"
 										key="checkbox"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								)}
 							</MorphReplace>
@@ -187,13 +187,13 @@ class Register extends Component {
 									<PasswordLock
 										viewBox="0 0 512 512"
 										key="checked"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								) : (
 									<PasswordUnlock
 										viewBox="0 0 512 512"
 										key="checkbox"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								)}
 							</MorphReplace>
@@ -209,10 +209,10 @@ class Register extends Component {
 				<InputField
 					type={this.state.passwordConfirm ? "password" : "text"}
 					label="Confirm password"
-					barColor="#fff"
-					labelColor="#fff"
-					barActiveColor="#9c379c"
-					color="#fff"
+					barColor={customTheme.color.secondary}
+					labelColor={customTheme.color.secondary}
+					barActiveColor={customTheme.color.primary}
+					color={customTheme.color.secondary}
 					speed={0.3}
 					inputWidth="100%"
 					inputHeight="60px"
@@ -232,13 +232,13 @@ class Register extends Component {
 									<PasswordShow
 										viewBox="0 0 700 700"
 										key="checked"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								) : (
 									<PasswordHide
 										viewBox="0 0 550 550"
 										key="checkbox"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								)}
 							</MorphReplace>
@@ -256,13 +256,13 @@ class Register extends Component {
 									<PasswordLock
 										viewBox="0 0 512 512"
 										key="checked"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								) : (
 									<PasswordUnlock
 										viewBox="0 0 512 512"
 										key="checkbox"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								)}
 							</MorphReplace>
