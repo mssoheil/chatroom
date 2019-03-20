@@ -275,7 +275,14 @@ class Register extends Component {
 				/>
 				<br />
 				<ButtonHolder>
-					<Btn variant="contained">Sign Up</Btn>
+					<Btn
+						onClick={() => {
+							this.store.registerUser();
+						}}
+						variant="contained"
+					>
+						Sign Up
+					</Btn>
 				</ButtonHolder>
 
 				{/* <div onClick={this.toggleChecked.bind(this)}>

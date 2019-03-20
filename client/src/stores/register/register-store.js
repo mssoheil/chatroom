@@ -1,5 +1,8 @@
 import { observable, action } from "mobx";
 
+import api from "./../../config/index";
+import Reactotron from "reactotron-react-js";
+
 export default class Register {
 	@observable
 	email = "";
@@ -23,5 +26,10 @@ export default class Register {
 	@action
 	changePasswordConfirm(val) {
 		this.passwordConfirm = val;
+	}
+
+	@action
+	registerUser() {
+		Reactotron.log(this.email, this.password, this.passwordConfirm);
 	}
 }

@@ -6,6 +6,8 @@ import { Provider } from "mobx-react";
 import * as serviceWorker from "./serviceWorker";
 import store from "./stores/index";
 
+import "./ReactotronConfig";
+
 ReactDOM.render(
 	<Provider stores={store}>
 		<App />

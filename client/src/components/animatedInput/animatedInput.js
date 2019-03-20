@@ -32,9 +32,9 @@ class AnimatedInput extends Component {
 
 	changeInput(e) {
 		this.setState({
-			fieldValue: e.target.value
+			fieldValue: e.currentTarget.value
 		});
-		this.props.changeVal(this.state.fieldValue);
+		this.props.changeVal(e.currentTarget.value);
 	}
 	render() {
 		const {
