@@ -5,7 +5,7 @@ import Login from "./../components/login/login";
 import Register from "./../components/register/register";
 import { Wrapper, WrapperInner, WrapperFlip } from "./loginRegister-styled";
 
-import theme from "./../config/theme";
+import customTheme from "./../config/theme";
 
 @inject("stores")
 @observer
@@ -18,9 +18,8 @@ class LoginRegister extends Component {
 			<Wrapper>
 				<WrapperFlip>
 					<WrapperInner loginMode={this.store.loginMode}>
-						
-						<Login />
-						<Register />
+						<Login customTheme={customTheme} />
+						<Register customTheme={customTheme} />
 					</WrapperInner>
 				</WrapperFlip>
 			</Wrapper>

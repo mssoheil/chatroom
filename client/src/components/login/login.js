@@ -82,6 +82,7 @@ class Login extends Component {
 
 	render() {
 		// const { palette } = this.props.theme;
+		const { customTheme } = this.props;
 		return (
 			<Wrapper
 				ref={div => (this.myElement = div)}
@@ -103,21 +104,14 @@ class Login extends Component {
 						Sign up
 					</ChangeMode>
 				</ChangeModeRow>
-				{/* <h3
-					onClick={() => {
-						this.loginRegisterStore.changeLoginMode();
-					}}
-				>
-					sign up
-				</h3> */}
 
 				<InputField
 					type="email"
 					label="Email"
-					barColor="#fff"
-					labelColor="#fff"
-					barActiveColor="#9c379c"
-					color="#fff"
+					barColor={customTheme.color.secondary}
+					labelColor={customTheme.color.secondary}
+					barActiveColor={customTheme.color.primary}
+					color={customTheme.color.secondary}
 					speed={0.3}
 					inputWidth="100%"
 					inputHeight="60px"
@@ -125,7 +119,7 @@ class Login extends Component {
 					suffix={<div style={{ width: 40 }} />}
 					prefix={
 						<div style={{ width: 30 }}>
-							<MailIcon viewBox="0 0 50 50" fill="#bbb" />
+							<MailIcon viewBox="0 0 50 50" fill={customTheme.color.gray} />
 						</div>
 					}
 					val={this.store.email}
@@ -137,10 +131,10 @@ class Login extends Component {
 				<InputField
 					type={this.state.password ? "password" : "text"}
 					label="Password"
-					barColor="#fff"
-					labelColor="#fff"
+					barColor={customTheme.color.secondary}
+					labelColor={customTheme.color.secondary}
 					barActiveColor="#9c379c"
-					color="#fff"
+					color={customTheme.color.secondary}
 					speed={0.3}
 					inputWidth="100%"
 					inputHeight="60px"
@@ -160,13 +154,13 @@ class Login extends Component {
 									<PasswordShow
 										viewBox="0 0 700 700"
 										key="checked"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								) : (
 									<PasswordHide
 										viewBox="0 0 550 550"
 										key="checkbox"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								)}
 							</MorphReplace>
@@ -184,13 +178,13 @@ class Login extends Component {
 									<PasswordLock
 										viewBox="0 0 512 512"
 										key="checked"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								) : (
 									<PasswordUnlock
 										viewBox="0 0 512 512"
 										key="checkbox"
-										fill="#bbb"
+										fill={customTheme.color.gray}
 									/>
 								)}
 							</MorphReplace>
@@ -226,7 +220,7 @@ class Login extends Component {
 								<CheckboxContainer
 									viewBox="0 0 24 24"
 									key="checkbox"
-									fill="#bbb"
+									fill={customTheme.color.gray}
 								/>
 							)}
 						</MorphReplace>

@@ -7,7 +7,6 @@ export default class Login {
 	@action
 	changeEmail(val) {
 		this.email = val;
-		console.log("IH", this.email);
 	}
 
 	@observable

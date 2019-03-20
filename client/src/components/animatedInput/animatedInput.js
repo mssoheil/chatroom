@@ -73,7 +73,6 @@ class AnimatedInput extends Component {
 						this.props.changeVal(val);
 					}}
 				/>
-				{console.log("D", this.props.val)}
 				<Label
 					htmlFor={id}
 					inputHeight={inputHeight}
