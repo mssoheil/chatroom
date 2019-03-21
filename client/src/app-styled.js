@@ -28,6 +28,7 @@ const WrapperImg = styled.img`
 	position: fixed;
 	top: 0;
 	left: 0;
+	z-index: -1;
 
 	animation: ${fade} 0.3s forwards;
 	

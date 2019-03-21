@@ -13,6 +13,7 @@ const environment = process.env.NODE_ENV;
 const secretCode = process.env.JWT_SECRET;
 
 router.post("/register", (req, res) => {
+	console.log("posted");
 	const username = req.body.email.split("@")[0];
 	const newUser = new User({
 		username: username,
@@ -31,10 +32,17 @@ router.post("/register", (req, res) => {
 			newUser
 				.save()
 				.then(user => {
-					res.status(200).send("User created successfully");
+					res.status(200).send({
+						register: true,
+						message: `User ${user.username} created successfull`
+					});
 				})
 				.catch(err => {
-					res.status(500).send("could not register user" + err);
+					res.status(500).send({
+						register: false,
+						message: "could not register user",
+						error: err.errmsg
+					});
 					if (environment !== "production") {
 						console.log("could not register user", err);
 					}

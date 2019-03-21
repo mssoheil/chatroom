@@ -5,6 +5,10 @@ import { observable } from "mobx";
 import LoginRegister from "./views/loginRegister";
 import Start from "./components/start/start";
 
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 import purple from "@material-ui/core/colors/purple";
 
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
@@ -84,6 +88,7 @@ class App extends Component {
 						<LoginRegister />
 					</Transition>
 				</MuiThemeProvider>
+				<ToastContainer />
 			</Wrapper>
 		);
 	}

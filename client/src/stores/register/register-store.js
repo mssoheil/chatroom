@@ -1,6 +1,9 @@
 import { observable, action } from "mobx";
 
-//import api from "./../../config";
+import { toast } from "react-toastify";
+
+import store from "./../index";
+
 import axiousFetch from "./../../config/database/fetch";
 import api from "./../../config/database/api";
 import Reactotron from "reactotron-react-js";
@@ -32,7 +35,26 @@ export default class Register {
 
 	@action
 	async registerUser() {
-		axiousFetch.get("register", "v1");
+		const header = {
+			"Content-Type": "application/json"
+		};
+		const body = {
+			email: this.email,
+			password: this.password
+		};
 
+		if (this.password !== this.passwordConfirm || this.passwordConfirm === "") {
+			toast.error("Password and Password confirm fields does not match", {
+				position: toast.POSITION.TOP_RIGHT
+			});
+		}
+		axiousFetch.post("register", "v1", header, body, 3000).then(response => {
+			if (response.register) {
+				toast.success(response.message, {
+					position: toast.POSITION.TOP_RIGHT
+				});
+				store.loginRegister.changeLoginMode();
+			}
+		});
 	}
 }
