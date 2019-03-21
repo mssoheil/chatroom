@@ -2,21 +2,23 @@ import axios from "axios";
 
 import api from "../api";
 
-const axiosFetch = () => {
-	function get(resource, version, header, body, timeout) {
-		return requestMaker(resource, version, "get", header, body, timeout);
+import Reactotron from "reactotron-react-js";
+
+export default new class {
+	get(resource, version, header, body, timeout) {
+		return this.requestMaker(resource, version, "get", header, body, timeout);
 	}
 
-	function post(resource, version, header, body, timeout) {
-		return requestMaker(resource, version, "post", header, body, timeout);
+	post(resource, version, header, body, timeout) {
+		return this.requestMaker(resource, version, "post", header, body, timeout);
 	}
 
-	function put(resource, version, header, body, timeout) {
-		return requestMaker(resource, version, "put", header, body, timeout);
+	put(resource, version, header, body, timeout) {
+		return this.requestMaker(resource, version, "put", header, body, timeout);
 	}
 
-	function del(resource, version, header, body, timeout) {
-		return requestMaker(
+	del(resource, version, header, body, timeout) {
+		return this.requestMaker(
 			resource,
 			version,
 			"delete",
@@ -26,27 +28,22 @@ const axiosFetch = () => {
 		);
 	}
 
-	async function requestMaker(url, version, method, header, body, timeout) {
-		try {
-			let res = await axios.request(
-				configrator(
-					api.appAPI(url, method, version),
-					method,
-					header,
-					body,
-					timeout
-				)
-			);
-			return res.data;
-		} catch (e) {
-			handeError(e);
-			return null;
-		}
+	async requestMaker(url, version, method, header, body, timeout) {
+		let res = await axios.request(
+			this.configrator(
+				api.appApi(url, method, version),
+				method,
+				header,
+				body,
+				timeout
+			)
+		);
+		return res.data;
 	}
 
-	function configrator(url, method, header, body, timeout) {
+	configrator(url, method, header, body, timeout) {
 		let config = {};
-
+		config.baseURL = api.baseUrl();
 		config.url = url;
 
 		config.method = method;
@@ -69,26 +66,24 @@ const axiosFetch = () => {
 		return config;
 	}
 
-	function handeError(error) {
+	handeError(error) {
 		if (error.response) {
-			logger(error.data);
-			logger(error.status);
-			logger(error.headers);
-			logger(error.response);
+			this.logger(error.data);
+			this.logger(error.status);
+			this.logger(error.headers);
+			this.logger(error.response);
 		} else if (error.request) {
-			logger(error.request);
+			this.logger(error.request);
 		} else {
-			logger(error.message);
+			this.logger(error.message);
 		}
-		logger(error.config);
+		this.logger(error.config);
 	}
 
-	function logger(error) {
+	logger(error) {
 		console.log(error);
 		// if (__DEV__) {
-		 	console.tron.error(error);
+		Reactotron.error(error);
 		// }
 	}
-};
-
-export default axiosFetch
+}();
