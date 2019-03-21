@@ -43,18 +43,30 @@ export default class Register {
 			password: this.password
 		};
 
-		if (this.password !== this.passwordConfirm || this.passwordConfirm === "") {
-			toast.error("Password and Password confirm fields does not match", {
+		if (this.email !== "" && this.password !== "") {
+			if (
+				this.password !== this.passwordConfirm ||
+				this.passwordConfirm === ""
+			) {
+				toast.error("Password and Password confirm fields does not match", {
+					position: toast.POSITION.TOP_RIGHT
+				});
+			} else if (this.password === this.passwordConfirm) {
+				await axiousFetch
+					.post("register", "v1", header, body, 3000)
+					.then(response => {
+						if (response.register) {
+							toast.success(response.message, {
+								position: toast.POSITION.TOP_RIGHT
+							});
+							store.loginRegister.changeLoginMode();
+						}
+					});
+			}
+		} else {
+			toast.error("email and password can't be empty", {
 				position: toast.POSITION.TOP_RIGHT
 			});
 		}
-		axiousFetch.post("register", "v1", header, body, 3000).then(response => {
-			if (response.register) {
-				toast.success(response.message, {
-					position: toast.POSITION.TOP_RIGHT
-				});
-				store.loginRegister.changeLoginMode();
-			}
-		});
 	}
 }
