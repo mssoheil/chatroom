@@ -34,6 +34,13 @@ export default class Register {
 	}
 
 	@action
+	clearFields() {
+		this.changeEmail("");
+		this.changePassword("");
+		this.changePasswordConfirm("");
+	}
+
+	@action
 	async registerUser() {
 		const header = {
 			"Content-Type": "application/json"
@@ -60,6 +67,7 @@ export default class Register {
 								position: toast.POSITION.TOP_RIGHT
 							});
 							store.loginRegister.changeLoginMode();
+							this.clearFields();
 						}
 					});
 			}

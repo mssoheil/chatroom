@@ -94,9 +94,7 @@ class Register extends Component {
 					<ChangeMode
 						onClick={() => {
 							this.loginRegisterStore.changeLoginMode();
-							this.store.changeEmail("");
-							this.store.changePassword("");
-							this.store.changePasswordConfirm("");
+							this.store.clearFields();
 							this.setState({
 								password: true,
 								passwordConfirm: true
