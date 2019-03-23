@@ -87,13 +87,11 @@ router.post("/login", (req, res) => {
 					const token = jwt.sign({ id: user._id }, secretCode, {
 						expiresIn: 86400
 					});
-					res
-						.status(200)
-						.send({
-							auth: true,
-							token: token,
-							message: `welcome ${user.username}`
-						});
+					res.status(200).send({
+						auth: true,
+						token: token,
+						message: `welcome ${user.username}`
+					});
 				} else {
 					return res.status(401).send({ auth: false, token: null });
 				}
@@ -111,12 +109,12 @@ router.get("/authentication", VerifyToken, (req, res, next) => {
 	User.findById(req.userId, { password: 0 })
 		.then(user => {
 			if (!user) {
-				return res.status(404).send("No user found");
+				return res.status(404).send({ auth: false, message: "No user found" });
 			}
-			res.status(200).send(user);
+			res.status(200).send({ auth: true, user: user });
 		})
 		.catch(err => {
-			return res.status(500).send("There was a problem finding the user");
+			return res.status(500).send({ auth: false, message: "There was a problem finding the user" });
 		});
 });
 

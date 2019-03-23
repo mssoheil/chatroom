@@ -73,12 +73,16 @@ export default class Login {
 						toast.error("The user does not exist", {
 							position: toast.POSITION.TOP_RIGHT
 						});
+						localStorage.removeItem("token");
+						sessionStorage.removeItem("token");
 					}
 				})
 				.catch(err => {
 					toast.error("The user does not exist", {
 						position: toast.POSITION.TOP_RIGHT
 					});
+					localStorage.removeItem("token");
+					sessionStorage.removeItem("token");
 				});
 		} else {
 			toast.error("email and password can't be empty", {
