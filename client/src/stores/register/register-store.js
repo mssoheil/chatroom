@@ -62,13 +62,23 @@ export default class Register {
 				await axiousFetch
 					.post("register", "v1", header, body, 3000)
 					.then(response => {
+						
 						if (response.register) {
 							toast.success(response.message, {
 								position: toast.POSITION.TOP_RIGHT
 							});
 							store.loginRegister.changeLoginMode();
 							this.clearFields();
+						} else {
+							toast.error(response.message, {
+								position: toast.POSITION.TOP_RIGHT
+							});
 						}
+					})
+					.catch(err => {
+						toast.error("The email already exists", {
+							position: toast.POSITION.TOP_RIGHT
+						});
 					});
 			}
 		} else {

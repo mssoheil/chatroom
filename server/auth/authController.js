@@ -14,39 +14,53 @@ const secretCode = process.env.JWT_SECRET;
 
 router.post("/register", (req, res) => {
 	console.log("posted");
-	const username = req.body.email.split("@")[0];
-	const newUser = new User({
-		username: username,
-		email: req.body.email,
-		password: req.body.password
-	});
-	bcrypt.genSalt(10, (err, salt) => {
-		bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
-			if (err) {
-				if (environment !== "production") {
-					console.log("courld not create hash", err);
-				}
+	let username = req.body.email.split("@")[0];
+	let cnt = 0;
+	let promise = new Promise((resolve, reject) => {
+		User.countDocuments({}, (err, count) => {
+			if (count > 0) {
+				cnt = count;
+				resolve("done!");
+			} else {
+				cnt = 0;
+				resolve("done!");
 			}
-			newUser.password = hashedPassword;
-
-			newUser
-				.save()
-				.then(user => {
-					res.status(200).send({
-						register: true,
-						message: `User ${user.username} created successfull`
-					});
-				})
-				.catch(err => {
-					res.status(500).send({
-						register: false,
-						message: "could not register user",
-						error: err.errmsg
-					});
+		});
+	});
+	promise.then(result => {
+		const newUser = new User({
+			username: `user${cnt}`,
+			email: req.body.email,
+			password: req.body.password
+		});
+		bcrypt.genSalt(10, (err, salt) => {
+			bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
+				if (err) {
 					if (environment !== "production") {
-						console.log("could not register user", err);
+						console.log("courld not create hash", err);
 					}
-				});
+				}
+				newUser.password = hashedPassword;
+
+				newUser
+					.save()
+					.then(user => {
+						res.status(200).send({
+							register: true,
+							message: `User ${user.username} created successfull`
+						});
+					})
+					.catch(err => {
+						res.status(500).send({
+							register: false,
+							message: "could not register user",
+							error: err.errmsg
+						});
+						if (environment !== "production") {
+							console.log("could not register user", err);
+						}
+					});
+			});
 		});
 	});
 });

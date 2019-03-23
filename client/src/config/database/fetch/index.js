@@ -29,16 +29,21 @@ export default new class {
 	}
 
 	async requestMaker(url, version, method, header, body, timeout) {
-		let res = await axios.request(
-			this.configrator(
-				api.appApi(url, method, version),
-				method,
-				header,
-				body,
-				timeout
-			)
-		);
-		return res.data;
+		try {
+			let res = await axios.request(
+				this.configrator(
+					api.appApi(url, method, version),
+					method,
+					header,
+					body,
+					timeout
+				)
+			);
+			return res.data;
+		} catch (e) {
+			this.handeError(e);
+			return null;
+		}
 	}
 
 	configrator(url, method, header, body, timeout) {
@@ -68,16 +73,15 @@ export default new class {
 
 	handeError(error) {
 		if (error.response) {
-			this.logger(error.data);
-			this.logger(error.status);
-			this.logger(error.headers);
-			this.logger(error.response);
+			console.log('errorResponseData', error.response.data);
+			console.log('errorResponseStatus', error.response.status);
+			console.log('errorResponseHeaders', error.response.headers);
 		} else if (error.request) {
-			this.logger(error.request);
+			this.logger('errorRequest', error.request);
 		} else {
-			this.logger(error.message);
+			this.logger('errorMessage', error.message);
 		}
-		this.logger(error.config);
+		this.logger('errorConfig', error.config);
 	}
 
 	logger(error) {
