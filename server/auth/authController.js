@@ -74,7 +74,7 @@ router.post("/login", (req, res) => {
 				if (environment !== "production") {
 					console.log("No user found", err);
 				}
-				return res.status(404).send("No user found");
+				return res.status(404).send({ auth: false, message: "No user found" });
 			}
 			bcrypt.compare(req.body.password, user.password, (err, matched) => {
 				if (err) {
@@ -87,7 +87,13 @@ router.post("/login", (req, res) => {
 					const token = jwt.sign({ id: user._id }, secretCode, {
 						expiresIn: 86400
 					});
-					res.status(200).send({ auth: true, token: token });
+					res
+						.status(200)
+						.send({
+							auth: true,
+							token: token,
+							message: `welcome ${user.username}`
+						});
 				} else {
 					return res.status(401).send({ auth: false, token: null });
 				}
@@ -97,7 +103,7 @@ router.post("/login", (req, res) => {
 			if (environment !== "production") {
 				console.log("Could not login", err);
 			}
-			res.status(500).send("Could not login");
+			res.status(500).send({ auth: false, message: "Could not login" });
 		});
 });
 

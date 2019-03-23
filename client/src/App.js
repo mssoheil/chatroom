@@ -5,9 +5,9 @@ import { observable } from "mobx";
 import LoginRegister from "./views/loginRegister";
 import Start from "./components/start/start";
 
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 import purple from "@material-ui/core/colors/purple";
 
@@ -65,7 +65,7 @@ class App extends Component {
 			<Wrapper>
 				<WrapperImg
 					src={
-						this.store.isSignedIn
+						this.store.authenticated
 							? require("./assets/img/openDoor.jpg")
 							: require("./assets/img/closeDoor.jpg")
 					}

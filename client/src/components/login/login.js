@@ -234,32 +234,15 @@ class Login extends Component {
 				</CheckboxRow>
 				<br />
 				<ButtonHolder>
-					<Btn variant="contained">Sign In</Btn>
-				</ButtonHolder>
-
-				{/* <div onClick={this.toggleChecked.bind(this)}>
-					<MorphReplace
-						width={20}
-						height={20}
-						viewBox="0 0 20 20"
-						duration={400}
+					<Btn
+						onClick={() => {
+							this.store.loginUser();
+						}}
+						variant="contained"
 					>
-						{this.state.checked ? (
-							<Checked key="checked" />
-						) : (
-							<CheckBox key="checkbox" />
-						)}
-					</MorphReplace>
-				</div> */}
-				{/* <div>{console.log("object", palette.secondary)}</div> */}
-				{/* <a
-					ref={div => this.myElement = div}
-					onClick={() => {
-						this.loginRegisterStore.changeLoginMode();
-					}}
-				>
-					sign up
-				</a> */}
+						Sign In
+					</Btn>
+				</ButtonHolder>
 			</Wrapper>
 		);
 	}

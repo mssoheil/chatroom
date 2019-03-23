@@ -1,9 +1,19 @@
-
 import { observable, action } from "mobx";
 
 export default class LoginRegister {
 	@observable
 	loginMode = true;
+
+	
+
+	@observable
+	token;
+
+	@observable
+	authenticated = false;
+
+	@observable
+	started = false;
 
 	/** actions */
 	@action
@@ -11,11 +21,15 @@ export default class LoginRegister {
 		this.loginMode = !this.loginMode;
 	}
 
-	@observable
-	isSignedIn = false;
+	@action
+	changeAuthenticated(val) {
+		this.authenticated = val;
+	}
 
-	@observable
-	started = false;
+	@action
+	changeToken(val) {
+		this.token = val;
+	}
 
 	@action
 	changeStarted(state) {
