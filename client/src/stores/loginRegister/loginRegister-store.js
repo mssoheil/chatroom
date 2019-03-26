@@ -1,13 +1,16 @@
 import { observable, action } from "mobx";
 
+import axiousFetch from "./../../config/database/fetch";
+
 export default class LoginRegister {
 	@observable
 	loginMode = true;
 
-	
+	@observable
+	token = "";
 
 	@observable
-	token;
+	userId;
 
 	@observable
 	authenticated = false;
@@ -34,5 +37,37 @@ export default class LoginRegister {
 	@action
 	changeStarted(state) {
 		this.started = state;
+	}
+
+	@action
+	logOut() {
+		this.changeAuthenticated(false);
+		localStorage.removeItem("token");
+		sessionStorage.removeItem("token");
+	}
+
+	@action
+	checkAuth() {
+		var session = sessionStorage.token;
+		var local = localStorage.token;
+
+		if (
+			(session === "" || session === null || session === undefined) &&
+			(local === "" || local === null || local === undefined)
+		) {
+			this.changeAuthenticated(false);
+		} else {
+			const header = {
+				"Content-Type": "application/json",
+				"x-access-token": session || local || ""
+			};
+
+			axiousFetch.get("authentication", "v1", header).then(response => {
+				this.changeAuthenticated(response.auth);
+				if (response.auth) {
+					this.userId = response.user["_id"];
+				}
+			});
+		}
 	}
 }

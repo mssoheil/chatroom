@@ -5,6 +5,8 @@ import { observable } from "mobx";
 import LoginRegister from "./views/loginRegister";
 import Start from "./components/start/start";
 
+import Chatroom from "./views/chatroom";
+
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -45,6 +47,13 @@ class App extends Component {
 	@observable
 	loginStore = this.props.stores.login;
 
+	componentDidMount() {
+		this.store.checkAuth();
+	}
+	componentDidUpdate() {
+		this.store.checkAuth();
+	}
+
 	render() {
 		// const transitionOptions = {
 		// 	timeout: 500,
@@ -71,22 +80,28 @@ class App extends Component {
 					}
 				/>
 				<MuiThemeProvider theme={theme}>
-					<Transition
-						timeout={1000}
-						mountOnEnter
-						unmountOnExit
-						in={!this.store.started}
-					>
-						<Start />
-					</Transition>
-					<Transition
-						timeout={1000}
-						mountOnEnter
-						unmountOnExit
-						in={this.store.started}
-					>
-						<LoginRegister />
-					</Transition>
+					{this.store.authenticated ? (
+						<Chatroom />
+					) : (
+						<div>
+							<Transition
+								timeout={1000}
+								mountOnEnter
+								unmountOnExit
+								in={!this.store.started}
+							>
+								<Start />
+							</Transition>
+							<Transition
+								timeout={1000}
+								mountOnEnter
+								unmountOnExit
+								in={this.store.started}
+							>
+								<LoginRegister />
+							</Transition>
+						</div>
+					)}
 				</MuiThemeProvider>
 				<ToastContainer />
 			</Wrapper>

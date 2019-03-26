@@ -13,7 +13,6 @@ const environment = process.env.NODE_ENV;
 const secretCode = process.env.JWT_SECRET;
 
 router.post("/register", (req, res) => {
-	console.log("posted");
 	let username = req.body.email.split("@")[0];
 	let cnt = 0;
 	let promise = new Promise((resolve, reject) => {
@@ -114,7 +113,9 @@ router.get("/authentication", VerifyToken, (req, res, next) => {
 			res.status(200).send({ auth: true, user: user });
 		})
 		.catch(err => {
-			return res.status(500).send({ auth: false, message: "There was a problem finding the user" });
+			return res
+				.status(500)
+				.send({ auth: false, message: "There was a problem finding the user" });
 		});
 });
 

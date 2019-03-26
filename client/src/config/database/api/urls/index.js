@@ -4,5 +4,8 @@ export default {
 	},
 	login: {
 		post: { v1: "auth/login" }
+	},
+	authentication: {
+		get: {v1: "auth/authentication"}
 	}
 };

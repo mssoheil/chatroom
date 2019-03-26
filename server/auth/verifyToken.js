@@ -9,7 +9,6 @@ function verifyToken(req, res, next) {
 
 	if (!token) {
 		if (environment !== "production") {
-			console.log("No token provided");
 		}
 		return res.status(403).send({ auth: false, message: "No token provided" });
 	}
@@ -20,7 +19,7 @@ function verifyToken(req, res, next) {
 				console.log("Failed to authenticate token", err);
 			}
 			return res
-				.status(500)
+				.status(550)
 				.send({ auth: false, message: "Failed to authenticate token" });
 		}
 		req.userId = decoded.id;
