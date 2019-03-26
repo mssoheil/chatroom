@@ -10,7 +10,13 @@ export default class LoginRegister {
 	token = "";
 
 	@observable
+	username;
+
+	@observable
 	userId;
+
+	@observable
+	userAvatar;
 
 	@observable
 	authenticated = false;
@@ -65,7 +71,10 @@ export default class LoginRegister {
 			axiousFetch.get("authentication", "v1", header).then(response => {
 				this.changeAuthenticated(response.auth);
 				if (response.auth) {
-					this.userId = response.user["_id"];
+					this.username = response.user.username;
+					this.userid = response.user["_id"];
+					this.userAvatar = response.user.avatar;
+					console.log(this.user);
 				}
 			});
 		}

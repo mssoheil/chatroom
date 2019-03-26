@@ -30,7 +30,9 @@ router.post("/register", (req, res) => {
 		const newUser = new User({
 			username: `user${cnt}`,
 			email: req.body.email,
-			password: req.body.password
+			password: req.body.password,
+			gender: "none",
+			avatar: "default.png"
 		});
 		bcrypt.genSalt(10, (err, salt) => {
 			bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {

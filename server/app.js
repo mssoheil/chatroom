@@ -3,6 +3,7 @@ const express = require("express");
 const routes = require("./routes/index.js");
 
 const authController = require("./auth/authController.js");
+const imgController = require("./auth/authController.js");
 
 
 const db = require("./db/db.js");
@@ -42,9 +43,10 @@ const environment = process.env.NODE_ENV;
 // 	app.use(logger("dev"));
 // }
 
-app.use("/chatroom/v1", routes(router));
+//app.use("/chatroom/v1", routes(router));
 
 app.use("/chatroom/v1/auth", authController);
+app.use("/chatroom/v1/img", express.static(__dirname + "/img"));
 
 
 
