@@ -19,7 +19,7 @@ function verifyToken(req, res, next) {
 				console.log("Failed to authenticate token", err);
 			}
 			return res
-				.status(550)
+				.status(500)
 				.send({ auth: false, message: "Failed to authenticate token" });
 		}
 		req.userId = decoded.id;

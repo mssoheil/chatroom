@@ -68,15 +68,22 @@ export default class LoginRegister {
 				"x-access-token": session || local || ""
 			};
 
-			axiousFetch.get("authentication", "v1", header).then(response => {
-				this.changeAuthenticated(response.auth);
-				if (response.auth) {
-					this.username = response.user.username;
-					this.userid = response.user["_id"];
-					this.userAvatar = response.user.avatar;
-					console.log(this.user);
-				}
-			});
+			axiousFetch
+				.get("authentication", "v1", header)
+				.then(response => {
+					if (response !== null || response !== undefined) {
+						if (response.auth !== null || response.auth !== undefined) {
+							this.changeAuthenticated(response.auth);
+							this.username = response.user.username;
+							this.userid = response.user["_id"];
+							this.userAvatar = response.user.avatar;
+						}
+					}
+				})
+				.catch(err => {
+					console.log(err);
+					this.changeAuthenticated(false);
+				});
 		}
 	}
 }

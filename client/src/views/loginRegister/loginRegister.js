@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import { observable } from "mobx";
-import Login from "./../components/login/login";
-import Register from "./../components/register/register";
+import Login from "../../components/login/login";
+import Register from "../../components/register/register";
 import { Wrapper, WrapperInner, WrapperFlip } from "./loginRegister-styled";
 
-import customTheme from "./../config/theme";
+import customTheme from "../../config/theme";
 
 @inject("stores")
 @observer

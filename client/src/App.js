@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import "./App.css";
 import { inject, observer } from "mobx-react";
 import { observable } from "mobx";
-import LoginRegister from "./views/loginRegister";
+import LoginRegister from "./views/loginRegister/loginRegister";
 import Start from "./components/start/start";
 
-import Chatroom from "./views/chatroom";
+import Chatroom from "./views/chatroom/chatroom";
 
 import { ToastContainer } from "react-toastify";
 
