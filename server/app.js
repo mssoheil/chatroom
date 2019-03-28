@@ -3,7 +3,7 @@ const routes = require("./routes/index.js");
 const express = require("express");
 
 const authController = require("./auth/authController.js");
-const imgController = require("./auth/authController.js");
+const roomsApiController = require("./controllers/roomsController/roomsApiController.js");
 
 const db = require("./db/db.js");
 
@@ -18,6 +18,7 @@ const jsonParser = bodyParser.json();
 
 const router = express.Router();
 const User = require("./models/users.js");
+const Rooms = require("./models/rooms.js");
 
 const socket = require("socket.io");
 
@@ -45,5 +46,6 @@ module.exports = function(app, server) {
 	const io = socket(server);
 
 	app.use("/chatroom/v1/auth", authController(io));
+	app.use("/chatroom/v1/rooms", roomsApiController(io));
 	app.use("/chatroom/v1/img", express.static(__dirname + "/img"));
 };

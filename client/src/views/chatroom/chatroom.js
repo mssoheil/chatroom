@@ -3,6 +3,10 @@ import { inject, observer } from "mobx-react";
 
 import { observable } from "mobx";
 
+import User from "./../../components/users/users";
+import Messages from "./../../components/messages/messages";
+import Rooms from "./../../components/rooms/rooms";
+
 import {
 	Wrapper,
 	AccountRow,
@@ -43,14 +47,16 @@ class Chatroom extends Component {
 				</AccountRow>
 
 				<ChatSectionWrapper>
-					<ChatGrid container >
+					<ChatGrid container>
 						<UsersGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
-							a
+							<User></User>
 						</UsersGrid>
 						<MessagesGrid item xl={6} lg={6} md={6} sm={6} xs={6}>
+						<Messages></Messages>
 							b
 						</MessagesGrid>
 						<RoomsGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
+						<Rooms></Rooms>
 							c
 						</RoomsGrid>
 					</ChatGrid>
