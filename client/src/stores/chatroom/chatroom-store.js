@@ -7,12 +7,6 @@ export default class LoginRegister {
 	rooms = [];
 
 	@observable
-	message = "";
-
-	@observable
-	messages = [];
-
-	@observable
 	roomName = "";
 
 	@action
@@ -24,13 +18,6 @@ export default class LoginRegister {
 	clearData() {
 		this.rooms = [];
 		this.roomName = "";
-		this.message = "";
-		this.messages = [];
-	}
-
-	@action
-	changeMessage(val) {
-		this.message = val;
 	}
 
 	@action

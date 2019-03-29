@@ -7,8 +7,7 @@ import User from "./../../components/users/users";
 import Messages from "./../../components/messages/messages";
 import Rooms from "./../../components/rooms/rooms";
 
-import io from 'socket.io-client';
-
+import io from "socket.io-client";
 
 import {
 	Wrapper,
@@ -23,7 +22,7 @@ import {
 
 import customTheme from "../../config/theme";
 
-const socket = io('http://localhost:6464');
+const socket = io("http://localhost:6464");
 
 @inject("stores")
 @observer
@@ -45,7 +44,7 @@ class Chatroom extends Component {
 							this.loginRegisterStore.userAvatar
 						}`}
 					/>
-					Account
+					{this.loginRegisterStore.username}
 					{/* <img
 					src={`http://localhost:6464/chatroom/v1/img/${
 						this.loginRegisterStore.userAvatar
@@ -59,7 +58,11 @@ class Chatroom extends Component {
 							<User />
 						</UsersGrid>
 						<MessagesGrid item xl={6} lg={6} md={6} sm={6} xs={6}>
-							<Messages />b
+							<Messages
+								username={this.loginRegisterStore.username}
+								socket={socket}
+							/>
+							b
 						</MessagesGrid>
 						<RoomsGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
 							<Rooms customTheme={customTheme} />c
