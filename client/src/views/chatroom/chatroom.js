@@ -7,6 +7,9 @@ import User from "./../../components/users/users";
 import Messages from "./../../components/messages/messages";
 import Rooms from "./../../components/rooms/rooms";
 
+import io from 'socket.io-client';
+
+
 import {
 	Wrapper,
 	AccountRow,
@@ -17,6 +20,10 @@ import {
 	RoomsGrid,
 	ChatSectionWrapper
 } from "./chatroom-styled";
+
+import customTheme from "../../config/theme";
+
+const socket = io('http://localhost:6464');
 
 @inject("stores")
 @observer
@@ -49,15 +56,13 @@ class Chatroom extends Component {
 				<ChatSectionWrapper>
 					<ChatGrid container>
 						<UsersGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
-							<User></User>
+							<User />
 						</UsersGrid>
 						<MessagesGrid item xl={6} lg={6} md={6} sm={6} xs={6}>
-						<Messages></Messages>
-							b
+							<Messages />b
 						</MessagesGrid>
 						<RoomsGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
-						<Rooms></Rooms>
-							c
+							<Rooms customTheme={customTheme} />c
 						</RoomsGrid>
 					</ChatGrid>
 				</ChatSectionWrapper>

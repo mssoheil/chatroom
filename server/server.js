@@ -5,8 +5,6 @@ const app = express();
 
 const appController = require("./app.js");
 
-
-
 const port = process.env.PORT || 1004;
 
 const server = app.listen(port, () => {

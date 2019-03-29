@@ -16,17 +16,25 @@ const HeaderTxt = styled.h3`
 	text-align: center;
 	margin: 0 auto;
 	width: 100%;
+	cursor: pointer;
 `;
 
 const RoomsContainer = styled.div`
 	outline: 1px solid green;
-    height: 80%;
+	height: 80%;
+	overflow-y: auto;
+	overflow-x: auto;
 	width: 100%;
 `;
 const NewRoomContainer = styled.div`
 	outline: 1px solid blue;
-    height: 10%;
+	height: 10%;
 	width: 100%;
 `;
 
-export { Wrapper, HeaderTxt, RoomsContainer,NewRoomContainer };
+const NewRoom = styled.input`
+	box-sizing: border-box;
+	padding: 0 20px;
+`;
+
+export { Wrapper, HeaderTxt, RoomsContainer, NewRoomContainer, NewRoom };

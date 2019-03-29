@@ -6,6 +6,12 @@ export default {
 		post: { v1: "auth/login" }
 	},
 	authentication: {
-		get: {v1: "auth/authentication"}
+		get: { v1: "auth/authentication" }
+	},
+	rooms: {
+		get: { v1: "rooms/room" },
+		post: { v1: "rooms/room" },
+		put: { v1: "rooms/room" },
+		delete: { v1: "rooms/room" }
 	}
 };

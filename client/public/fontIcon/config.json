@@ -11,6 +11,12 @@
       "css": "user-outline",
       "code": 59392,
       "src": "typicons"
+    },
+    {
+      "uid": "e4dde1992f787163e2e2b534b8c8067d",
+      "css": "angle-down",
+      "code": 61703,
+      "src": "fontawesome"
     }
   ]
 }

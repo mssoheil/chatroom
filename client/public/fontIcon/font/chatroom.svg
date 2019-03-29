@@ -7,6 +7,8 @@
 <font-face font-family="chatroom" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
 <missing-glyph horiz-adv-x="1000" />
 <glyph glyph-name="user-outline" unicode="&#xe800;" d="M313 689q-65 0-111-46t-46-110 46-111 111-46 110 46 46 111-46 110-110 46z m0 104q107 0 183-77t77-183-77-184-183-76-184 76-76 184 76 183 184 77z m0-677q-74 0-127-22t-72-54q75-29 199-29t197 29q-21 30-73 53t-124 23z m0 104q136 0 224-63t88-146q0-41-89-72t-223-32q-140 0-227 32t-86 72q0 83 86 146t227 63z" horiz-adv-x="625" />
+
+<glyph glyph-name="angle-down" unicode="&#xf107;" d="M600 439q0-7-6-12l-260-261q-5-5-13-5t-12 5l-260 261q-6 5-6 12t6 13l28 28q5 6 12 6t13-6l219-219 220 219q5 6 13 6t12-6l28-28q6-5 6-13z" horiz-adv-x="642.9" />
 </font>
 </defs>
 </svg>

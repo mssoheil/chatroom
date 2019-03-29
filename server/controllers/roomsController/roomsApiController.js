@@ -5,21 +5,19 @@ const router = express.Router();
 const Rooms = require("./../../models/rooms.js");
 
 module.exports = function(io) {
-	router.get("/allRooms", (req, res) => {
+	router.get("/room", (req, res) => {
 		Rooms.find({})
 			.then(rooms => {
 				res.status(200).send({ roomExist: true, rooms: rooms });
 			})
 			.catch(err => {
-				console.log(err);
+				console.log("allRoomsErr", err);
 				res.status(404).send({ roomExist: false, message: "room not found" });
 			});
 	});
 
 	router.put("/room", (req, res) => {
-		console.log("RRR", req.body.previousName, req.body.newName);
 		Rooms.findOne({ name: req.body.previousName }).then(room => {
-			console.log("NNNNAME", room);
 			room.name = req.body.newName;
 			room
 				.save()
@@ -32,13 +30,14 @@ module.exports = function(io) {
 					});
 				})
 				.catch(err => {
-					console.log(err);
+					console.log("putRoomErr", err);
 					res.status(404).send({ room: false, message: "room not found" });
 				});
 		});
 	});
 
 	router.post("/room", (req, res, next) => {
+		
 		const newRoom = new Rooms({
 			name: req.body.name
 		});
@@ -56,6 +55,7 @@ module.exports = function(io) {
 					room: false,
 					message: `Room already exists`
 				});
+				console.log("createRoomErr", err);
 			});
 	});
 

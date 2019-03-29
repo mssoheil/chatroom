@@ -1,5 +1,7 @@
 const routes = require("./routes/index.js");
 
+const chat = require("./chat/chat.js");
+
 const express = require("express");
 
 const authController = require("./auth/authController.js");
@@ -44,6 +46,8 @@ module.exports = function(app, server) {
 	//app.use("/chatroom/v1", routes(router));
 
 	const io = socket(server);
+
+	chat(io);
 
 	app.use("/chatroom/v1/auth", authController(io));
 	app.use("/chatroom/v1/rooms", roomsApiController(io));
