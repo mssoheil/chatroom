@@ -40,7 +40,9 @@ export default class LoginRegister {
 
 	@action
 	joinRoom(val) {
+		console.log("CALLED")
 		this.joinedRooms = [...val];
+
 	}
 
 	@action
@@ -67,6 +69,7 @@ export default class LoginRegister {
 
 	@action
 	checkAuth() {
+		
 		var session = sessionStorage.token;
 		var local = localStorage.token;
 

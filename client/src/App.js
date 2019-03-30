@@ -55,20 +55,7 @@ class App extends Component {
 	}
 
 	render() {
-		// const transitionOptions = {
-		// 	timeout: 500,
-		// 	classNames: "fade"
-		// };
 
-		// const defaultStyle = {
-		// 	transition: `all 1s ease-in-out`,
-		// 	opacity: 0
-		// };
-
-		// const transitionStyles = {
-		// 	entering: { opacity: 0 },
-		// 	entered: { opacity: 1 }
-		// };
 
 		return (
 			<Wrapper>

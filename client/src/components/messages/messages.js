@@ -47,14 +47,14 @@ class Messages extends Component {
 					})}
 				</MessagesSection>
 				<MessageControllsSection container spacing={8}>
-					<MessageControllsInputGrid xl={10} lg={10} md={10} sm={10} xs={10}>
+					<MessageControllsInputGrid item xl={10} lg={10} md={10} sm={10} xs={10}>
 						<InputBox
 							value={this.store.message}
 							onChange={e => this.store.changeMessage(e)}
 							type="text"
 						/>
 					</MessageControllsInputGrid>
-					<MessageGontrollsBtnGrid xl={2} lg={2} md={2} sm={2} xs={2}>
+					<MessageGontrollsBtnGrid item xl={2} lg={2} md={2} sm={2} xs={2}>
 						<SendBtn
 							onClick={() => {
 								this.store.sendMessage(this.socket, username);

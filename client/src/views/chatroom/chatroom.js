@@ -45,9 +45,7 @@ class Chatroom extends Component {
 						}`}
 					/>
 					{this.loginRegisterStore.username}
-					{this.loginRegisterStore.joinedRooms.map(item => {
-						return <div>{item.name}</div>;
-					})}
+					
 					{/* <img
 					src={`http://localhost:6464/chatroom/v1/img/${
 						this.loginRegisterStore.userAvatar

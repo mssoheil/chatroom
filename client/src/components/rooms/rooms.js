@@ -28,10 +28,6 @@ const MenuProps = {
 class Rooms extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			age: "",
-			open: false
-		};
 	}
 	@observable
 	store = this.props.stores.rooms;
@@ -41,29 +37,28 @@ class Rooms extends Component {
 
 	componentDidMount = () => {
 		this.store.fetchRooms();
-	}
-	
+	};
+
 	componentWillReceiveProps() {
 		this.store.joinRoom(this.props.defaultRooms);
-
 	}
-
 
 	componentWillUnmount() {
 		this.store.clearData();
 	}
 
 	handleChange = event => {
+		this.store.changeSelectedJoinRoom(event.target.value);
 		//this.setState({ [event.target.name]: event.target.value });
 		console.log(event.target.value);
 	};
 
 	handleClose = () => {
-		this.setState({ open: false });
+		this.store.changeOpenDropDown(false);
 	};
 
 	handleOpen = () => {
-		this.setState({ open: true });
+		this.store.changeOpenDropDown(true);
 	};
 
 	render() {
@@ -74,17 +69,16 @@ class Rooms extends Component {
 				</HeaderTxt>
 				<Select
 					style={{ visibility: "hidden" }}
-					open={this.state.open}
+					open={this.store.openDropDown}
 					onClose={this.handleClose}
 					onOpen={this.handleOpen}
-					value={this.state.age}
+					value={this.store.selectedJoinRoom}
 					onChange={this.handleChange}
 					MenuProps={MenuProps}
-					
 				>
 					{this.store.rooms.map(item => {
 						return (
-							<MenuItem key={`room_${item["_id"]}`} value={item.name}>
+							<MenuItem key={`room_${item["_id"]}`} value={item}>
 								{item.name}
 							</MenuItem>
 						);
@@ -95,8 +89,8 @@ class Rooms extends Component {
 						return <div key={`room_${item["_id"]}`}>{item.name}</div>;
 					})} */}
 					{this.props.defaultRooms.map(item => {
-						return <div>{item.name}</div>
-					}) }
+						return <div key={`room_${item["_id"]}`}>{item.name}</div>;
+					})}
 				</RoomsContainer>
 				<NewRoomContainer>
 					<NewRoom

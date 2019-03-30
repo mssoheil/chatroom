@@ -10,6 +10,7 @@ import customTheme from "../../config/theme";
 @inject("stores")
 @observer
 class LoginRegister extends Component {
+	
 	@observable
 	store = this.props.stores.loginRegister;
 

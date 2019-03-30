@@ -7,6 +7,12 @@ export default class Rooms {
 	rooms = [];
 
 	@observable
+	openDropDown = false;
+
+	@observable
+	selectedJoinRoom = "";
+
+	@observable
 	roomName = "";
 
 	@observable
@@ -15,6 +21,27 @@ export default class Rooms {
 	@action
 	changeRoomsArr(val) {
 		this.rooms = val;
+	}
+
+	@action
+	changeSelectedJoinRoom(val) {
+		this.selectedJoinRoom = val;
+		let foundItems = 0;
+		this.joinedRooms.map(item => {
+			//if (item["_id"] === val["_id"]) {
+				console.log("HRY", item["_id"]);
+				foundItems++;
+			//}
+		});
+
+		//if (foundItems === 0) {
+			this.joinRoom(val);
+		//}
+	}
+
+	@action
+	changeOpenDropDown(val) {
+		this.openDropDown = val;
 	}
 
 	@action
@@ -38,7 +65,9 @@ export default class Rooms {
 
 	@action
 	joinRoom(val) {
-		this.joinedRooms = [...this.joinedRooms, ...val];
+		// console.log("HFO", toJS(val));
+		// console.log("HFO2", toJS(this.joinedRooms));
+		this.joinedRooms.push(val);
 	}
 
 	@action
