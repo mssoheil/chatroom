@@ -30,7 +30,6 @@ class Messages extends Component {
 
 	componentDidMount() {
 		this.socket.on("chatMessage", packet => {
-			console.log("PIS", packet);
 			this.store.changeMessages(packet);
 		});
 	}

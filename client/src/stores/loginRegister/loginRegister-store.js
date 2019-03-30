@@ -1,10 +1,13 @@
-import { observable, action } from "mobx";
+import { observable, action, toJS } from "mobx";
 
 import axiousFetch from "./../../config/database/fetch";
 
 export default class LoginRegister {
 	@observable
 	loginMode = true;
+
+	@observable
+	joinedRooms = [];
 
 	@observable
 	token = "";
@@ -28,6 +31,16 @@ export default class LoginRegister {
 	@action
 	changeLoginMode() {
 		this.loginMode = !this.loginMode;
+	}
+
+	@action
+	clearData() {
+		this.joinedRooms = [];
+	}
+
+	@action
+	joinRoom(val) {
+		this.joinedRooms = [...val];
 	}
 
 	@action
@@ -77,6 +90,7 @@ export default class LoginRegister {
 							this.username = response.user.username;
 							this.userid = response.user["_id"];
 							this.userAvatar = response.user.avatar;
+							this.joinRoom(response.defaultRoom);
 						}
 					}
 				})

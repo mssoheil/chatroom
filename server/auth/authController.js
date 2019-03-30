@@ -5,6 +5,7 @@ const express = require("express");
 
 const router = express.Router();
 const User = require("./../models/users.js");
+const Room = require("./../models/rooms.js");
 
 const VerifyToken = require("./VerifyToken");
 
@@ -117,7 +118,21 @@ module.exports = function(io) {
 						.status(404)
 						.send({ auth: false, message: "No user found" });
 				}
-				res.status(200).send({ auth: true, user: user });
+				Room.find({ name: process.env.DEFAULT_ROOM })
+					.then(room => {
+						if (!room) {
+							return res
+								.status(200)
+								.send({ auth: true, user: user, defaultRoom: false });
+						}
+						res.status(200).send({ auth: true, user: user, defaultRoom: room });
+					})
+					.catch(err => {
+						console.log("RoomErr", err);
+						return res
+							.status(200)
+							.send({ auth: true, user: user, defaultRoom: false });
+					});
 			})
 			.catch(err => {
 				return res.status(500).send({

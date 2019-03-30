@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-import { observable } from "mobx";
+import { observable, toJS } from "mobx";
 
 import User from "./../../components/users/users";
 import Messages from "./../../components/messages/messages";
@@ -45,6 +45,9 @@ class Chatroom extends Component {
 						}`}
 					/>
 					{this.loginRegisterStore.username}
+					{this.loginRegisterStore.joinedRooms.map(item => {
+						return <div>{item.name}</div>;
+					})}
 					{/* <img
 					src={`http://localhost:6464/chatroom/v1/img/${
 						this.loginRegisterStore.userAvatar
@@ -65,7 +68,11 @@ class Chatroom extends Component {
 							b
 						</MessagesGrid>
 						<RoomsGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
-							<Rooms customTheme={customTheme} />c
+							<Rooms
+								defaultRooms={this.loginRegisterStore.joinedRooms}
+								customTheme={customTheme}
+							/>
+							c
 						</RoomsGrid>
 					</ChatGrid>
 				</ChatSectionWrapper>

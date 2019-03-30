@@ -34,19 +34,20 @@ class Rooms extends Component {
 		};
 	}
 	@observable
-	store = this.props.stores.chatroom;
+	store = this.props.stores.rooms;
 
 	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
-	componentDidMount() {
+	componentDidMount = () => {
 		this.store.fetchRooms();
 	}
+	
+	componentWillReceiveProps() {
+		this.store.joinRoom(this.props.defaultRooms);
 
-	// componentDidUpdate() {
-	// 	console.log("updated");
-	// 	this.store.fetchRooms();
-	// }
+	}
+
 
 	componentWillUnmount() {
 		this.store.clearData();
@@ -66,8 +67,6 @@ class Rooms extends Component {
 	};
 
 	render() {
-		const { customTheme } = this.props;
-		console.log("DI", customTheme);
 		return (
 			<Wrapper>
 				<HeaderTxt onClick={this.handleOpen}>
@@ -81,10 +80,7 @@ class Rooms extends Component {
 					value={this.state.age}
 					onChange={this.handleChange}
 					MenuProps={MenuProps}
-					inputProps={{
-						name: "age",
-						id: "demo-controlled-open-select"
-					}}
+					
 				>
 					{this.store.rooms.map(item => {
 						return (
@@ -95,16 +91,19 @@ class Rooms extends Component {
 					})}
 				</Select>
 				<RoomsContainer>
-					{this.store.rooms.map(item => {
+					{/* {this.store.joinedRooms.map(item => {
 						return <div key={`room_${item["_id"]}`}>{item.name}</div>;
-					})}
+					})} */}
+					{this.props.defaultRooms.map(item => {
+						return <div>{item.name}</div>
+					}) }
 				</RoomsContainer>
 				<NewRoomContainer>
 					<NewRoom
 						type="text"
 						value={this.store.roomName}
-						onChange={e => this.store.changeRoom(e)}
-						onKeyPress={e => this.store.changeRoom(e)}
+						onChange={e => this.store.changeRoomField(e)}
+						onKeyPress={e => this.store.changeRoomField(e)}
 					/>
 				</NewRoomContainer>
 			</Wrapper>
