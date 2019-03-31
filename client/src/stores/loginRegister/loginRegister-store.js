@@ -6,8 +6,6 @@ export default class LoginRegister {
 	@observable
 	loginMode = true;
 
-	@observable
-	joinedRooms = [];
 
 	@observable
 	token = "";
@@ -33,17 +31,6 @@ export default class LoginRegister {
 		this.loginMode = !this.loginMode;
 	}
 
-	@action
-	clearData() {
-		this.joinedRooms = [];
-	}
-
-	@action
-	joinRoom(val) {
-		console.log("CALLED")
-		this.joinedRooms = [...val];
-
-	}
 
 	@action
 	changeAuthenticated(val) {
@@ -93,7 +80,8 @@ export default class LoginRegister {
 							this.username = response.user.username;
 							this.userid = response.user["_id"];
 							this.userAvatar = response.user.avatar;
-							this.joinRoom(response.defaultRoom);
+							
+
 						}
 					}
 				})

@@ -39,9 +39,7 @@ class Rooms extends Component {
 		this.store.fetchRooms();
 	};
 
-	componentWillReceiveProps() {
-		this.store.joinRoom(this.props.defaultRooms);
-	}
+	
 
 	componentWillUnmount() {
 		this.store.clearData();
@@ -50,7 +48,6 @@ class Rooms extends Component {
 	handleChange = event => {
 		this.store.changeSelectedJoinRoom(event.target.value);
 		//this.setState({ [event.target.name]: event.target.value });
-		console.log(event.target.value);
 	};
 
 	handleClose = () => {
@@ -85,12 +82,10 @@ class Rooms extends Component {
 					})}
 				</Select>
 				<RoomsContainer>
-					{/* {this.store.joinedRooms.map(item => {
-						return <div key={`room_${item["_id"]}`}>{item.name}</div>;
-					})} */}
-					{this.props.defaultRooms.map(item => {
+					{this.store.joinedRooms.map(item => {
 						return <div key={`room_${item["_id"]}`}>{item.name}</div>;
 					})}
+					
 				</RoomsContainer>
 				<NewRoomContainer>
 					<NewRoom

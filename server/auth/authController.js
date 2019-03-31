@@ -111,6 +111,7 @@ module.exports = function(io) {
 	});
 
 	router.get("/authentication", VerifyToken, (req, res, next) => {
+		
 		User.findById(req.userId, { password: 0 })
 			.then(user => {
 				if (!user) {
@@ -118,21 +119,9 @@ module.exports = function(io) {
 						.status(404)
 						.send({ auth: false, message: "No user found" });
 				}
-				Room.find({ name: process.env.DEFAULT_ROOM })
-					.then(room => {
-						if (!room) {
-							return res
-								.status(200)
-								.send({ auth: true, user: user, defaultRoom: false });
-						}
-						res.status(200).send({ auth: true, user: user, defaultRoom: room });
-					})
-					.catch(err => {
-						console.log("RoomErr", err);
-						return res
-							.status(200)
-							.send({ auth: true, user: user, defaultRoom: false });
-					});
+				return res
+						.status(200)
+						.send({ auth: true, user: user, message: "No user found" });
 			})
 			.catch(err => {
 				return res.status(500).send({

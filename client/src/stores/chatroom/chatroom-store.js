@@ -1,6 +1,5 @@
 import { observable, action } from "mobx";
 
+export default class Chatroom {
 
-export default class LoginRegister {
-	
 }

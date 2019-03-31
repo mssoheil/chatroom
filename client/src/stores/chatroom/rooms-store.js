@@ -13,10 +13,19 @@ export default class Rooms {
 	selectedJoinRoom = "";
 
 	@observable
+	defaultRooms = [];
+
+	@observable
 	roomName = "";
 
 	@observable
 	joinedRooms = [];
+
+	@action
+	changeDefaultRooms(val) {
+		this.defaultRooms = val;
+		this.joinedRooms = val;
+	}
 
 	@action
 	changeRoomsArr(val) {
@@ -28,15 +37,14 @@ export default class Rooms {
 		this.selectedJoinRoom = val;
 		let foundItems = 0;
 		this.joinedRooms.map(item => {
-			//if (item["_id"] === val["_id"]) {
-				console.log("HRY", item["_id"]);
+			if (item["_id"] === val["_id"]) {
 				foundItems++;
-			//}
+			}
 		});
 
-		//if (foundItems === 0) {
-			this.joinRoom(val);
-		//}
+		if (foundItems === 0) {
+		this.joinRoom(val);
+		}
 	}
 
 	@action
@@ -65,9 +73,9 @@ export default class Rooms {
 
 	@action
 	joinRoom(val) {
-		// console.log("HFO", toJS(val));
-		// console.log("HFO2", toJS(this.joinedRooms));
-		this.joinedRooms.push(val);
+		var joinedRooms = this.joinedRooms;
+		this.joinedRooms = [this.joinedRooms, val];
+		this.joinedRooms = [...joinedRooms, val];
 	}
 
 	@action
@@ -80,6 +88,7 @@ export default class Rooms {
 			.then(response => {
 				if (response !== null || response !== undefined) {
 					if (response.roomExist !== null || response.roomExist !== undefined) {
+						this.changeDefaultRooms(response.defaultRooms);
 						this.changeRoomsArr(response.rooms);
 					}
 				}

@@ -30,6 +30,10 @@ class Chatroom extends Component {
 	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
+	@observable
+	store = this.props.stores.chatroom;
+
+
 	render() {
 		return (
 			<Wrapper>
@@ -45,12 +49,8 @@ class Chatroom extends Component {
 						}`}
 					/>
 					{this.loginRegisterStore.username}
+
 					
-					{/* <img
-					src={`http://localhost:6464/chatroom/v1/img/${
-						this.loginRegisterStore.userAvatar
-					}`}
-				/> */}
 				</AccountRow>
 
 				<ChatSectionWrapper>
@@ -66,6 +66,7 @@ class Chatroom extends Component {
 							b
 						</MessagesGrid>
 						<RoomsGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
+							
 							<Rooms
 								defaultRooms={this.loginRegisterStore.joinedRooms}
 								customTheme={customTheme}

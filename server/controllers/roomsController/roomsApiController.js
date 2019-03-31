@@ -6,14 +6,43 @@ const Rooms = require("./../../models/rooms.js");
 
 module.exports = function(io) {
 	router.get("/room", (req, res) => {
-		Rooms.find({})
-			.then(rooms => {
-				res.status(200).send({ roomExist: true, rooms: rooms });
-			})
-			.catch(err => {
-				console.log("allRoomsErr", err);
-				res.status(404).send({ roomExist: false, message: "room not found" });
-			});
+		let defaultRooms = [];
+		let promise = new Promise((resolve, reject) => {
+			Rooms.find({ name: process.env.DEFAULT_ROOM })
+				.then(room => {
+					if (!room) {
+						defaultRoom = false;
+						resolve("done!");
+					}
+					defaultRooms = room;
+					resolve("done!");
+				})
+				.catch(err => {
+					defaultRoom = false;
+					resolve("done!");
+				});
+		});
+
+		promise.then(result => {
+			Rooms.find({})
+				.then(rooms => {
+					res
+						.status(200)
+						.send({
+							roomExist: true,
+							rooms: rooms,
+							defaultRooms: defaultRooms
+						});
+				})
+				.catch(err => {
+					console.log("allRoomsErr", err);
+					res.status(404).send({
+						roomExist: false,
+						message: "room not found",
+						defaultRooms: false
+					});
+				});
+		});
 	});
 
 	router.put("/room", (req, res) => {
@@ -37,7 +66,6 @@ module.exports = function(io) {
 	});
 
 	router.post("/room", (req, res, next) => {
-		
 		const newRoom = new Rooms({
 			name: req.body.name
 		});
