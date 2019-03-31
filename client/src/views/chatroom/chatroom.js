@@ -33,7 +33,6 @@ class Chatroom extends Component {
 	@observable
 	store = this.props.stores.chatroom;
 
-
 	render() {
 		return (
 			<Wrapper>
@@ -49,8 +48,6 @@ class Chatroom extends Component {
 						}`}
 					/>
 					{this.loginRegisterStore.username}
-
-					
 				</AccountRow>
 
 				<ChatSectionWrapper>
@@ -66,10 +63,11 @@ class Chatroom extends Component {
 							b
 						</MessagesGrid>
 						<RoomsGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
-							
 							<Rooms
 								defaultRooms={this.loginRegisterStore.joinedRooms}
 								customTheme={customTheme}
+								socket={socket}
+								username={this.loginRegisterStore.username}
 							/>
 							c
 						</RoomsGrid>

@@ -35,7 +35,7 @@ export default class Rooms {
 	}
 
 	@action
-	changeSelectedJoinRoom(val) {
+	changeSelectedJoinRoom(val, socket, username) {
 		this.selectedJoinRoom = val;
 		let foundItems = 0;
 		this.joinedRooms.map(item => {
@@ -45,7 +45,7 @@ export default class Rooms {
 		});
 
 		if (foundItems === 0) {
-			this.joinRoom(val);
+			this.joinRoom(val, socket, username);
 		} else {
 			toast.error("You already joined the room", {
 				position: toast.POSITION.TOP_RIGHT
@@ -78,10 +78,13 @@ export default class Rooms {
 	}
 
 	@action
-	joinRoom(val) {
+	async joinRoom(val, socket, username) {
 		var joinedRooms = this.joinedRooms;
-		this.joinedRooms = [this.joinedRooms, val];
 		this.joinedRooms = [...joinedRooms, val];
+		socket.emit("joinRoom", {
+			username: username,
+			room: val
+		});
 	}
 
 	@action
@@ -116,9 +119,7 @@ export default class Rooms {
 			.post("rooms", "v1", header, body)
 			.then(response => {
 				if (response !== null || response !== undefined) {
-
 					if (response.roomExist !== null || response.roomExist !== undefined) {
-
 						if (response.roomExist) {
 							toast.error(response.message, {
 								position: toast.POSITION.TOP_RIGHT

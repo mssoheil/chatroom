@@ -40,14 +40,23 @@ class Messages extends Component {
 			<Wrapper>
 				<MessagesSection>
 					{this.store.messages.map((item, index) => {
-						return <div key={`msg_${index}`}>
-							<span>{item.username}:</span>
-							<span>{item.message}</span>
-						</div>;
+						return (
+							<div key={`msg_${index}`}>
+								<span>{item.username}: </span>
+								<span>{item.message}</span>
+							</div>
+						);
 					})}
 				</MessagesSection>
 				<MessageControllsSection container spacing={8}>
-					<MessageControllsInputGrid item xl={10} lg={10} md={10} sm={10} xs={10}>
+					<MessageControllsInputGrid
+						item
+						xl={10}
+						lg={10}
+						md={10}
+						sm={10}
+						xs={10}
+					>
 						<InputBox
 							value={this.store.message}
 							onChange={e => this.store.changeMessage(e)}

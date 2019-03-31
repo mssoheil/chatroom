@@ -26,7 +26,11 @@ const MenuProps = {
 @inject("stores")
 @observer
 class Rooms extends Component {
-	
+	constructor(props) {
+		super(props);
+		this.socket = this.props.socket;
+	}
+
 	@observable
 	store = this.props.stores.rooms;
 
@@ -37,14 +41,12 @@ class Rooms extends Component {
 		this.store.fetchRooms();
 	};
 
-	
-
 	componentWillUnmount() {
 		this.store.clearData();
 	}
 
-	handleChange = event => {
-		this.store.changeSelectedJoinRoom(event.target.value);
+	handleChange (event, username) {
+		this.store.changeSelectedJoinRoom(event.target.value, this.socket, username);
 		//this.setState({ [event.target.name]: event.target.value });
 	};
 
@@ -57,6 +59,7 @@ class Rooms extends Component {
 	};
 
 	render() {
+		const { username } = this.props;
 		return (
 			<Wrapper>
 				<HeaderTxt onClick={this.handleOpen}>
@@ -68,7 +71,7 @@ class Rooms extends Component {
 					onClose={this.handleClose}
 					onOpen={this.handleOpen}
 					value={this.store.selectedJoinRoom}
-					onChange={this.handleChange}
+					onChange={(e) => {this.handleChange(e,username)}}
 					MenuProps={MenuProps}
 				>
 					{this.store.rooms.map(item => {
@@ -83,7 +86,6 @@ class Rooms extends Component {
 					{this.store.joinedRooms.map(item => {
 						return <div key={`room_${item["_id"]}`}>{item.name}</div>;
 					})}
-					
 				</RoomsContainer>
 				<NewRoomContainer>
 					<NewRoom
