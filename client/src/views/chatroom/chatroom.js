@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-import { observable, toJS } from "mobx";
+import { observable } from "mobx";
 
 import User from "./../../components/users/users";
 import Messages from "./../../components/messages/messages";

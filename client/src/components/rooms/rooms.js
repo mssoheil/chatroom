@@ -26,9 +26,7 @@ const MenuProps = {
 @inject("stores")
 @observer
 class Rooms extends Component {
-	constructor(props) {
-		super(props);
-	}
+	
 	@observable
 	store = this.props.stores.rooms;
 

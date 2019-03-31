@@ -26,13 +26,11 @@ module.exports = function(io) {
 		promise.then(result => {
 			Rooms.find({})
 				.then(rooms => {
-					res
-						.status(200)
-						.send({
-							roomExist: true,
-							rooms: rooms,
-							defaultRooms: defaultRooms
-						});
+					res.status(200).send({
+						roomExist: true,
+						rooms: rooms,
+						defaultRooms: defaultRooms
+					});
 				})
 				.catch(err => {
 					console.log("allRoomsErr", err);
@@ -75,12 +73,14 @@ module.exports = function(io) {
 			.then(room => {
 				res.status(200).send({
 					room: room,
-					message: `Room ${room.name} created successfull`
+					roomExist: false,
+					message: `${room.name} created successfull`
 				});
 			})
 			.catch(err => {
 				res.status(500).send({
 					room: false,
+					roomExist: true,
 					message: `Room already exists`
 				});
 				console.log("createRoomErr", err);

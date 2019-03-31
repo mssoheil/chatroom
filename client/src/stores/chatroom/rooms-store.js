@@ -1,6 +1,8 @@
-import { observable, action, toJS } from "mobx";
+import { observable, action } from "mobx";
 
 import axiousFetch from "./../../config/database/fetch";
+
+import { toast } from "react-toastify";
 
 export default class Rooms {
 	@observable
@@ -43,7 +45,11 @@ export default class Rooms {
 		});
 
 		if (foundItems === 0) {
-		this.joinRoom(val);
+			this.joinRoom(val);
+		} else {
+			toast.error("You already joined the room", {
+				position: toast.POSITION.TOP_RIGHT
+			});
 		}
 	}
 
@@ -110,13 +116,26 @@ export default class Rooms {
 			.post("rooms", "v1", header, body)
 			.then(response => {
 				if (response !== null || response !== undefined) {
+
 					if (response.roomExist !== null || response.roomExist !== undefined) {
-						this.fetchRooms();
+
+						if (response.roomExist) {
+							toast.error(response.message, {
+								position: toast.POSITION.TOP_RIGHT
+							});
+						} else {
+							toast.success(response.message, {
+								position: toast.POSITION.TOP_RIGHT
+							});
+						}
 					}
+					//this.fetchRooms();
 				}
 			})
 			.catch(err => {
-				console.log(err);
+				toast.error("Room already exists", {
+					position: toast.POSITION.TOP_RIGHT
+				});
 			});
 	}
 }
