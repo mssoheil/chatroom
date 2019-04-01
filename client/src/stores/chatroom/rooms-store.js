@@ -30,7 +30,6 @@ export default class Rooms {
 	changeDefaultRooms(val) {
 		this.defaultRooms = val;
 		this.visibleRoom = val[0];
-		console.log("loo",toJS(this.visibleRoom));
 	}
 
 	@action
@@ -109,7 +108,6 @@ export default class Rooms {
 
 	@action
 	leaveRoom(val, socket, username) {
-		console.log("RROO", toJS(val));
 		var promise = new Promise((resolve, reject) => {
 			socket.emit("leaveRoom", {
 				username: username,

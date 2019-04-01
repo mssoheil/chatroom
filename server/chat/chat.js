@@ -10,12 +10,33 @@ module.exports = function(io) {
 			Rooms.findOne({ name: process.env.DEFAULT_ROOM })
 				.then(room => {
 					if (room) {
-						console.log("rrr", room);
 						socket.broadcast.to(process.env.DEFAULT_ROOM).emit("chatMessage", {
 							room: room,
 							username: "new user",
 							message: "joined the room"
 						});
+						let sockets =
+							io.sockets.adapter.rooms[process.env.DEFAULT_ROOM].sockets;
+						let socketsInRoom = Object.keys(sockets);
+						setTimeout(() => {
+							socketsInRoom.map(item => {
+								let itemSocketId = item;
+								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
+								socket.on("receiveUsername", packet => {
+									sockets[packet.socketId] = packet.username;
+									io.to(`${itemSocketId}`).emit("socketsInRoom", {
+										room: room,
+										sockets: sockets
+									});
+								});
+							});
+							console.log(
+								"clientsperroom",
+								Object.keys(
+									io.sockets.adapter.rooms[process.env.DEFAULT_ROOM].sockets
+								)
+							);
+						}, 1000);
 
 						// Object.keys(io.sockets.adapter.sids[socket.id]);
 						// // returns [socket.id, room-x'] || [socket.id, 'room-1', 'room-2', ...]
@@ -60,14 +81,12 @@ module.exports = function(io) {
 				.then(room => {
 					if (room) {
 						socket.join(packet.room.name);
+
 						socket.broadcast.to(packet.room.name).emit("chatMessage", {
 							room: room,
 							username: packet.username,
 							message: "joined the room"
 						});
-
-						// Object.keys(io.sockets.adapter.sids[socket.id]);
-						// // returns [socket.id, room-x'] || [socket.id, 'room-1', 'room-2', ...]
 					}
 				})
 				.catch(err => {
@@ -83,7 +102,7 @@ module.exports = function(io) {
 						socket.broadcast.to(packet.room.name).emit("chatMessage", {
 							room: room,
 							username: packet.username,
-							message: "left"
+							message: "left the room"
 						});
 					}
 				})
@@ -96,8 +115,6 @@ module.exports = function(io) {
 			let joinedRooms = Object.keys(socket.rooms).filter(
 				item => item != socket.id
 			);
-
-			console.log("DF", joinedRooms);
 
 			Rooms.find({ name: { $in: joinedRooms } }).then(room => {
 				io.to(`${socketId}`).emit("joinedRooms", room);

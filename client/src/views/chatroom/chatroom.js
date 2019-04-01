@@ -53,12 +53,17 @@ class Chatroom extends Component {
 				<ChatSectionWrapper>
 					<ChatGrid container>
 						<UsersGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
-							<User />
+							<User
+								username={this.loginRegisterStore.username}
+								socket={socket}
+								customTheme={customTheme}
+							/>
 						</UsersGrid>
 						<MessagesGrid item xl={6} lg={6} md={6} sm={6} xs={6}>
 							<Messages
 								username={this.loginRegisterStore.username}
 								socket={socket}
+								customTheme={customTheme}
 							/>
 							b
 						</MessagesGrid>

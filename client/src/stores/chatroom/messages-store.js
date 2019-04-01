@@ -20,14 +20,12 @@ export default class Message {
 
 	@action
 	changeMessages(packet) {
-		console.log("PERROOM", packet);
 
 		this.messages.push(packet);
 	}
 
 	@action
 	sendMessage(socket, username, room) {
-		console.log("loona", room);
 		socket.emit("chatMessage", {
 			username: username,
 			message: this.message,

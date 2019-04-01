@@ -13,7 +13,6 @@ import {
 	MessageGontrollsBtnGrid,
 	SendBtn
 } from "./messages-styled";
-import LoginRegister from "../../stores/loginRegister/loginRegister-store";
 
 @inject("stores")
 @observer
