@@ -96,7 +96,18 @@ class Rooms extends Component {
 				</Select>
 				<RoomsContainer>
 					{this.store.joinedRooms.map(item => {
-						return <div key={`room_${item["_id"]}`}>{item.name}</div>;
+						return (
+							<div key={`room_${item["_id"]}`}>
+								{item.name}
+								<button
+									onClick={() => {
+										this.store.leaveRoom(item, this.socket, username);
+									}}
+								>
+									X
+								</button>
+							</div>
+						);
 					})}
 				</RoomsContainer>
 				<NewRoomContainer>

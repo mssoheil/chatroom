@@ -93,7 +93,27 @@ export default class Rooms {
 				room: val
 			});
 			socket.on("joinedRooms", packet => {
-				console.log("JJ", packet);
+				this.joinedRooms = packet;
+			});
+		});
+	}
+
+	@action
+	leaveRoom(val, socket, username) {
+		console.log("RROO", toJS(val));
+		var promise = new Promise((resolve, reject) => {
+			socket.emit("leaveRoom", {
+				username: username,
+				room: val
+			});
+			resolve("done");
+		});
+		promise.then(result => {
+			socket.emit("getJoinedRooms", {
+				username: username,
+				room: val
+			});
+			socket.on("joinedRooms", packet => {
 				this.joinedRooms = packet;
 			});
 		});
@@ -102,7 +122,6 @@ export default class Rooms {
 	@action
 	fetchDefaultJoinedRooms(socket) {
 		socket.on("defaultJoinedRooms", packet => {
-			console.log("JOJO", toJS(packet));
 			this.joinedRooms = packet;
 			this.changeDefaultRooms(packet);
 		});

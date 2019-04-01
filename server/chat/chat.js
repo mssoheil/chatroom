@@ -7,6 +7,10 @@ module.exports = function(io) {
 
 		const promise = new Promise((resolve, reject) => {
 			socket.join(process.env.DEFAULT_ROOM);
+			socket.broadcast.to(process.env.DEFAULT_ROOM).emit("chatMessage", {
+				username: "new user",
+				message: "joined the room"
+			});
 			resolve("done");
 		});
 
@@ -29,11 +33,30 @@ module.exports = function(io) {
 				.then(room => {
 					if (room) {
 						socket.join(packet.room.name);
-						// socket.broadcast.to(packet.room.name).emit("chatMessage", {
-						// 	username: packet.username,
-						// 	message: "joined the room"
-						// });
-						
+						socket.broadcast.to(packet.room.name).emit("chatMessage", {
+							username: packet.username,
+							message: "joined the room"
+						});
+
+						// Object.keys(io.sockets.adapter.sids[socket.id]);
+						// // returns [socket.id, room-x'] || [socket.id, 'room-1', 'room-2', ...]
+					}
+				})
+				.catch(err => {
+					console.log("room not found", err);
+				});
+		});
+
+		socket.on("leaveRoom", packet => {
+			Rooms.find({ _id: packet.room["_id"] })
+				.then(room => {
+					if (room) {
+						socket.leave(packet.room.name);
+						socket.broadcast.to(packet.room.name).emit("chatMessage", {
+							username: packet.username,
+							message: "left"
+						});
+
 						// Object.keys(io.sockets.adapter.sids[socket.id]);
 						// // returns [socket.id, room-x'] || [socket.id, 'room-1', 'room-2', ...]
 					}
@@ -47,6 +70,8 @@ module.exports = function(io) {
 			let joinedRooms = Object.keys(socket.rooms).filter(
 				item => item != socket.id
 			);
+
+			console.log("DF", joinedRooms);
 
 			Rooms.find({ name: { $in: joinedRooms } }).then(room => {
 				io.to(`${socketId}`).emit("joinedRooms", room);
