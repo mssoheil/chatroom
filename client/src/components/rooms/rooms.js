@@ -29,6 +29,7 @@ class Rooms extends Component {
 	constructor(props) {
 		super(props);
 		this.socket = this.props.socket;
+		this.user = this.props.username;
 	}
 
 	@observable
@@ -37,12 +38,17 @@ class Rooms extends Component {
 	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
-	componentWillMount = () => {
-		this.store.fetchDefaultJoinedRooms(this.socket);
+	// componentWillMount = () => {
+	// 	this.store.fetchDefaultJoinedRooms(this.socket, this.user);
+	// 	this.store.fetchRooms();
+	// };
+	componentDidMount = () => {
+		this.store.fetchDefaultJoinedRooms(this.socket, this.user);
 		this.store.fetchRooms();
 	};
-	componentDidUpdata(prevProps, prevState, snapshot) {
-		this.store.fetchDefaultJoinedRooms(this.socket);
+
+	componentDidUpdata() {
+		this.store.fetchDefaultJoinedRooms(this.socket, this.user);
 		this.store.fetchRooms();
 	}
 
@@ -97,7 +103,13 @@ class Rooms extends Component {
 				<RoomsContainer>
 					{this.store.joinedRooms.map(item => {
 						return (
-							<div key={`room_${item["_id"]}`}>
+							<div
+							style={{background: item["_id"] === this.store.visibleRoom["_id"] ? "#4cd964" : "#eee"}}
+								key={`room_${item["_id"]}`}
+								onClick={() => {
+									this.store.changeVisibleRoom(item);
+								}}
+							>
 								{item.name}
 								<button
 									onClick={() => {

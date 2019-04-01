@@ -1,5 +1,5 @@
 const Rooms = require("./../models/rooms.js");
-
+/** @todo on connect get username from client to broadcast in default room */
 module.exports = function(io) {
 	io.on("connection", socket => {
 		console.log(socket.id);
@@ -7,10 +7,37 @@ module.exports = function(io) {
 
 		const promise = new Promise((resolve, reject) => {
 			socket.join(process.env.DEFAULT_ROOM);
-			socket.broadcast.to(process.env.DEFAULT_ROOM).emit("chatMessage", {
-				username: "new user",
-				message: "joined the room"
-			});
+			Rooms.findOne({ name: process.env.DEFAULT_ROOM })
+				.then(room => {
+					if (room) {
+						console.log("rrr", room);
+						socket.broadcast.to(process.env.DEFAULT_ROOM).emit("chatMessage", {
+							room: room,
+							username: "new user",
+							message: "joined the room"
+						});
+
+						// Object.keys(io.sockets.adapter.sids[socket.id]);
+						// // returns [socket.id, room-x'] || [socket.id, 'room-1', 'room-2', ...]
+					}
+				})
+				.catch(err => {
+					console.log("room not found", err);
+				});
+			// socket.broadcast.to(process.env.DEFAULT_ROOM).emit("chatMessage", {
+			// 	username: "new user",
+			// 	message: "joined the room"
+			// });
+			// setTimeout(() => {
+			// 	io.to(`${socketId}`).emit("requestUsername", socketId);
+			// 	socket.on("responeUsername", packet => {
+			// 		socket.broadcast.to(process.env.DEFAULT_ROOM).emit("chatMessage", {
+			// 			username: packet.username,
+			// 			message: "joined the room"
+			// 		});
+			// 	});
+			// 	resolve("done");
+			// }, 1000);
 			resolve("done");
 		});
 
@@ -25,15 +52,16 @@ module.exports = function(io) {
 			}, 1000);
 		});
 		socket.on("chatMessage", packet => {
-			io.emit("chatMessage", { ...packet, id: socket.id });
+			io.to(packet.room.name).emit("chatMessage", { ...packet, id: socket.id });
 		});
 
 		socket.on("joinRoom", packet => {
-			Rooms.find({ _id: packet.room["_id"] })
+			Rooms.findOne({ _id: packet.room["_id"] })
 				.then(room => {
 					if (room) {
 						socket.join(packet.room.name);
 						socket.broadcast.to(packet.room.name).emit("chatMessage", {
+							room: room,
 							username: packet.username,
 							message: "joined the room"
 						});
@@ -48,17 +76,15 @@ module.exports = function(io) {
 		});
 
 		socket.on("leaveRoom", packet => {
-			Rooms.find({ _id: packet.room["_id"] })
+			Rooms.findOne({ _id: packet.room["_id"] })
 				.then(room => {
 					if (room) {
 						socket.leave(packet.room.name);
 						socket.broadcast.to(packet.room.name).emit("chatMessage", {
+							room: room,
 							username: packet.username,
 							message: "left"
 						});
-
-						// Object.keys(io.sockets.adapter.sids[socket.id]);
-						// // returns [socket.id, room-x'] || [socket.id, 'room-1', 'room-2', ...]
 					}
 				})
 				.catch(err => {

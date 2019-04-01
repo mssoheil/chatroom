@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import { inject, observer } from "mobx-react";
 
@@ -26,6 +26,9 @@ class Messages extends Component {
 	store = this.props.stores.messages;
 
 	@observable
+	roomsStore = this.props.stores.rooms;
+
+	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	componentDidMount() {
@@ -42,8 +45,12 @@ class Messages extends Component {
 					{this.store.messages.map((item, index) => {
 						return (
 							<div key={`msg_${index}`}>
-								<span>{item.username}: </span>
-								<span>{item.message}</span>
+								{item.room["_id"] === this.roomsStore.visibleRoom["_id"] ? (
+									<Fragment>
+										<span>{item.username}: </span>
+										<span>{item.message}</span>
+									</Fragment>
+								) : null}
 							</div>
 						);
 					})}
@@ -66,7 +73,11 @@ class Messages extends Component {
 					<MessageGontrollsBtnGrid item xl={2} lg={2} md={2} sm={2} xs={2}>
 						<SendBtn
 							onClick={() => {
-								this.store.sendMessage(this.socket, username);
+								this.store.sendMessage(
+									this.socket,
+									username,
+									this.roomsStore.visibleRoom
+								);
 							}}
 							color="primary"
 							size="large"

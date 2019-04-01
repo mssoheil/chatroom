@@ -12,6 +12,9 @@ export default class Rooms {
 	openDropDown = false;
 
 	@observable
+	visibleRoom = "";
+
+	@observable
 	selectedJoinRoom = "";
 
 	@observable
@@ -26,6 +29,8 @@ export default class Rooms {
 	@action
 	changeDefaultRooms(val) {
 		this.defaultRooms = val;
+		this.visibleRoom = val[0];
+		console.log("loo",toJS(this.visibleRoom));
 	}
 
 	@action
@@ -78,8 +83,7 @@ export default class Rooms {
 
 	@action
 	async joinRoom(val, socket, username) {
-		var joinedRooms = this.joinedRooms;
-		//this.joinedRooms = [...joinedRooms, val];
+		
 		var promise = new Promise((resolve, reject) => {
 			socket.emit("joinRoom", {
 				username: username,
@@ -96,6 +100,11 @@ export default class Rooms {
 				this.joinedRooms = packet;
 			});
 		});
+	}
+
+	@action
+	changeVisibleRoom(item) {
+		this.visibleRoom = item;
 	}
 
 	@action
@@ -121,10 +130,16 @@ export default class Rooms {
 
 	@action
 	fetchDefaultJoinedRooms(socket) {
+		
+
 		socket.on("defaultJoinedRooms", packet => {
 			this.joinedRooms = packet;
 			this.changeDefaultRooms(packet);
 		});
+		// socket.on("requestUsername", packet => {
+		// 	socket.emit("responeUsername", {username: username})
+		// });
+		
 	}
 
 	@action

@@ -16,19 +16,23 @@ export default class Message {
 	@action
 	changeMessage(event) {
 		this.message = event.target.value;
-    }
-    
+	}
+
 	@action
 	changeMessages(packet) {
+		console.log("PERROOM", packet);
+
 		this.messages.push(packet);
 	}
 
 	@action
-	sendMessage(socket, username) {
+	sendMessage(socket, username, room) {
+		console.log("loona", room);
 		socket.emit("chatMessage", {
-            username: username,
-            message: this.message
-        });
-        this.message = "";
+			username: username,
+			message: this.message,
+			room: room
+		});
+		this.message = "";
 	}
 }
