@@ -37,18 +37,28 @@ class Rooms extends Component {
 	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
-	componentDidMount = () => {
+	componentWillMount = () => {
+		this.store.fetchDefaultJoinedRooms(this.socket);
 		this.store.fetchRooms();
 	};
+	componentDidUpdata(prevProps, prevState, snapshot) {
+		this.store.fetchDefaultJoinedRooms(this.socket);
+		this.store.fetchRooms();
+	}
 
 	componentWillUnmount() {
+		this.socket.close();
 		this.store.clearData();
 	}
 
-	handleChange (event, username) {
-		this.store.changeSelectedJoinRoom(event.target.value, this.socket, username);
+	handleChange(event, username) {
+		this.store.changeSelectedJoinRoom(
+			event.target.value,
+			this.socket,
+			username
+		);
 		//this.setState({ [event.target.name]: event.target.value });
-	};
+	}
 
 	handleClose = () => {
 		this.store.changeOpenDropDown(false);
@@ -71,7 +81,9 @@ class Rooms extends Component {
 					onClose={this.handleClose}
 					onOpen={this.handleOpen}
 					value={this.store.selectedJoinRoom}
-					onChange={(e) => {this.handleChange(e,username)}}
+					onChange={e => {
+						this.handleChange(e, username);
+					}}
 					MenuProps={MenuProps}
 				>
 					{this.store.rooms.map(item => {

@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, toJS } from "mobx";
 
 import axiousFetch from "./../../config/database/fetch";
 
@@ -26,7 +26,6 @@ export default class Rooms {
 	@action
 	changeDefaultRooms(val) {
 		this.defaultRooms = val;
-		this.joinedRooms = val;
 	}
 
 	@action
@@ -80,10 +79,32 @@ export default class Rooms {
 	@action
 	async joinRoom(val, socket, username) {
 		var joinedRooms = this.joinedRooms;
-		this.joinedRooms = [...joinedRooms, val];
-		socket.emit("joinRoom", {
-			username: username,
-			room: val
+		//this.joinedRooms = [...joinedRooms, val];
+		var promise = new Promise((resolve, reject) => {
+			socket.emit("joinRoom", {
+				username: username,
+				room: val
+			});
+			resolve("done");
+		});
+		promise.then(result => {
+			socket.emit("getJoinedRooms", {
+				username: username,
+				room: val
+			});
+			socket.on("joinedRooms", packet => {
+				console.log("JJ", packet);
+				this.joinedRooms = packet;
+			});
+		});
+	}
+
+	@action
+	fetchDefaultJoinedRooms(socket) {
+		socket.on("defaultJoinedRooms", packet => {
+			console.log("JOJO", toJS(packet));
+			this.joinedRooms = packet;
+			this.changeDefaultRooms(packet);
 		});
 	}
 
@@ -97,7 +118,6 @@ export default class Rooms {
 			.then(response => {
 				if (response !== null || response !== undefined) {
 					if (response.roomExist !== null || response.roomExist !== undefined) {
-						this.changeDefaultRooms(response.defaultRooms);
 						this.changeRoomsArr(response.rooms);
 					}
 				}
