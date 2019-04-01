@@ -2,10 +2,15 @@ import { observable, action } from "mobx";
 
 export default class UsersInRoom {
 	@observable
-    username = "";
-    
-    @observable
-    usersPerRoom = [];
+	username = "";
+
+	@observable
+	usersPerRoom = [];
+
+	@action
+	clearData() {
+		this.usersPerRoom = [];
+	}
 
 	@action
 	changeUsername(val, socket) {
@@ -17,18 +22,18 @@ export default class UsersInRoom {
 			});
 		});
 		socket.on("socketsInRoom", packet => {
-			 let entitiesArr = [];
-			 let entities = Object.entries(packet.sockets);
-			 entities.map(item => {
+			console.log("MOON", packet);
+			let entitiesArr = [];
+			let entities = Object.entries(packet.sockets);
+			entities.map(item => {
 				entitiesArr.push({
-                    room: packet.room,
+					room: packet.room,
 					socketId: item[0],
 					username: item[1]
 				});
-             });
+			});
 
-             this.usersPerRoom = entitiesArr;
-             
+			this.usersPerRoom = entitiesArr;
 		});
 	}
 }

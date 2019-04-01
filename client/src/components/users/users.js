@@ -28,12 +28,16 @@ class Users extends Component {
 		this.store.changeUsername(this.props.username, this.socket);
 	};
 
+	componentWillUnmount() {
+		this.store.clearData();
+	}
+
 	render() {
 		return (
 			<Wrapper>
-				{this.store.usersPerRoom.map(item => {
+				{this.store.usersPerRoom.map((item, index) => {
 					return (
-						<h4 key={`user_${item.socketId}`}>
+						<h4 key={`user_${item.socketId}_${index}`}>
 							{item.room["_id"] === this.roomsStore.visibleRoom["_id"] ? (
 								<span>{item.username}</span>
 							) : null}

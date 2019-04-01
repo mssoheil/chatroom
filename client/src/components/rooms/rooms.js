@@ -38,23 +38,27 @@ class Rooms extends Component {
 	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
-	// componentWillMount = () => {
-	// 	this.store.fetchDefaultJoinedRooms(this.socket, this.user);
-	// 	this.store.fetchRooms();
-	// };
-	componentDidMount = () => {
+	componentWillMount = () => {
 		this.store.fetchDefaultJoinedRooms(this.socket, this.user);
 		this.store.fetchRooms();
 	};
+	// componentDidMount = () => {
+	// 	this.store.fetchDefaultJoinedRooms(this.socket, this.user);
+	// 	this.store.fetchRooms();
+	// };
 
 	componentDidUpdata() {
-		this.store.fetchDefaultJoinedRooms(this.socket, this.user);
+		this.store.fetchDefaultJoinedRooms(this.socket, this.props.username);
 		this.store.fetchRooms();
 	}
 
 	componentWillUnmount() {
 		this.socket.close();
 		this.store.clearData();
+	}
+	componentWillReceiveProps() {
+		this.store.changeUsername(this.props.username);
+		this.store.fetchDefaultJoinedRooms(this.socket);
 	}
 
 	handleChange(event, username) {
@@ -107,7 +111,7 @@ class Rooms extends Component {
 							style={{background: item["_id"] === this.store.visibleRoom["_id"] ? "#4cd964" : "#eee"}}
 								key={`room_${item["_id"]}`}
 								onClick={() => {
-									this.store.changeVisibleRoom(item);
+									this.store.changeVisibleRoom(item, this.socket);
 								}}
 							>
 								{item.name}

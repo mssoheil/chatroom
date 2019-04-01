@@ -87,12 +87,75 @@ module.exports = function(io) {
 							username: packet.username,
 							message: "joined the room"
 						});
+						let sockets =
+							io.sockets.adapter.rooms[room.name].sockets;
+						let socketsInRoom = Object.keys(sockets);
+						
+							socketsInRoom.map(item => {
+								let itemSocketId = item;
+								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
+								socket.on("receiveUsername", packet => {
+									sockets[packet.socketId] = packet.username;
+									// io.to(`${itemSocketId}`).emit("socketsInRoom", {
+									// 	room: room,
+									// 	sockets: sockets
+									// });
+								});
+							});
+							console.log(
+								"clientsperroom",
+								Object.keys(
+									io.sockets.adapter.rooms[room.name].sockets
+								)
+							);
+						
 					}
 				})
 				.catch(err => {
 					console.log("room not found", err);
 				});
 		});
+
+		socket.on("receiveUsernameRoomSwitch", packet => {
+			console.log("PP", packet.room);
+			Rooms.findOne({ _id: packet.room["_id"] })
+			.then(room => {
+				console.log("NOONA", room);
+				if (room) {
+					console.log("PP2", room);
+						
+						let sockets =
+							io.sockets.adapter.rooms[room.name].sockets;
+						let socketsInRoom = Object.keys(sockets);
+						setTimeout(() => {
+							socketsInRoom.map(item => {
+								let itemSocketId = item;
+								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
+								socket.on("receiveUsername", packet => {
+									sockets[packet.socketId] = packet.username;
+									console.log("LOONAN", sockets)
+									io.to(`${itemSocketId}`).emit("socketsInRoom", {
+										room: room,
+										sockets: sockets
+									});
+								});
+							});
+							console.log(
+								"clientsperroom",
+								Object.keys(
+									io.sockets.adapter.rooms[process.env.DEFAULT_ROOM].sockets
+								)
+							);
+						}, 1000);
+
+						// Object.keys(io.sockets.adapter.sids[socket.id]);
+						// // returns [socket.id, room-x'] || [socket.id, 'room-1', 'room-2', ...]
+					}
+				})
+				.catch(err => {
+					console.log("room not found", err);
+				});
+		})
 
 		socket.on("leaveRoom", packet => {
 			Rooms.findOne({ _id: packet.room["_id"] })
@@ -104,6 +167,28 @@ module.exports = function(io) {
 							username: packet.username,
 							message: "left the room"
 						});
+						let sockets =
+							io.sockets.adapter.rooms[room.name].sockets;
+						let socketsInRoom = Object.keys(sockets);
+						
+							socketsInRoom.map(item => {
+								let itemSocketId = item;
+								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
+								socket.on("receiveUsername", packet => {
+									sockets[packet.socketId] = packet.username;
+									io.to(`${itemSocketId}`).emit("socketsInRoom", {
+										room: room,
+										sockets: sockets
+									});
+								});
+							});
+							console.log(
+								"clientsperroom",
+								Object.keys(
+									io.sockets.adapter.rooms[room.name].sockets
+								)
+							);
+						
 					}
 				})
 				.catch(err => {

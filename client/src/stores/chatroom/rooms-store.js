@@ -9,6 +9,9 @@ export default class Rooms {
 	rooms = [];
 
 	@observable
+	username = "";
+
+	@observable
 	openDropDown = false;
 
 	@observable
@@ -30,6 +33,11 @@ export default class Rooms {
 	changeDefaultRooms(val) {
 		this.defaultRooms = val;
 		this.visibleRoom = val[0];
+	}
+
+	@action
+	changeUsername(val) {
+		this.username = val;
 	}
 
 	@action
@@ -102,8 +110,14 @@ export default class Rooms {
 	}
 
 	@action
-	changeVisibleRoom(item) {
+	changeVisibleRoom(item, socket) {
 		this.visibleRoom = item;
+		
+			socket.emit("receiveUsernameRoomSwitch", {
+				username: this.username,
+				room: item
+			});
+		
 	}
 
 	@action
