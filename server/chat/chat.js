@@ -161,6 +161,15 @@ module.exports = function(io) {
 			});
 		});
 
+		socket.on("sendPrivateMessage", packet => {
+			io.to(`${packet.to.socketId}`).to(`${packet.from.socketId}`).emit("receivedPrivateMessage", {
+				message: `${packet.message}`,
+				from: packet.from,
+				to: packet.to
+			});
+			
+		});
+
 		socket.on("leaveRoom", packet => {
 			Rooms.findOne({ _id: packet.room["_id"] })
 				.then(room => {

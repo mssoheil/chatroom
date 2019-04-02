@@ -11,10 +11,19 @@ class Message {
 	chatRoomStore = store.chatroom;
 
 	@observable
+	roomsStore = store.rooms;
+
+	@observable
+	usersStore = store.usersInRoom;
+
+	@observable
 	message = "";
 
 	@observable
 	messages = [];
+
+	@observable
+	privateMessages = [];
 
 	@action
 	clearData() {
@@ -78,8 +87,41 @@ class Message {
 	}
 
 	@action
+	changePrivateMessages(packet) {
+		this.privateMessages.push({
+			from: packet.from,
+			to: packet.to,
+			message: packet.message
+		});
+	}
+
+	@action
 	receivedPrivateMessage(packet, socket) {
 		this.requestedPrivate(packet, socket);
+	}
+
+	@action
+	sendMessagePrivateMessage(socket, username, privateChat) {
+		let currentUser;
+		this.usersStore.usersPerRoom.map(item => {
+			if (item.username === this.usersStore.username) {
+				return (currentUser = {
+					username: this.usersStore.username,
+					socketId: item.socketId
+				});
+			}
+		});
+		socket.emit("sendPrivateMessage", {
+			message: this.message,
+			from: currentUser,
+			to: this.roomsStore.visiblePrivate
+		});
+		this.message = "";
+	}
+
+	@action
+	receivedPrivateMessageContent(packet, socket) {
+		this.changePrivateMessages(packet);
 	}
 
 	@action

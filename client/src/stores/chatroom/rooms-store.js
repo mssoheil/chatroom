@@ -165,14 +165,8 @@ export default class Rooms {
 
 	@action
 	changeVisiblePrivate(val) {
-		console.log("VAL", toJS(val));
 		this.visiblePrivate = val;
-		console.log(
-			"MNI",
-			toJS(val),
-			this.chatRoomStore.isPrivate,
-			toJS(this.visiblePrivate)
-		);
+	
 	}
 
 	@action
@@ -201,9 +195,7 @@ export default class Rooms {
 			this.joinedRooms = packet;
 			this.changeDefaultRooms(packet);
 		});
-		// socket.on("requestUsername", packet => {
-		// 	socket.emit("responeUsername", {username: username})
-		// });
+		
 	}
 
 	@action
@@ -248,7 +240,6 @@ export default class Rooms {
 							});
 						}
 					}
-					//this.fetchRooms();
 				}
 			})
 			.catch(err => {

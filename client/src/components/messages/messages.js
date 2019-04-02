@@ -1,4 +1,3 @@
-
 import React, { Component, Fragment } from "react";
 
 import { inject, observer } from "mobx-react";
@@ -50,8 +49,10 @@ class Messages extends Component {
 		this.socket.on("leftPrivateChat", packet => {
 			this.store.leftPrivateChat(packet, this.socket);
 		});
+		this.socket.on("receivedPrivateMessage", packet => {
+			this.store.receivedPrivateMessageContent(packet, this.socket);
+		});
 	}
-
 
 	render() {
 		const { username } = this.props;
@@ -61,9 +62,26 @@ class Messages extends Component {
 					{this.store.messages.map((item, index) => {
 						return (
 							<div key={`msg_${index}`}>
-								{item.room["_id"] === this.roomsStore.visibleRoom["_id"] ? (
+								{item.room["_id"] === this.roomsStore.visibleRoom["_id"] &&
+								!this.chatRoomStore.isPrivate ? (
 									<Fragment>
 										<span>{item.username}: </span>
+										<span>{item.message}</span>
+									</Fragment>
+								) : null}
+							</div>
+						);
+					})}
+					{this.store.privateMessages.map((item, index) => {
+						return (
+							<div key={`msg_${index}`}>
+								{(item.from.username ===
+									this.roomsStore.visiblePrivate.username ||
+									item.to.username ===
+										this.roomsStore.visiblePrivate.username) &&
+								this.chatRoomStore.isPrivate ? (
+									<Fragment>
+										<span>{item.from.username}: </span>
 										<span>{item.message}</span>
 									</Fragment>
 								) : null}
@@ -87,19 +105,35 @@ class Messages extends Component {
 						/>
 					</MessageControllsInputGrid>
 					<MessageGontrollsBtnGrid item xl={2} lg={2} md={2} sm={2} xs={2}>
-						<SendBtn
-							onClick={() => {
-								this.store.sendMessage(
-									this.socket,
-									username,
-									this.roomsStore.visibleRoom
-								);
-							}}
-							color="primary"
-							size="large"
-						>
-							Send
-						</SendBtn>
+						{this.chatRoomStore.isPrivate ? (
+							<SendBtn
+								onClick={() => {
+									this.store.sendMessagePrivateMessage(
+										this.socket,
+										username,
+										this.roomsStore.visiblePrivate
+									);
+								}}
+								color="primary"
+								size="large"
+							>
+								Send
+							</SendBtn>
+						) : (
+							<SendBtn
+								onClick={() => {
+									this.store.sendMessage(
+										this.socket,
+										username,
+										this.roomsStore.visibleRoom
+									);
+								}}
+								color="primary"
+								size="large"
+							>
+								Send
+							</SendBtn>
+						)}
 					</MessageGontrollsBtnGrid>
 				</MessageControllsSection>
 			</Wrapper>
