@@ -44,6 +44,9 @@ class Messages extends Component {
 		this.socket.on("confirmedPrivateChat", packet => {
 			this.store.confirmedPrivateChat(packet, this.socket);
 		});
+		this.socket.on("leftPrivateChat", packet => {
+			this.store.leftPrivateChat(packet, this.socket);
+		});
 	}
 	// componentDidUpdate() {
 	// 	this.socket.on("privateCame", packet => {

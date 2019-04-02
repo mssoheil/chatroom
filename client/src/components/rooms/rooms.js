@@ -36,6 +36,9 @@ class Rooms extends Component {
 	store = this.props.stores.rooms;
 
 	@observable
+	chatRoomStore = this.props.stores.chatroom;
+
+	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	componentWillMount = () => {
@@ -105,10 +108,16 @@ class Rooms extends Component {
 					})}
 				</Select>
 				<RoomsContainer>
+					<h6>public chats</h6>
 					{this.store.joinedRooms.map(item => {
 						return (
 							<div
-							style={{background: item["_id"] === this.store.visibleRoom["_id"] ? "#4cd964" : "#eee"}}
+								style={{
+									background:
+										item["_id"] === this.store.visibleRoom["_id"]
+											? "#4cd964"
+											: "#eee"
+								}}
 								key={`room_${item["_id"]}`}
 								onClick={() => {
 									this.store.changeVisibleRoom(item, this.socket);
@@ -118,6 +127,23 @@ class Rooms extends Component {
 								<button
 									onClick={() => {
 										this.store.leaveRoom(item, this.socket, username);
+									}}
+								>
+									X
+								</button>
+							</div>
+						);
+					})}
+					<h6>private chats</h6>
+					{this.chatRoomStore.connectedUsers.map((item, index) => {
+						return (
+							<div  key={`private_${index}_${item.socketId}`}>
+								<h4>
+									{item.username}
+								</h4>
+								<button
+									onClick={() => {
+										this.store.leavePrivate(item, this.socket);
 									}}
 								>
 									X

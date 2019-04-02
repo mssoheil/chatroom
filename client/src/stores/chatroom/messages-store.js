@@ -39,7 +39,7 @@ class Message {
 			]
 		});
 	}
-	
+
 	@action
 	refusedPrivateChat(packet, socket) {
 		toast.error(packet.message, {
@@ -48,7 +48,21 @@ class Message {
 	}
 
 	@action
+	leftPrivateChat(packet, socket) {
+		console.log("MIN", packet);
+		this.chatRoomStore.connectedUsers.map((item, index) => {
+			if (item.username === packet.socket.username) {
+				return this.chatRoomStore.connectedUsers.splice(index, 1);
+			}
+		});
+		toast.error(packet.message, {
+			position: toast.POSITION.TOP_RIGHT
+		});
+	}
+
+	@action
 	confirmedPrivateChat(packet, socket) {
+		this.chatRoomStore.confirmedPrivateRequest(packet, socket);
 		toast.success(packet.message, {
 			position: toast.POSITION.TOP_RIGHT
 		});

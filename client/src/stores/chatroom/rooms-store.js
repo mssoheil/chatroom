@@ -1,10 +1,15 @@
 import { observable, action, toJS } from "mobx";
 
+import store from "./../index";
+
 import axiousFetch from "./../../config/database/fetch";
 
 import { toast } from "react-toastify";
 
 export default class Rooms {
+	@observable
+	chatRoomStore = store.chatroom;
+
 	@observable
 	rooms = [];
 
@@ -46,6 +51,30 @@ export default class Rooms {
 	@action
 	changeRoomsArr(val) {
 		this.rooms = val;
+	}
+
+	@action
+	leavePrivate(val, socket) {
+		console.log("MOOLMOON", toJS(this.chatRoomStore.connectedUsers), toJS(val));
+
+		// let leftprivate = this.chatRoomStore.connectedUsers.filter(item => {
+		// 	return item.username === val.username;
+		// });
+
+		socket.emit("leftPrivate", val);
+		this.chatRoomStore.connectedUsers.map((item, index) => {
+			if (item.username === val.username) {
+				return this.chatRoomStore.connectedUsers.splice(index, 1);
+			}
+		});
+		console.log(
+			"MOOLMOON2",
+			toJS(this.chatRoomStore.connectedUsers),
+			toJS(val)
+		);
+		// let leftPrivate = this.chatRoomStore.connectedUsers.filter(item => {
+		// 	return item.username == val.username;
+		// });
 	}
 
 	@action

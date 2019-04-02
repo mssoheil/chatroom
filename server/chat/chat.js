@@ -155,6 +155,13 @@ module.exports = function(io) {
 			});
 		});
 
+		socket.on("leftPrivate", packet => {
+			io.to(`${packet.socketId}`).emit("leftPrivateChat", {
+				message: `${packet.username} left the private chat`,
+				socket: packet
+			});
+		});
+
 		socket.on("leaveRoom", packet => {
 			Rooms.findOne({ _id: packet.room["_id"] })
 				.then(room => {

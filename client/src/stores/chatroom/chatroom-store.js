@@ -2,18 +2,23 @@ import { observable, action } from "mobx";
 
 export default class Chatroom {
 	@observable
-	connectedUsrs = [];
+	connectedUsers = [];
 
 	@action
 	confirmConnect(packet, socket) {
 		socket.emit("confirmedPrivate", { to: packet.to, from: packet.from });
 
-		this.connectedUsrs.push(packet.from);
+		this.connectedUsers.push(packet.from);
 	}
 
 	@action
 	clearData() {
-		this.connectedUsrs = [];
+		this.connectedUsers = [];
+	}
+
+	@action
+	confirmedPrivateRequest(packet, socket) {
+		this.connectedUsers.push(packet.to);
 	}
 
 	@action
