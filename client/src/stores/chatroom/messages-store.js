@@ -49,9 +49,8 @@ class Message {
 
 	@action
 	leftPrivateChat(packet, socket) {
-		console.log("MIN", packet);
 		this.chatRoomStore.connectedUsers.map((item, index) => {
-			if (item.username === packet.socket.username) {
+			if (item.username === packet.currentUser.username) {
 				return this.chatRoomStore.connectedUsers.splice(index, 1);
 			}
 		});
@@ -80,8 +79,6 @@ class Message {
 
 	@action
 	receivedPrivateMessage(packet, socket) {
-		console.log("PRIVATA", packet);
-
 		this.requestedPrivate(packet, socket);
 	}
 

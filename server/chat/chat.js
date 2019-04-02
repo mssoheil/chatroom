@@ -139,7 +139,6 @@ module.exports = function(io) {
 			});
 		});
 		socket.on("confirmedPrivate", packet => {
-			console.log("confirmed", packet);
 			io.to(`${packet.from.socketId}`).emit("confirmedPrivateChat", {
 				message: `${packet.to.username} accepted your request`,
 				to: packet.to,
@@ -147,7 +146,6 @@ module.exports = function(io) {
 			});
 		});
 		socket.on("refusedPrivate", packet => {
-			console.log("refused", packet);
 			io.to(`${packet.from.socketId}`).emit("refusedPrivateChat", {
 				message: `${packet.to.username} refused your request`,
 				to: packet.to,
@@ -156,9 +154,10 @@ module.exports = function(io) {
 		});
 
 		socket.on("leftPrivate", packet => {
-			io.to(`${packet.socketId}`).emit("leftPrivateChat", {
-				message: `${packet.username} left the private chat`,
-				socket: packet
+			io.to(`${packet.otherUser.socketId}`).emit("leftPrivateChat", {
+				message: `${packet.currentUser.username} left the private chat`,
+				currentUser: packet.currentUser,
+				otherUser: packet.otherUser
 			});
 		});
 

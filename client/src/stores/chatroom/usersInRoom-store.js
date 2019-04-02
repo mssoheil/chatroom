@@ -48,7 +48,6 @@ export default class UsersInRoom {
 			});
 		});
 		socket.on("socketsInRoom", packet => {
-			console.log("MOON", packet);
 			let entitiesArr = [];
 			let entities = Object.entries(packet.sockets);
 			entities.map(item => {

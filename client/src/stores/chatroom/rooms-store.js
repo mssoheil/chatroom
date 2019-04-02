@@ -11,6 +11,9 @@ export default class Rooms {
 	chatRoomStore = store.chatroom;
 
 	@observable
+	usersStore = store.usersInRoom;
+
+	@observable
 	rooms = [];
 
 	@observable
@@ -55,26 +58,26 @@ export default class Rooms {
 
 	@action
 	leavePrivate(val, socket) {
-		console.log("MOOLMOON", toJS(this.chatRoomStore.connectedUsers), toJS(val));
+		let currentUser;
+		this.usersStore.usersPerRoom.map(item => {
+			if (item.username === this.username) {
+				return (currentUser = {
+					username: this.username,
+					socketId: item.socketId
+				});
+			}
+		});
 
-		// let leftprivate = this.chatRoomStore.connectedUsers.filter(item => {
-		// 	return item.username === val.username;
-		// });
-
-		socket.emit("leftPrivate", val);
+		socket.emit("leftPrivate", {
+			currentUser: currentUser,
+			otherUser: val
+		});
 		this.chatRoomStore.connectedUsers.map((item, index) => {
 			if (item.username === val.username) {
 				return this.chatRoomStore.connectedUsers.splice(index, 1);
 			}
 		});
-		console.log(
-			"MOOLMOON2",
-			toJS(this.chatRoomStore.connectedUsers),
-			toJS(val)
-		);
-		// let leftPrivate = this.chatRoomStore.connectedUsers.filter(item => {
-		// 	return item.username == val.username;
-		// });
+		
 	}
 
 	@action
@@ -143,8 +146,6 @@ export default class Rooms {
 	@action
 	changeVisibleRoom(item, socket) {
 		this.visibleRoom = item;
-		console.log("this.username", this.username);
-		console.log("visibleRoom", toJS(this.visibleRoom));
 		socket.emit("receiveUsernameRoomSwitch", {
 			username: this.username,
 			room: this.visibleRoom
