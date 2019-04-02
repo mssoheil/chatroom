@@ -28,6 +28,7 @@ const Wrapper = styled.div`
 	transition: all 0.3s;
 	position: absolute;
 	left: calc((98% / 2) - 50px);
+	top: 41%;
 	&:hover {
 		background: rgba(255, 255, 255, 0.1);
 		transition: all 0.3s;

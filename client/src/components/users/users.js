@@ -39,7 +39,9 @@ class Users extends Component {
 					return (
 						<h4 key={`user_${item.socketId}_${index}`}>
 							{item.room["_id"] === this.roomsStore.visibleRoom["_id"] ? (
-								<span>{item.username}</span>
+								<span onClick={() => {
+									this.store.privateMessage(item, this.socket)
+								}}>{item.username}</span>
 							) : null}
 						</h4>
 					);

@@ -37,12 +37,12 @@ class Chatroom extends Component {
 		return (
 			<Wrapper>
 				<AccountRow
-					onClick={() => {
-						this.loginRegisterStore.logOut();
-					}}
+					
 					style={{ color: "red" }}
 				>
-					<UserAvatar
+					<UserAvatar onClick={() => {
+						this.loginRegisterStore.logOut();
+					}}
 						src={`http://localhost:6464/chatroom/v1/img/${
 							this.loginRegisterStore.userAvatar
 						}`}
@@ -65,7 +65,7 @@ class Chatroom extends Component {
 								socket={socket}
 								customTheme={customTheme}
 							/>
-							b
+							
 						</MessagesGrid>
 						<RoomsGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
 							<Rooms
@@ -74,7 +74,7 @@ class Chatroom extends Component {
 								socket={socket}
 								username={this.loginRegisterStore.username}
 							/>
-							c
+							
 						</RoomsGrid>
 					</ChatGrid>
 				</ChatSectionWrapper>

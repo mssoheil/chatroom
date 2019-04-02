@@ -112,10 +112,11 @@ export default class Rooms {
 	@action
 	changeVisibleRoom(item, socket) {
 		this.visibleRoom = item;
-		
+		console.log("this.username", this.username);
+		console.log("visibleRoom", toJS(this.visibleRoom));
 			socket.emit("receiveUsernameRoomSwitch", {
 				username: this.username,
-				room: item
+				room: this.visibleRoom
 			});
 		
 	}

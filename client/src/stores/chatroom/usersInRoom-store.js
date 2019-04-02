@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, toJS } from "mobx";
 
 export default class UsersInRoom {
 	@observable
@@ -10,6 +10,31 @@ export default class UsersInRoom {
 	@action
 	clearData() {
 		this.usersPerRoom = [];
+	}
+
+	@action
+	privateMessage(val, socket) {
+		if(val.username !== this.username) {
+			let currentUser;
+			this.usersPerRoom.map(item => {
+				if(item.username === this.username){
+					return currentUser = {
+						username: this.username, 
+						socketId: item.socketId
+					}
+				}
+			});
+
+			socket.emit("privateMessage", {
+				from: currentUser,
+				to: {
+					username: val.username,
+					socketId: val.socketId
+				}
+			})
+
+			console.log("private", val);
+		}
 	}
 
 	@action

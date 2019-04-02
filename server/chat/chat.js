@@ -87,28 +87,24 @@ module.exports = function(io) {
 							username: packet.username,
 							message: "joined the room"
 						});
-						let sockets =
-							io.sockets.adapter.rooms[room.name].sockets;
+						let sockets = io.sockets.adapter.rooms[room.name].sockets;
 						let socketsInRoom = Object.keys(sockets);
-						
-							socketsInRoom.map(item => {
-								let itemSocketId = item;
-								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
-								socket.on("receiveUsername", packet => {
-									sockets[packet.socketId] = packet.username;
-									// io.to(`${itemSocketId}`).emit("socketsInRoom", {
-									// 	room: room,
-									// 	sockets: sockets
-									// });
-								});
+
+						socketsInRoom.map(item => {
+							let itemSocketId = item;
+							io.to(`${itemSocketId}`).emit("getSocketUsername", item);
+							socket.on("receiveUsername", packet => {
+								sockets[packet.socketId] = packet.username;
+								// io.to(`${itemSocketId}`).emit("socketsInRoom", {
+								// 	room: room,
+								// 	sockets: sockets
+								// });
 							});
-							console.log(
-								"clientsperroom",
-								Object.keys(
-									io.sockets.adapter.rooms[room.name].sockets
-								)
-							);
-						
+						});
+						console.log(
+							"clientsperroom",
+							Object.keys(io.sockets.adapter.rooms[room.name].sockets)
+						);
 					}
 				})
 				.catch(err => {
@@ -119,13 +115,12 @@ module.exports = function(io) {
 		socket.on("receiveUsernameRoomSwitch", packet => {
 			console.log("PP", packet.room);
 			Rooms.findOne({ _id: packet.room["_id"] })
-			.then(room => {
-				console.log("NOONA", room);
-				if (room) {
-					console.log("PP2", room);
-						
-						let sockets =
-							io.sockets.adapter.rooms[room.name].sockets;
+				.then(room => {
+					console.log("NOONA", room);
+					if (room) {
+						console.log("PP2", room);
+
+						let sockets = io.sockets.adapter.rooms[room.name].sockets;
 						let socketsInRoom = Object.keys(sockets);
 						setTimeout(() => {
 							socketsInRoom.map(item => {
@@ -133,7 +128,7 @@ module.exports = function(io) {
 								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
 								socket.on("receiveUsername", packet => {
 									sockets[packet.socketId] = packet.username;
-									console.log("LOONAN", sockets)
+									console.log("LOONAN", sockets);
 									io.to(`${itemSocketId}`).emit("socketsInRoom", {
 										room: room,
 										sockets: sockets
@@ -155,6 +150,10 @@ module.exports = function(io) {
 				.catch(err => {
 					console.log("room not found", err);
 				});
+		});
+
+		socket.on("privateMessage", packet => {
+			console.log("privemessage", packet)
 		})
 
 		socket.on("leaveRoom", packet => {
@@ -167,28 +166,24 @@ module.exports = function(io) {
 							username: packet.username,
 							message: "left the room"
 						});
-						let sockets =
-							io.sockets.adapter.rooms[room.name].sockets;
+						let sockets = io.sockets.adapter.rooms[room.name].sockets;
 						let socketsInRoom = Object.keys(sockets);
-						
-							socketsInRoom.map(item => {
-								let itemSocketId = item;
-								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
-								socket.on("receiveUsername", packet => {
-									sockets[packet.socketId] = packet.username;
-									io.to(`${itemSocketId}`).emit("socketsInRoom", {
-										room: room,
-										sockets: sockets
-									});
+
+						socketsInRoom.map(item => {
+							let itemSocketId = item;
+							io.to(`${itemSocketId}`).emit("getSocketUsername", item);
+							socket.on("receiveUsername", packet => {
+								sockets[packet.socketId] = packet.username;
+								io.to(`${itemSocketId}`).emit("socketsInRoom", {
+									room: room,
+									sockets: sockets
 								});
 							});
-							console.log(
-								"clientsperroom",
-								Object.keys(
-									io.sockets.adapter.rooms[room.name].sockets
-								)
-							);
-						
+						});
+						console.log(
+							"clientsperroom",
+							Object.keys(io.sockets.adapter.rooms[room.name].sockets)
+						);
 					}
 				})
 				.catch(err => {
