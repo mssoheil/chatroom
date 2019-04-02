@@ -1,5 +1,7 @@
 import { observable, action, toJS } from "mobx";
 
+import { toast } from "react-toastify";
+
 export default class UsersInRoom {
 	@observable
 	username = "";
@@ -14,26 +16,25 @@ export default class UsersInRoom {
 
 	@action
 	privateMessage(val, socket) {
-		if(val.username !== this.username) {
+		if (val.username !== this.username) {
 			let currentUser;
 			this.usersPerRoom.map(item => {
-				if(item.username === this.username){
-					return currentUser = {
-						username: this.username, 
+				if (item.username === this.username) {
+					return (currentUser = {
+						username: this.username,
 						socketId: item.socketId
-					}
+					});
 				}
+			});
+
+			toast.info("Wait so the user accept your private request", {
+				position: toast.POSITION.TOP_RIGHT
 			});
 
 			socket.emit("privateMessage", {
 				from: currentUser,
-				to: {
-					username: val.username,
-					socketId: val.socketId
-				}
-			})
-
-			console.log("private", val);
+				to: { socketId: val.socketId, username: val.username }
+			});
 		}
 	}
 

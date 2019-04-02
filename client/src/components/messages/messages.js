@@ -1,3 +1,4 @@
+
 import React, { Component, Fragment } from "react";
 
 import { inject, observer } from "mobx-react";
@@ -34,7 +35,21 @@ class Messages extends Component {
 		this.socket.on("chatMessage", packet => {
 			this.store.changeMessages(packet);
 		});
+		this.socket.on("privateCame", packet => {
+			this.store.receivedPrivateMessage(packet, this.socket);
+		});
+		this.socket.on("refusedPrivateChat", packet => {
+			this.store.refusedPrivateChat(packet, this.socket);
+		});
+		this.socket.on("confirmedPrivateChat", packet => {
+			this.store.confirmedPrivateChat(packet, this.socket);
+		});
 	}
+	// componentDidUpdate() {
+	// 	this.socket.on("privateCame", packet => {
+	// 		this.store.receivedPrivateMessage(packet);
+	// 	});
+	// }
 
 	render() {
 		const { username } = this.props;

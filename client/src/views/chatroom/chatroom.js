@@ -7,6 +7,9 @@ import User from "./../../components/users/users";
 import Messages from "./../../components/messages/messages";
 import Rooms from "./../../components/rooms/rooms";
 
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
 import io from "socket.io-client";
 
 import {
@@ -33,16 +36,18 @@ class Chatroom extends Component {
 	@observable
 	store = this.props.stores.chatroom;
 
+	componentWillUnmount() {
+		this.store.clearData();
+	}
+
 	render() {
 		return (
 			<Wrapper>
-				<AccountRow
-					
-					style={{ color: "red" }}
-				>
-					<UserAvatar onClick={() => {
-						this.loginRegisterStore.logOut();
-					}}
+				<AccountRow style={{ color: "red" }}>
+					<UserAvatar
+						onClick={() => {
+							this.loginRegisterStore.logOut();
+						}}
 						src={`http://localhost:6464/chatroom/v1/img/${
 							this.loginRegisterStore.userAvatar
 						}`}
@@ -65,7 +70,6 @@ class Chatroom extends Component {
 								socket={socket}
 								customTheme={customTheme}
 							/>
-							
 						</MessagesGrid>
 						<RoomsGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
 							<Rooms
@@ -74,7 +78,6 @@ class Chatroom extends Component {
 								socket={socket}
 								username={this.loginRegisterStore.username}
 							/>
-							
 						</RoomsGrid>
 					</ChatGrid>
 				</ChatSectionWrapper>

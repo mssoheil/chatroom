@@ -9,6 +9,9 @@ export default class Rooms {
 	rooms = [];
 
 	@observable
+	privateChats = [];
+
+	@observable
 	username = "";
 
 	@observable
@@ -90,7 +93,6 @@ export default class Rooms {
 
 	@action
 	async joinRoom(val, socket, username) {
-		
 		var promise = new Promise((resolve, reject) => {
 			socket.emit("joinRoom", {
 				username: username,
@@ -114,11 +116,10 @@ export default class Rooms {
 		this.visibleRoom = item;
 		console.log("this.username", this.username);
 		console.log("visibleRoom", toJS(this.visibleRoom));
-			socket.emit("receiveUsernameRoomSwitch", {
-				username: this.username,
-				room: this.visibleRoom
-			});
-		
+		socket.emit("receiveUsernameRoomSwitch", {
+			username: this.username,
+			room: this.visibleRoom
+		});
 	}
 
 	@action
@@ -143,8 +144,6 @@ export default class Rooms {
 
 	@action
 	fetchDefaultJoinedRooms(socket) {
-		
-
 		socket.on("defaultJoinedRooms", packet => {
 			this.joinedRooms = packet;
 			this.changeDefaultRooms(packet);
@@ -152,7 +151,6 @@ export default class Rooms {
 		// socket.on("requestUsername", packet => {
 		// 	socket.emit("responeUsername", {username: username})
 		// });
-		
 	}
 
 	@action

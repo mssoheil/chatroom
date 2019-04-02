@@ -30,12 +30,6 @@ module.exports = function(io) {
 									});
 								});
 							});
-							console.log(
-								"clientsperroom",
-								Object.keys(
-									io.sockets.adapter.rooms[process.env.DEFAULT_ROOM].sockets
-								)
-							);
 						}, 1000);
 
 						// Object.keys(io.sockets.adapter.sids[socket.id]);
@@ -101,10 +95,6 @@ module.exports = function(io) {
 								// });
 							});
 						});
-						console.log(
-							"clientsperroom",
-							Object.keys(io.sockets.adapter.rooms[room.name].sockets)
-						);
 					}
 				})
 				.catch(err => {
@@ -113,13 +103,9 @@ module.exports = function(io) {
 		});
 
 		socket.on("receiveUsernameRoomSwitch", packet => {
-			console.log("PP", packet.room);
 			Rooms.findOne({ _id: packet.room["_id"] })
 				.then(room => {
-					console.log("NOONA", room);
 					if (room) {
-						console.log("PP2", room);
-
 						let sockets = io.sockets.adapter.rooms[room.name].sockets;
 						let socketsInRoom = Object.keys(sockets);
 						setTimeout(() => {
@@ -128,19 +114,12 @@ module.exports = function(io) {
 								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
 								socket.on("receiveUsername", packet => {
 									sockets[packet.socketId] = packet.username;
-									console.log("LOONAN", sockets);
 									io.to(`${itemSocketId}`).emit("socketsInRoom", {
 										room: room,
 										sockets: sockets
 									});
 								});
 							});
-							console.log(
-								"clientsperroom",
-								Object.keys(
-									io.sockets.adapter.rooms[process.env.DEFAULT_ROOM].sockets
-								)
-							);
 						}, 1000);
 
 						// Object.keys(io.sockets.adapter.sids[socket.id]);
@@ -153,8 +132,28 @@ module.exports = function(io) {
 		});
 
 		socket.on("privateMessage", packet => {
-			console.log("privemessage", packet)
-		})
+			io.to(`${packet.to.socketId}`).emit("privateCame", {
+				message: `${packet.from.username} wants to send private message to you`,
+				to: packet.to,
+				from: packet.from
+			});
+		});
+		socket.on("confirmedPrivate", packet => {
+			console.log("confirmed", packet);
+			io.to(`${packet.from.socketId}`).emit("confirmedPrivateChat", {
+				message: `${packet.to.username} accepted your request`,
+				to: packet.to,
+				from: packet.from
+			});
+		});
+		socket.on("refusedPrivate", packet => {
+			console.log("refused", packet);
+			io.to(`${packet.from.socketId}`).emit("refusedPrivateChat", {
+				message: `${packet.to.username} refused your request`,
+				to: packet.to,
+				from: packet.from
+			});
+		});
 
 		socket.on("leaveRoom", packet => {
 			Rooms.findOne({ _id: packet.room["_id"] })
@@ -180,10 +179,6 @@ module.exports = function(io) {
 								});
 							});
 						});
-						console.log(
-							"clientsperroom",
-							Object.keys(io.sockets.adapter.rooms[room.name].sockets)
-						);
 					}
 				})
 				.catch(err => {
