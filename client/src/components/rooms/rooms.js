@@ -114,7 +114,7 @@ class Rooms extends Component {
 							<div
 								style={{
 									background:
-										item["_id"] === this.store.visibleRoom["_id"]
+										(item["_id"] === this.store.visibleRoom["_id"]) && (!this.chatRoomStore.isPrivate)
 											? "#4cd964"
 											: "#eee"
 								}}
@@ -137,10 +137,18 @@ class Rooms extends Component {
 					<h6>private chats</h6>
 					{this.chatRoomStore.connectedUsers.map((item, index) => {
 						return (
-							<div  key={`private_${index}_${item.socketId}`}>
-								<h4>
-									{item.username}
-								</h4>
+							<div style={{
+								background:
+									(item.username === this.store.visiblePrivate.username) && (this.chatRoomStore.isPrivate)
+										? "#4cd964"
+										: "#eee"
+							}}
+								key={`private_${index}_${item.socketId}`}
+								onClick={() => {
+									this.store.switchToPrivate(item, this.socket);
+								}}
+							>
+								<h4>{item.username}</h4>
 								<button
 									onClick={() => {
 										this.store.leavePrivate(item, this.socket);

@@ -29,6 +29,9 @@ class Messages extends Component {
 	roomsStore = this.props.stores.rooms;
 
 	@observable
+	chatRoomStore = this.props.stores.chatroom;
+
+	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	componentDidMount() {
@@ -48,11 +51,7 @@ class Messages extends Component {
 			this.store.leftPrivateChat(packet, this.socket);
 		});
 	}
-	// componentDidUpdate() {
-	// 	this.socket.on("privateCame", packet => {
-	// 		this.store.receivedPrivateMessage(packet);
-	// 	});
-	// }
+
 
 	render() {
 		const { username } = this.props;

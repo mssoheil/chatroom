@@ -29,6 +29,9 @@ export default class Rooms {
 	visibleRoom = "";
 
 	@observable
+	visiblePrivate = "";
+
+	@observable
 	selectedJoinRoom = "";
 
 	@observable
@@ -77,7 +80,6 @@ export default class Rooms {
 				return this.chatRoomStore.connectedUsers.splice(index, 1);
 			}
 		});
-		
 	}
 
 	@action
@@ -144,12 +146,33 @@ export default class Rooms {
 	}
 
 	@action
+	switchToPrivate(val, socket) {
+		this.chatRoomStore.changeIsPrivate(true);
+		this.changeVisiblePrivate(val);
+	}
+
+	@action
 	changeVisibleRoom(item, socket) {
+
+		this.chatRoomStore.changeIsPrivate(false);
 		this.visibleRoom = item;
+
 		socket.emit("receiveUsernameRoomSwitch", {
 			username: this.username,
 			room: this.visibleRoom
 		});
+	}
+
+	@action
+	changeVisiblePrivate(val) {
+		console.log("VAL", toJS(val));
+		this.visiblePrivate = val;
+		console.log(
+			"MNI",
+			toJS(val),
+			this.chatRoomStore.isPrivate,
+			toJS(this.visiblePrivate)
+		);
 	}
 
 	@action

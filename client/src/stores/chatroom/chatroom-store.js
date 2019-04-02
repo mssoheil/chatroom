@@ -4,6 +4,14 @@ export default class Chatroom {
 	@observable
 	connectedUsers = [];
 
+	@observable
+	isPrivate = false;
+
+	@action
+	changeIsPrivate(val) {
+		this.isPrivate = val;
+	}
+
 	@action
 	confirmConnect(packet, socket) {
 		socket.emit("confirmedPrivate", { to: packet.to, from: packet.from });
