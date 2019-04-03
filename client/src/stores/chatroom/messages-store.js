@@ -77,8 +77,24 @@ class Message {
 	}
 
 	@action
-	changeMessage(event) {
-		this.message = event.target.value;
+	changeMessage(event, socket, username) {
+		if (event.key === "Enter") {
+			if (this.chatRoomStore.isPrivate) {
+				this.sendMessagePrivateMessage(
+					socket,
+					username,
+					this.roomsStore.visiblePrivate
+				);
+			} else {
+				this.sendMessage(
+					socket,
+					username,
+					this.roomsStore.visibleRoom
+				);
+			}
+		} else {
+			this.message = event.target.value;
+		}
 	}
 
 	@action

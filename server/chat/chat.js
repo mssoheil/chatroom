@@ -12,8 +12,10 @@ module.exports = function(io) {
 					if (room) {
 						socket.broadcast.to(process.env.DEFAULT_ROOM).emit("chatMessage", {
 							room: room,
+							isInformative: true,
 							username: "new user",
-							message: "joined the room"
+							message: "joined the room",
+							time: `${new Date().getHours()}:${new Date().getMinutes()}`
 						});
 						let sockets =
 							io.sockets.adapter.rooms[process.env.DEFAULT_ROOM].sockets;
@@ -26,19 +28,17 @@ module.exports = function(io) {
 									sockets[packet.socketId] = {
 										username: packet.username,
 										avatar: packet.avatar,
-										socketId: packet.socketId
+										socketId: packet.socketId,
+										time: `${new Date().getHours()}:${new Date().getMinutes()}`
 									};
-									console.log("SHF", sockets);
 									io.to(`${itemSocketId}`).emit("socketsInRoom", {
 										room: room,
-										sockets: sockets
+										sockets: sockets,
+										time: `${new Date().getHours()}:${new Date().getMinutes()}`
 									});
 								});
 							});
 						}, 1000);
-
-						// Object.keys(io.sockets.adapter.sids[socket.id]);
-						// // returns [socket.id, room-x'] || [socket.id, 'room-1', 'room-2', ...]
 					}
 				})
 				.catch(err => {
@@ -72,7 +72,12 @@ module.exports = function(io) {
 			}, 1000);
 		});
 		socket.on("chatMessage", packet => {
-			io.to(packet.room.name).emit("chatMessage", { ...packet, id: socket.id });
+			io.to(packet.room.name).emit("chatMessage", {
+				...packet,
+				id: socket.id,
+				isInformative: false,
+				time: `${new Date().getHours()}:${new Date().getMinutes()}`
+			});
 		});
 
 		socket.on("joinRoom", packet => {
@@ -84,7 +89,9 @@ module.exports = function(io) {
 						socket.broadcast.to(packet.room.name).emit("chatMessage", {
 							room: room,
 							username: packet.username,
-							message: "joined the room"
+							isInformative: true,
+							message: "joined the room",
+							time: `${new Date().getHours()}:${new Date().getMinutes()}`
 						});
 						let sockets = io.sockets.adapter.rooms[room.name].sockets;
 						let socketsInRoom = Object.keys(sockets);
@@ -118,10 +125,17 @@ module.exports = function(io) {
 								let itemSocketId = item;
 								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
 								socket.on("receiveUsername", packet => {
-									sockets[packet.socketId] = packet.username;
+									//sockets[packet.socketId] = packet.username;
+									sockets[packet.socketId] = {
+										username: packet.username,
+										avatar: packet.avatar,
+										socketId: packet.socketId,
+										time: `${new Date().getHours()}:${new Date().getMinutes()}`
+									};
 									io.to(`${itemSocketId}`).emit("socketsInRoom", {
 										room: room,
-										sockets: sockets
+										sockets: sockets,
+										time: `${new Date().getHours()}:${new Date().getMinutes()}`
 									});
 								});
 							});
@@ -140,21 +154,27 @@ module.exports = function(io) {
 			io.to(`${packet.to.socketId}`).emit("privateCame", {
 				message: `${packet.from.username} wants to send private message to you`,
 				to: packet.to,
-				from: packet.from
+				from: packet.from,
+				time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+				isInformative: true
 			});
 		});
 		socket.on("confirmedPrivate", packet => {
 			io.to(`${packet.from.socketId}`).emit("confirmedPrivateChat", {
 				message: `${packet.to.username} accepted your request`,
 				to: packet.to,
-				from: packet.from
+				from: packet.from,
+				time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+				isInformative: true
 			});
 		});
 		socket.on("refusedPrivate", packet => {
 			io.to(`${packet.from.socketId}`).emit("refusedPrivateChat", {
 				message: `${packet.to.username} refused your request`,
 				to: packet.to,
-				from: packet.from
+				from: packet.from,
+				time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+				isInformative: true
 			});
 		});
 
@@ -162,7 +182,9 @@ module.exports = function(io) {
 			io.to(`${packet.otherUser.socketId}`).emit("leftPrivateChat", {
 				message: `${packet.currentUser.username} left the private chat`,
 				currentUser: packet.currentUser,
-				otherUser: packet.otherUser
+				otherUser: packet.otherUser,
+				time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+				isInformative: true
 			});
 		});
 
@@ -172,7 +194,9 @@ module.exports = function(io) {
 				.emit("receivedPrivateMessage", {
 					message: `${packet.message}`,
 					from: packet.from,
-					to: packet.to
+					to: packet.to,
+					time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+					isInformative: false
 				});
 		});
 
@@ -183,8 +207,10 @@ module.exports = function(io) {
 						socket.leave(packet.room.name);
 						socket.broadcast.to(packet.room.name).emit("chatMessage", {
 							room: room,
+							isInformative: true,
 							username: packet.username,
-							message: "left the room"
+							message: "left the room",
+							time: `${new Date().getHours()}:${new Date().getMinutes()}`
 						});
 						let sockets = io.sockets.adapter.rooms[room.name].sockets;
 						let socketsInRoom = Object.keys(sockets);
@@ -196,7 +222,8 @@ module.exports = function(io) {
 								sockets[packet.socketId] = packet.username;
 								io.to(`${itemSocketId}`).emit("socketsInRoom", {
 									room: room,
-									sockets: sockets
+									sockets: sockets,
+									time: `${new Date().getHours()}:${new Date().getMinutes()}`
 								});
 							});
 						});

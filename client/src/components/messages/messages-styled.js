@@ -15,7 +15,52 @@ const Wrapper = styled.div`
 const MessagesSection = styled.div`
 	height: 85%;
 	border-bottom: 1px solid rgba(51, 51, 51, 0.8);
+	overflow-y: auto;
+	&::-webkit-scrollbar {
+		width: 5px;
+	}
+	&::-webkit-scrollbar-track-piece {
+		background: #bbb;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: gray;
+		height: 10px;
+		padding: 10px;
+		width: 5px;
+	}
 `;
+
+const MessagesWrapper = styled.div`
+	margin-bottom: 20px;
+	padding: 5px;
+	box-sizing: border-box;
+`;
+const MessagesContainer = styled.div``;
+const MessagesSender = styled.div`
+	display: flex;
+	margin-bottom: 5px;
+`;
+const MessagesSenderText = styled.div`
+	color: ${props => props.textColor};
+	margin-right: 5px;
+`;
+const Divider = styled.div`
+	color: ${props => props.textColor};
+	margin-right: 5px;
+`;
+
+const MessageTime = styled.div`
+	color: ${props => props.textColor};
+`;
+const MessageContent = styled.div`
+	background: ${props => props.backgroundColor};
+	border-radius: 8px;
+	padding: 10px;
+	box-sizing: border-box;
+	word-wrap: break-word;
+`;
+const MessageContentText = styled.div``;
+
 const MessageControllsSection = styled(Grid)`
 	height: 15%;
 	padding: 20px;
@@ -28,7 +73,8 @@ const MessageControllsInputGrid = styled(Grid)`
 	height: 100%;
 `;
 const MessageGontrollsBtnGrid = styled(Grid)`
-height: 100%;`;
+	height: 100%;
+`;
 const InputBox = styled.input`
 	border-radius: 8px 0 0 8px;
 	border: none;
@@ -39,13 +85,21 @@ const InputBox = styled.input`
 	box-sizing: border-box;
 `;
 const SendBtn = styled(Button)`
-	height: 100% ;
+	height: 100%;
 	width: 100%;
 `;
 
 export {
 	Wrapper,
 	MessagesSection,
+	MessagesWrapper,
+	MessagesContainer,
+	MessagesSender,
+	MessagesSenderText,
+	Divider,
+	MessageTime,
+	MessageContent,
+	MessageContentText,
 	MessageControllsSection,
 	MessageControllsInputGrid,
 	InputBox,

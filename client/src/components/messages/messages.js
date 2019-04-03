@@ -7,6 +7,14 @@ import { observable } from "mobx";
 import {
 	Wrapper,
 	MessagesSection,
+	MessagesWrapper,
+	MessagesContainer,
+	MessagesSender,
+	MessagesSenderText,
+	Divider,
+	MessageTime,
+	MessageContent,
+	MessageContentText,
 	MessageControllsSection,
 	MessageControllsInputGrid,
 	InputBox,
@@ -55,37 +63,54 @@ class Messages extends Component {
 	}
 
 	render() {
-		const { username } = this.props;
+		const { username, customTheme } = this.props;
 		return (
 			<Wrapper>
 				<MessagesSection>
 					{this.store.messages.map((item, index) => {
 						return (
-							<div key={`msg_${index}`}>
+							<MessagesWrapper key={`msg_${index}`}>
 								{item.room["_id"] === this.roomsStore.visibleRoom["_id"] &&
 								!this.chatRoomStore.isPrivate ? (
-									<Fragment>
-										<span>{item.username}: </span>
-										<span>{item.message}</span>
-									</Fragment>
+									<MessagesContainer>
+										<MessagesSender>
+											<MessagesSenderText
+												textColor={customTheme.color.textGray}
+											>
+												{item.username}
+											</MessagesSenderText>{" "}
+											<Divider textColor={customTheme.color.textGray}>
+												{" "}
+												|{" "}
+											</Divider>{" "}
+											<MessageTime textColor={customTheme.color.textGray}>
+												{`${item.time}`}
+											</MessageTime>
+										</MessagesSender>
+										<MessageContent
+											backgroundColor={customTheme.color.textGray}
+										>
+											<MessageContentText>{item.message}</MessageContentText>
+										</MessageContent>
+									</MessagesContainer>
 								) : null}
-							</div>
+							</MessagesWrapper>
 						);
 					})}
 					{this.store.privateMessages.map((item, index) => {
 						return (
-							<div key={`msg_${index}`}>
+							<MessagesWrapper key={`msg_${index}`}>
 								{(item.from.username ===
 									this.roomsStore.visiblePrivate.username ||
 									item.to.username ===
 										this.roomsStore.visiblePrivate.username) &&
 								this.chatRoomStore.isPrivate ? (
-									<Fragment>
-										<span>{item.from.username}: </span>
-										<span>{item.message}</span>
-									</Fragment>
+									<MessagesContainer>
+										<MessagesSender>{item.from.username}: </MessagesSender>
+										<MessageContent>{item.message}</MessageContent>
+									</MessagesContainer>
 								) : null}
-							</div>
+							</MessagesWrapper>
 						);
 					})}
 				</MessagesSection>
@@ -99,8 +124,12 @@ class Messages extends Component {
 						xs={10}
 					>
 						<InputBox
+							maxLength="60"
 							value={this.store.message}
-							onChange={e => this.store.changeMessage(e)}
+							onChange={e => this.store.changeMessage(e, this.socket, username)}
+							onKeyPress={e =>
+								this.store.changeMessage(e, this.socket, username)
+							}
 							type="text"
 						/>
 					</MessageControllsInputGrid>

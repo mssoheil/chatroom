@@ -13,6 +13,18 @@ const Wrapper = styled.div`
 const UsersContainer = styled.div`
 	height: 100%;
 	overflow: auto;
+	&::-webkit-scrollbar {
+		width: 5px;
+	}
+	&::-webkit-scrollbar-track-piece {
+		background: #bbb;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: gray;
+		height: 10px;
+		padding: 10px;
+		width: 5px;
+	}
 `;
 
 const UsersAvatar = styled.img`

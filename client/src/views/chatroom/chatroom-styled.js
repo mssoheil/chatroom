@@ -38,6 +38,7 @@ const ChatSectionWrapper = styled.div`
 	height: 80%;
 	margin-top: 50px;
 	width: 80%;
+	max-height: 80%;
 	@media screen and (max-width: 959px) {
 		overflow-y: auto;
 		&::-webkit-scrollbar {
@@ -57,11 +58,13 @@ const ChatSectionWrapper = styled.div`
 `;
 const ChatGrid = styled(Grid)`
 	height: 100%;
+	max-height: 100%;
 	width: calc(100% + 24px);
 `;
 const UsersGrid = styled(Grid)`
 	padding: 0 20px;
 	box-sizing: border-box;
+	max-height: 100%;
 	@media screen and (max-width: 959px) {
 		order: 1;
 		height: 100%;
@@ -71,6 +74,7 @@ const UsersGrid = styled(Grid)`
 const MessagesGrid = styled(Grid)`
 	padding: 0 20px;
 	box-sizing: border-box;
+	max-height: 100%;
 	@media screen and (max-width: 959px) {
 		order: 3;
 		height: 100%;
