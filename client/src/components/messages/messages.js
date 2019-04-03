@@ -135,7 +135,7 @@ class Messages extends Component {
 					</MessageControllsInputGrid>
 					<MessageGontrollsBtnGrid item xl={2} lg={2} md={2} sm={2} xs={2}>
 						{this.chatRoomStore.isPrivate ? (
-							<SendBtn
+							<SendBtn  variant="contained"
 								onClick={() => {
 									this.store.sendMessagePrivateMessage(
 										this.socket,
@@ -149,7 +149,7 @@ class Messages extends Component {
 								Send
 							</SendBtn>
 						) : (
-							<SendBtn
+							<SendBtn  variant="contained"
 								onClick={() => {
 									this.store.sendMessage(
 										this.socket,

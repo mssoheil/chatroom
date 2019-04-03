@@ -76,7 +76,7 @@ const MessageGontrollsBtnGrid = styled(Grid)`
 	height: 100%;
 `;
 const InputBox = styled.input`
-	border-radius: 8px 0 0 8px;
+	border-radius: 8px;
 	border: none;
 	outline: none;
 	height: 100%;
