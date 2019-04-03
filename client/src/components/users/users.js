@@ -37,7 +37,7 @@ class Users extends Component {
 			<Wrapper>
 				{this.store.usersPerRoom.map((item, index) => {
 					return (
-						<h4 key={`user_${item.socketId}_${index}`}>
+						<h4 style={{marginTop: 0}} key={`user_${item.socketId}_${index}`}>
 							{item.room["_id"] === this.roomsStore.visibleRoom["_id"] ? (
 								<span onClick={() => {
 									this.store.privateMessage(item, this.socket)

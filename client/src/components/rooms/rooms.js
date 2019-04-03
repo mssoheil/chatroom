@@ -191,7 +191,7 @@ class Rooms extends Component {
 					</RoomsItemsWrapper>
 				</RoomsContainer>
 				<NewRoomContainer>
-					<NewRoom
+					<NewRoom textColor={customTheme.color.primary} placeholder="type room name to add"
 						type="text"
 						value={this.store.roomName}
 						onChange={e => this.store.changeRoomField(e)}

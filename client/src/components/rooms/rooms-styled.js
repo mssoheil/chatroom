@@ -5,7 +5,7 @@ const Wrapper = styled.div`
 	width: 100%;
 	height: 100%;
 	border-radius: 10px;
-	background: #333;
+	background: rgba(51,51,51,0.96);
 	text-align: center;
 	box-sizing: border-box;
 	padding: 20px;
@@ -91,20 +91,36 @@ const Divider = styled.div`
 `;
 
 const RoomsContainer = styled.div`
-	height: 80%;
+	height: 75%;
 	overflow-y: auto;
 	overflow-x: auto;
 	width: 100%;
+	padding-bottom: 10px;
+	border-bottom: 1px solid rgba(70,70,70,0.9);
 `;
 const NewRoomContainer = styled.div`
-	outline: 1px solid blue;
-	height: 10%;
+	height: 15%;
 	width: 100%;
+	padding: 15px;
+	box-sizing: border-box;
 `;
 
 const NewRoom = styled.input`
 	box-sizing: border-box;
 	padding: 0 20px;
+	height: 100%;
+	width: 100%;
+	border-radius: 10px;
+	border: none;
+	color: ${props => props.textColor};
+	font-size: 20px;
+	&::placeholder {
+		font-size: 15px;
+	}
+	&:focus {
+		border: none;
+		outline: none;
+	}
 `;
 
 export {

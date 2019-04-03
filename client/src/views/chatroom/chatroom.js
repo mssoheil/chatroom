@@ -25,10 +25,7 @@ import {
 
 import customTheme from "../../config/theme";
 
-
 const socket = io("http://localhost:6464");
-
-
 
 @inject("stores")
 @observer
@@ -60,21 +57,21 @@ class Chatroom extends Component {
 
 				<ChatSectionWrapper>
 					<ChatGrid container>
-						<UsersGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
+						<UsersGrid item xl={3} lg={3} md={3} sm={6} xs={12}>
 							<User
 								username={this.loginRegisterStore.username}
 								socket={socket}
 								customTheme={customTheme}
 							/>
 						</UsersGrid>
-						<MessagesGrid item xl={6} lg={6} md={6} sm={6} xs={6}>
+						<MessagesGrid item xl={6} lg={6} md={6} sm={12} xs={12}>
 							<Messages
 								username={this.loginRegisterStore.username}
 								socket={socket}
 								customTheme={customTheme}
 							/>
 						</MessagesGrid>
-						<RoomsGrid item xl={3} lg={3} md={3} sm={3} xs={3}>
+						<RoomsGrid item xl={3} lg={3} md={3} sm={6} xs={12}>
 							<Rooms
 								defaultRooms={this.loginRegisterStore.joinedRooms}
 								customTheme={customTheme}
