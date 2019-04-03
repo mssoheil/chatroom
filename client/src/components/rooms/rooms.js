@@ -126,18 +126,12 @@ class Rooms extends Component {
 											? customTheme.color.primaryLight
 											: "#eee"
 									}
-									fontWeight={
-										item["_id"] === this.store.visibleRoom["_id"] &&
-										!this.chatRoomStore.isPrivate
-											? "bold"
-											: "regular"
-									}
+									fontWeight="bold"
 									key={`room_${item["_id"]}`}
 									onClick={() => {
 										this.store.changeVisibleRoom(item, this.socket);
 									}}
 								>
-									
 									<RoomItemText>{item.name}</RoomItemText>
 
 									<LeaveRoomButton
@@ -161,32 +155,40 @@ class Rooms extends Component {
 						Private rooms
 						<Divider />
 					</RoomsHeaders>
-					{this.chatRoomStore.connectedUsers.map((item, index) => {
-						return (
-							<div
-								style={{
-									background:
+					<RoomsItemsWrapper>
+						{this.chatRoomStore.connectedUsers.map((item, index) => {
+							return (
+								<RoomItems
+									textColor={
 										item.username === this.store.visiblePrivate.username &&
 										this.chatRoomStore.isPrivate
-											? "#4cd964"
+											? customTheme.color.primaryLight
 											: "#eee"
-								}}
-								key={`private_${index}_${item.socketId}`}
-								onClick={() => {
-									this.store.switchToPrivate(item, this.socket);
-								}}
-							>
-								<h4>{item.username}</h4>
-								<button
+									}
+									fontWeight="bold"
+									key={`private_${index}_${item.socketId}`}
 									onClick={() => {
-										this.store.leavePrivate(item, this.socket);
+										this.store.switchToPrivate(item, this.socket);
 									}}
 								>
-									<i className="demo-icon icon-cancel"></i>
-								</button>
-							</div>
-						);
-					})}
+									<RoomItemText>{item.username}</RoomItemText>
+									<LeaveRoomButton
+										textColor={
+											item.username === this.store.visiblePrivate.username &&
+										this.chatRoomStore.isPrivate
+												? customTheme.color.primaryLight
+												: customTheme.color.textGray
+										}
+										onClick={() => {
+											this.store.leavePrivate(item, this.socket);
+										}}
+									>
+										<i className="demo-icon icon-cancel" />
+									</LeaveRoomButton>
+								</RoomItems>
+							);
+						})}
+					</RoomsItemsWrapper>
 				</RoomsContainer>
 				<NewRoomContainer>
 					<NewRoom
