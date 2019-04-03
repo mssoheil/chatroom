@@ -41,7 +41,7 @@ export default class LoginRegister {
 	changeToken(val) {
 		this.token = val;
 	}
-
+	getSocketUsername
 	@action
 	changeStarted(state) {
 		this.started = state;

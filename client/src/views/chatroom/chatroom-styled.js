@@ -23,9 +23,14 @@ const UserAvatar = styled.img`
 	height: 50px;
 	border: 2.5px solid #888;
 	border-radius: 100%;
-	background: #fff;
-	padding: 10px;
 	box-sizing: border-box;
+`;
+
+const Username = styled.span`
+	margin-right: 10px;
+	color: ${props => props.textColor};
+	font-weight: bold;
+	font-size: 20px;
 `;
 
 const ChatSectionWrapper = styled.div`
@@ -70,7 +75,6 @@ const MessagesGrid = styled(Grid)`
 		order: 3;
 		height: 100%;
 	}
-	
 `;
 const RoomsGrid = styled(Grid)`
 	@media screen and (max-width: 959px) {
@@ -91,5 +95,6 @@ export {
 	UsersGrid,
 	MessagesGrid,
 	RoomsGrid,
-	ChatSectionWrapper
+	ChatSectionWrapper,
+	Username
 };

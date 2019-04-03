@@ -7,7 +7,6 @@ import User from "./../../components/users/users";
 import Messages from "./../../components/messages/messages";
 import Rooms from "./../../components/rooms/rooms";
 
-import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 import io from "socket.io-client";
@@ -20,7 +19,8 @@ import {
 	UsersGrid,
 	MessagesGrid,
 	RoomsGrid,
-	ChatSectionWrapper
+	ChatSectionWrapper,
+	Username
 } from "./chatroom-styled";
 
 import customTheme from "../../config/theme";
@@ -43,7 +43,7 @@ class Chatroom extends Component {
 	render() {
 		return (
 			<Wrapper>
-				<AccountRow style={{ color: "red" }}>
+				<AccountRow>
 					<UserAvatar
 						onClick={() => {
 							this.loginRegisterStore.logOut();
@@ -52,7 +52,9 @@ class Chatroom extends Component {
 							this.loginRegisterStore.userAvatar
 						}`}
 					/>
-					{this.loginRegisterStore.username}
+					<Username textColor={customTheme.color.textGray}>
+						{this.loginRegisterStore.username}
+					</Username>
 				</AccountRow>
 
 				<ChatSectionWrapper>

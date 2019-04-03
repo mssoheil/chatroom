@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 
-import { Wrapper } from "./users-styled";
+import {
+	Wrapper,
+	UsersAvatar,
+	UsersItem,
+	UsersItemInnerWrapper,
+	UsersItemText
+} from "./users-styled";
 
 import { inject, observer } from "mobx-react";
 
@@ -33,17 +39,28 @@ class Users extends Component {
 	}
 
 	render() {
+		const { customTheme } = this.props;
 		return (
 			<Wrapper>
 				{this.store.usersPerRoom.map((item, index) => {
 					return (
-						<h4 style={{marginTop: 0}} key={`user_${item.socketId}_${index}`}>
+						<UsersItem key={`user_${item.socketId}_${index}`}>
 							{item.room["_id"] === this.roomsStore.visibleRoom["_id"] ? (
-								<span onClick={() => {
-									this.store.privateMessage(item, this.socket)
-								}}>{item.username}</span>
+								<UsersItemInnerWrapper
+									onClick={() => {
+										this.store.privateMessage(item, this.socket);
+									}}
+								>
+									<UsersAvatar
+										textColor={customTheme.color.textGray}
+										src={`http://localhost:6464/chatroom/v1/img/${item.avatar}`}
+									/>
+									<UsersItemText textColor={customTheme.color.textGray}>
+										{item.username}
+									</UsersItemText>
+								</UsersItemInnerWrapper>
 							) : null}
-						</h4>
+						</UsersItem>
 					);
 				})}
 			</Wrapper>

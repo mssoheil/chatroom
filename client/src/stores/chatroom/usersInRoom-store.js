@@ -2,7 +2,12 @@ import { observable, action, toJS } from "mobx";
 
 import { toast } from "react-toastify";
 
+import store from "./../index";
+
 export default class UsersInRoom {
+	@observable
+	loginRegisterStore = store.loginRegister;
+
 	@observable
 	username = "";
 
@@ -44,7 +49,8 @@ export default class UsersInRoom {
 		socket.on("getSocketUsername", packet => {
 			socket.emit("receiveUsername", {
 				socketId: packet,
-				username: this.username
+				username: this.username,
+				avatar: this.loginRegisterStore.userAvatar
 			});
 		});
 		socket.on("socketsInRoom", packet => {
@@ -53,8 +59,9 @@ export default class UsersInRoom {
 			entities.map(item => {
 				entitiesArr.push({
 					room: packet.room,
-					socketId: item[0],
-					username: item[1]
+					socketId: item[1].socketId,
+					username: item[1].username,
+					avatar: item[1].avatar
 				});
 			});
 

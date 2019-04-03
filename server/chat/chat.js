@@ -23,7 +23,12 @@ module.exports = function(io) {
 								let itemSocketId = item;
 								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
 								socket.on("receiveUsername", packet => {
-									sockets[packet.socketId] = packet.username;
+									sockets[packet.socketId] = {
+										username: packet.username,
+										avatar: packet.avatar,
+										socketId: packet.socketId
+									};
+									console.log("SHF", sockets);
 									io.to(`${itemSocketId}`).emit("socketsInRoom", {
 										room: room,
 										sockets: sockets
@@ -162,12 +167,13 @@ module.exports = function(io) {
 		});
 
 		socket.on("sendPrivateMessage", packet => {
-			io.to(`${packet.to.socketId}`).to(`${packet.from.socketId}`).emit("receivedPrivateMessage", {
-				message: `${packet.message}`,
-				from: packet.from,
-				to: packet.to
-			});
-			
+			io.to(`${packet.to.socketId}`)
+				.to(`${packet.from.socketId}`)
+				.emit("receivedPrivateMessage", {
+					message: `${packet.message}`,
+					from: packet.from,
+					to: packet.to
+				});
 		});
 
 		socket.on("leaveRoom", packet => {
