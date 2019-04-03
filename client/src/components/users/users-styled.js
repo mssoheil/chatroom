@@ -10,6 +10,11 @@ const Wrapper = styled.div`
 	box-sizing: border-box;
 `;
 
+const UsersContainer = styled.div`
+	height: 100%;
+	overflow: auto;
+`;
+
 const UsersAvatar = styled.img`
 	width: 30px;
 	height: 30px;
@@ -38,6 +43,7 @@ const UsersItemText = styled.span`
 
 export {
 	Wrapper,
+	UsersContainer,
 	UsersAvatar,
 	UsersItem,
 	UsersItemInnerWrapper,
