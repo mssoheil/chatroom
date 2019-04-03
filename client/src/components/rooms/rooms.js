@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
-import { observable } from "mobx";
+import { observable, toJS } from "mobx";
 
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -10,7 +10,13 @@ import {
 	RoomsContainer,
 	NewRoomContainer,
 	NewRoom,
-	HeaderTxt
+	HeaderTxt,
+	RoomsHeaders,
+	Divider,
+	RoomItems,
+	LeaveRoomButton,
+	RoomItemText,
+	RoomsItemsWrapper
 } from "./rooms-styled";
 
 const MenuProps = {
@@ -45,10 +51,6 @@ class Rooms extends Component {
 		this.store.fetchDefaultJoinedRooms(this.socket, this.user);
 		this.store.fetchRooms();
 	};
-	// componentDidMount = () => {
-	// 	this.store.fetchDefaultJoinedRooms(this.socket, this.user);
-	// 	this.store.fetchRooms();
-	// };
 
 	componentDidUpdata() {
 		this.store.fetchDefaultJoinedRooms(this.socket, this.props.username);
@@ -70,7 +72,6 @@ class Rooms extends Component {
 			this.socket,
 			username
 		);
-		//this.setState({ [event.target.name]: event.target.value });
 	}
 
 	handleClose = () => {
@@ -82,10 +83,13 @@ class Rooms extends Component {
 	};
 
 	render() {
-		const { username } = this.props;
+		const { username, customTheme } = this.props;
 		return (
 			<Wrapper>
-				<HeaderTxt onClick={this.handleOpen}>
+				<HeaderTxt
+					textColor={customTheme.color.textGray}
+					onClick={this.handleOpen}
+				>
 					Rooms <i className=" icon-angle-down" />
 				</HeaderTxt>
 				<Select
@@ -108,41 +112,65 @@ class Rooms extends Component {
 					})}
 				</Select>
 				<RoomsContainer>
-					<h6>public chats</h6>
-					{this.store.joinedRooms.map(item => {
+					<RoomsHeaders textColor={customTheme.color.textGray}>
+						Public rooms
+						<Divider />
+					</RoomsHeaders>
+					<RoomsItemsWrapper>
+						{this.store.joinedRooms.map(item => {
+							return (
+								<RoomItems
+									textColor={
+										item["_id"] === this.store.visibleRoom["_id"] &&
+										!this.chatRoomStore.isPrivate
+											? customTheme.color.primaryLight
+											: "#eee"
+									}
+									fontWeight={
+										item["_id"] === this.store.visibleRoom["_id"] &&
+										!this.chatRoomStore.isPrivate
+											? "bold"
+											: "regular"
+									}
+									key={`room_${item["_id"]}`}
+									onClick={() => {
+										this.store.changeVisibleRoom(item, this.socket);
+									}}
+								>
+									
+									<RoomItemText>{item.name}</RoomItemText>
+
+									<LeaveRoomButton
+										textColor={
+											item["_id"] === this.store.visibleRoom["_id"] &&
+											!this.chatRoomStore.isPrivate
+												? customTheme.color.primaryLight
+												: customTheme.color.textGray
+										}
+										onClick={() => {
+											this.store.leaveRoom(item, this.socket, username);
+										}}
+									>
+										<i className="demo-icon icon-cancel" />
+									</LeaveRoomButton>
+								</RoomItems>
+							);
+						})}
+					</RoomsItemsWrapper>
+					<RoomsHeaders textColor={customTheme.color.textGray}>
+						Private rooms
+						<Divider />
+					</RoomsHeaders>
+					{this.chatRoomStore.connectedUsers.map((item, index) => {
 						return (
 							<div
 								style={{
 									background:
-										(item["_id"] === this.store.visibleRoom["_id"]) && (!this.chatRoomStore.isPrivate)
+										item.username === this.store.visiblePrivate.username &&
+										this.chatRoomStore.isPrivate
 											? "#4cd964"
 											: "#eee"
 								}}
-								key={`room_${item["_id"]}`}
-								onClick={() => {
-									this.store.changeVisibleRoom(item, this.socket);
-								}}
-							>
-								{item.name}
-								<button
-									onClick={() => {
-										this.store.leaveRoom(item, this.socket, username);
-									}}
-								>
-									X
-								</button>
-							</div>
-						);
-					})}
-					<h6>private chats</h6>
-					{this.chatRoomStore.connectedUsers.map((item, index) => {
-						return (
-							<div style={{
-								background:
-									(item.username === this.store.visiblePrivate.username) && (this.chatRoomStore.isPrivate)
-										? "#4cd964"
-										: "#eee"
-							}}
 								key={`private_${index}_${item.socketId}`}
 								onClick={() => {
 									this.store.switchToPrivate(item, this.socket);
@@ -154,7 +182,7 @@ class Rooms extends Component {
 										this.store.leavePrivate(item, this.socket);
 									}}
 								>
-									X
+									<i className="demo-icon icon-cancel"></i>
 								</button>
 							</div>
 						);

@@ -14,6 +14,9 @@ export default class Rooms {
 	usersStore = store.usersInRoom;
 
 	@observable
+	messagesStore = store.messages;
+
+	@observable
 	rooms = [];
 
 	@observable
@@ -153,7 +156,6 @@ export default class Rooms {
 
 	@action
 	changeVisibleRoom(item, socket) {
-
 		this.chatRoomStore.changeIsPrivate(false);
 		this.visibleRoom = item;
 
@@ -166,7 +168,6 @@ export default class Rooms {
 	@action
 	changeVisiblePrivate(val) {
 		this.visiblePrivate = val;
-	
 	}
 
 	@action
@@ -176,6 +177,16 @@ export default class Rooms {
 				username: username,
 				room: val
 			});
+
+			this.messagesStore.messages.map((item, index) => {
+				if (item.room["_id"] === val["_id"]) {
+					this.messagesStore.messages.splice(index, 1);
+				}
+			});
+
+			if (this.visibleRoom["_id"] === val["_id"]) {
+				this.visibleRoom = this.defaultRooms[0];
+			}
 			resolve("done");
 		});
 		promise.then(result => {
@@ -195,7 +206,6 @@ export default class Rooms {
 			this.joinedRooms = packet;
 			this.changeDefaultRooms(packet);
 		});
-		
 	}
 
 	@action

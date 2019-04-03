@@ -25,7 +25,10 @@ import {
 
 import customTheme from "../../config/theme";
 
+
 const socket = io("http://localhost:6464");
+
+
 
 @inject("stores")
 @observer
