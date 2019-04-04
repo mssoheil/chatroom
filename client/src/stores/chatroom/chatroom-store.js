@@ -5,6 +5,9 @@ export default class Chatroom {
 	connectedUsers = [];
 
 	@observable
+	isProfile = false;
+
+	@observable
 	isPrivate = false;
 
 	@action

@@ -23,6 +23,12 @@
       "css": "cancel",
       "code": 59393,
       "src": "typicons"
+    },
+    {
+      "uid": "e99461abfef3923546da8d745372c995",
+      "css": "cog",
+      "code": 59394,
+      "src": "fontawesome"
     }
   ]
 }
