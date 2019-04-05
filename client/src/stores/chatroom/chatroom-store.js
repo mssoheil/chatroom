@@ -11,13 +11,7 @@ export default class Chatroom {
 	loginRegisterStore = store.loginRegister;
 
 	@observable
-	imageChanged = false;
-
-	@observable
 	connectedUsers = [];
-
-	@observable
-	imageName;
 
 	@observable
 	isProfile = false;
@@ -35,76 +29,6 @@ export default class Chatroom {
 	changeIsPrivate(val) {
 		this.isPrivate = val;
 	}
-
-	@action
-	async changeFile(event) {
-		this.loginRegisterStore.checkAuth();
-
-		let data = new FormData();
-		if (
-			(event.target.files !== undefined && event.target.files !== null,
-			event.target.files !== "")
-		) {
-			console.log("FILE", event.target.files[0]);
-			data.append("imageFile", event.target.files[0]);
-			const header = {};
-			const body = data;
-			axiousFetch
-				.post("uploadImage", "v1", header, body)
-				.then(response => {
-					if (response !== undefined && response !== null) {
-						if (response.success) {
-							this.imageChanged = true;
-							this.imageName = response.fileName;
-							toast.success(response.message, {
-								position: toast.POSITION.TOP_RIGHT
-							});
-						} else {
-								toast.error(response.message, {
-									position: toast.POSITION.TOP_RIGHT
-								});
-						}
-					}
-				})
-				.catch(err => {
-					console.log(err);
-				});
-		}
-	}
-
-	// 	@action
-	//   async changeFile(info) {
-	//     this.changeLoadingState(true);
-	//     const apiUrl = new ApiUrl();
-	//     var xm = info.target.files[0].name;
-	//     var datax = new FormData();
-	//     datax.append("imageFile", info.target.files[0]);
-	//     datax.append("imageType", "PROVIDER_DOCS");
-
-	//     fetch(apiUrl.getURL("login", "image", "v1", []), {
-	//       method: "POST",
-	//       headers: {
-	//         userId: parseInt(this.hasCookieLoginId("lo4Jtkh"))
-	//       },
-	//       body: datax
-	//     })
-	//       .then(response => response.json())
-	//       .then(data => {
-	//         this.uploadFilesChange(data.id);
-	//       })
-	//       .then(() => {
-	//         toast.success(`فایل با موفقیت آپلود شد : ${xm}`, {
-	//           position: toast.POSITION.TOP_CENTER
-	//         });
-	//       })
-	//       .then(() => this.changeLoadingState(false))
-	//       .catch(() => {
-	//         toast.success("آپلود ناموفق", {
-	//           position: toast.POSITION.TOP_CENTER
-	//         });
-	//         this.changeLoadingState(false);
-	//       });
-	//   }
 
 	@action
 	changeIsProfile(val) {

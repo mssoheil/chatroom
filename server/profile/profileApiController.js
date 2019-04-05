@@ -50,9 +50,6 @@ module.exports = function() {
 				});
 			}
 		});
-		// form.on("fileBegin", function(name, file) {
-		// 	file.path = __dirname + "./../img/" + file.name;
-		// });
 
 		form.on("file", function(name, file) {
 			console.log("Uploaded " + file.name);

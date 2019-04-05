@@ -5,6 +5,7 @@ import Chatroom from "./chatroom/chatroom-store";
 import Messages from "./chatroom/messages-store";
 import Rooms from "./chatroom/rooms-store";
 import UsersInRoom from "./chatroom/usersInRoom-store";
+import Profile from "./profile/profile-store";
 
 const login = new Login();
 const loginRegister = new LoginRegister();
@@ -13,6 +14,7 @@ const chatroom = new Chatroom();
 const messages = new Messages();
 const rooms = new Rooms();
 const usersInRoom = new UsersInRoom();
+const profile = new Profile();
 
 export default {
 	login,
@@ -21,5 +23,6 @@ export default {
 	chatroom,
 	messages,
 	rooms,
-	usersInRoom
+	usersInRoom,
+	profile
 };

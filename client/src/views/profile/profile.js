@@ -3,6 +3,8 @@ import { inject, observer } from "mobx-react";
 
 import { observable } from "mobx";
 
+import Switch from "@material-ui/core/Switch";
+
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 import {
@@ -13,17 +15,33 @@ import {
 	AvatarImageSection,
 	EditAvatar,
 	EditAvatarInput,
-	EditAvatarLabel
+	EditAvatarLabel,
+	InfoSection,
+	UsernameGridContainer,
+	UsernameGrid,
+	Input,
+	Label,
+	PasswordSection,
+	ActivateChangePasswordSection,
+	PasswordGridContainer,
+	PasswordGrid,
+	PasswordConfirmGrid
 } from "./profile-styled";
+
+import customTheme from "../../config/theme";
 
 @inject("stores")
 @observer
 class Profile extends Component {
 	@observable
-	store = this.props.stores.chatroom;
+	store = this.props.stores.profile;
 
 	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
+
+	componentDidMount() {
+		this.store.changeDefaultGender(this.loginRegisterStore.userGender);
+	}
 
 	render() {
 		return (
@@ -55,6 +73,66 @@ class Profile extends Component {
 							</EditAvatar>
 						</AvatarImageSection>
 					</AvatarSection>
+					<InfoSection>
+						<UsernameGridContainer container>
+							<UsernameGrid item xl={6} lg={6}>
+								<Label
+									textColor={customTheme.color.textGray}
+									htmlFor="usernameInput"
+								>
+									Change Username
+								</Label>
+								<Input
+									id="usernameInput"
+									textColor={customTheme.color.textGray}
+									type="text"
+								/>
+							</UsernameGrid>
+						</UsernameGridContainer>
+						<PasswordSection textColor={customTheme.color.textGray}>
+							<ActivateChangePasswordSection>
+								Change password{" "}
+								
+								<Switch
+									checked={this.store.activatedChangePassword}
+									onChange={e => this.store.activateChangePassword(e)}
+									value={this.store.activatedChangePassword}
+									color={`${customTheme.color.textGray}[500]`}
+								/>
+							</ActivateChangePasswordSection>
+
+							{this.store.activatedChangePassword ? (
+								<PasswordGridContainer container>
+									<PasswordGrid item xl={6} lg={6}>
+										<Label
+											textColor={customTheme.color.textGray}
+											htmlFor="passwordInput"
+										>
+											Password
+										</Label>
+										<Input
+											id="passwordInput"
+											textColor={customTheme.color.textGray}
+											type="text"
+										/>
+									</PasswordGrid>
+									<PasswordConfirmGrid item xl={6} lg={6}>
+										<Label
+											textColor={customTheme.color.textGray}
+											htmlFor="confirmPasswordInput"
+										>
+											Confirm Password
+										</Label>
+										<Input
+											id="confirmPasswordInput"
+											textColor={customTheme.color.textGray}
+											type="text"
+										/>
+									</PasswordConfirmGrid>
+								</PasswordGridContainer>
+							) : null}
+						</PasswordSection>
+					</InfoSection>
 				</ProfileSection>
 			</Wrapper>
 		);

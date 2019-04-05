@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 
 const ProfileSection = styled.div`
 	width: 70%;
-	height: 70%;
+	height: 80%;
 	background: rgba(51, 51, 51, 0.8);
 	padding: 20px;
 	box-sizing: border-box;
@@ -21,27 +21,29 @@ const ProfileSection = styled.div`
 
 const AvatarSection = styled.div`
 	text-align: center;
+	width: 100%;
+	height: 30%;
 `;
 
 const AvatarImageSection = styled.div`
-	width: 200px;
-	height: 200px;
+	width: 150px;
+	height: 150px;
 	position: relative;
 	text-align: center;
 	margin: 0 auto;
 `;
 
 const Avatar = styled.img`
-	width: 200px;
-	height: 200px;
+	width: 100%;
+	height: 100%;
 	border: 2px solid gray;
 	border-radius: 100%;
 `;
 
 const EditAvatar = styled.div`
 	position: absolute;
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	right: 0;
 	bottom: 0;
 	border-radius: 100%;
@@ -61,7 +63,61 @@ const EditAvatarInput = styled.input`
 	display: none;
 `;
 
-const EditAvatarLabel = styled.label`cursor: pointer;`;
+const EditAvatarLabel = styled.label`
+	cursor: pointer;
+`;
+
+const InfoSection = styled.div`
+	width: 100%;
+	height: 70%;
+`;
+const UsernameGridContainer = styled(Grid)``;
+const UsernameGrid = styled(Grid)`
+	padding: 10px 20px;
+	box-sizing: border-box;
+`;
+const Input = styled.input`
+	border: none;
+	border-radius: 5px;
+	width: 100%;
+	height: 50px;
+	background: rgba(70, 70, 70, 0.9);
+	padding: 5px;
+	box-sizing: border-box;
+	font-size: 22px;
+	color: ${props => props.textColor};
+	&:focus {
+		outline: none;
+	}
+`;
+
+const Label = styled.label`
+	display: block;
+	font-size: 22px;
+	margin-bottom: 10px;
+	color: ${props => props.textColor};
+`;
+
+const PasswordSection = styled.div`
+	color: ${props => props.textColor};
+
+	font-size: 22px;
+`;
+
+const ActivateChangePasswordSection = styled.div`
+	padding: 10px 20px;
+	box-sizing: border-box;
+`;
+
+const PasswordGridContainer = styled(Grid)``;
+const PasswordGrid = styled(Grid)`
+	padding: 10px 20px;
+	box-sizing: border-box;
+`;
+const PasswordConfirmGrid = styled(Grid)`
+	padding: 10px 20px;
+	box-sizing: border-box;
+`;
 
 export {
 	Wrapper,
@@ -71,5 +127,16 @@ export {
 	AvatarImageSection,
 	EditAvatar,
 	EditAvatarInput,
-	EditAvatarLabel
+	EditAvatarLabel,
+	InfoSection,
+	UsernameGridContainer,
+	UsernameGrid,
+	Input,
+	Label,
+
+	PasswordSection,
+	ActivateChangePasswordSection,
+	PasswordGridContainer,
+	PasswordGrid,
+	PasswordConfirmGrid
 };

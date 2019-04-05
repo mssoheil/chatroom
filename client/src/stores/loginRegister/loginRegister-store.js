@@ -20,6 +20,9 @@ export default class LoginRegister {
 	userAvatar;
 
 	@observable
+	userGender;
+
+	@observable
 	authenticated = false;
 
 	@observable
@@ -81,6 +84,7 @@ export default class LoginRegister {
 							this.username = response.user.username;
 							this.userid = response.user["_id"];
 							this.userAvatar = response.user.avatar;
+							this.userGender = response.user.gender;
 							
 
 						}
