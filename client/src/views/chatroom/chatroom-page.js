@@ -7,12 +7,14 @@ import User from "./../../components/users/users";
 import Messages from "./../../components/messages/messages";
 import Rooms from "./../../components/rooms/rooms";
 
-import "react-confirm-alert/src/react-confirm-alert.css";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
 
 import io from "socket.io-client";
 
 import {
-    Wrapper,
+	Wrapper,
 	AccountRow,
 	UserAvatar,
 	ChatGrid,
@@ -20,17 +22,27 @@ import {
 	MessagesGrid,
 	RoomsGrid,
 	ChatSectionWrapper,
-	Username,
-} from "./chatroom-styled";
+	Username
+} from "./chatroom-page-styled";
 
 import customTheme from "../../config/theme";
 
 const socket = io("http://localhost:6464");
 
+const MenuProps = {
+	PaperProps: {
+		style: {
+			maxHeight: 200,
+			minHeight: 100,
+			width: 200
+		}
+	}
+};
+
 @inject("stores")
 @observer
 class ChatroomPage extends Component {
-    @observable
+	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	@observable
@@ -39,22 +51,57 @@ class ChatroomPage extends Component {
 	componentWillUnmount() {
 		this.store.clearData();
 	}
+
+	handleChangeSetting(event, username) {
+		this.store.changeSetting(event.target.value, username);
+	}
+
+	handleCloseSetting = () => {
+		this.store.changeOpenSettingDropDown(false);
+	};
+
+	handleOpenSetting = () => {
+		this.store.changeOpenSettingDropDown(true);
+	};
+
 	render() {
 		return (
 			<Wrapper>
 				<AccountRow>
 					<UserAvatar
-						onClick={() => {
-							this.loginRegisterStore.logOut();
-						}}
 						src={`http://localhost:6464/chatroom/v1/img/${
 							this.loginRegisterStore.userAvatar
 						}`}
 					/>
-					<Username textColor={customTheme.color.textGray}>
+					<Username
+						onMouseEnter={this.handleOpenSetting}
+						onClick={this.handleOpenSetting}
+						textColor={customTheme.color.textGray}
+					>
 						{this.loginRegisterStore.username}
+						<i className=" icon-angle-down" />
 					</Username>
-                    <i style={{color: "white"}} className="demo-icon icon-cog"></i>
+					<Select
+						style={{
+							visibility: "hidden",
+							position: "relative",
+							top: "50px",
+							right: "100px"
+						}}
+						open={this.store.openSettingDropDown}
+						onClose={this.handleCloseSetting}
+						onOpen={this.handleOpenSetting}
+						value={this.store.selectedSetting}
+						onChange={e => {
+							this.handleChangeSetting(e);
+						}}
+						MenuProps={MenuProps}
+					>
+						<MenuItem value={"editProfile"}>Edit profile</MenuItem>
+						<MenuItem value={"logOut"}>
+							<i class="demo-icon icon-logout" /> Logout
+						</MenuItem>
+					</Select>
 				</AccountRow>
 
 				<ChatSectionWrapper>

@@ -49,6 +49,7 @@ export default class LoginRegister {
 
 	@action
 	logOut() {
+		
 		this.changeAuthenticated(false);
 		localStorage.removeItem("token");
 		sessionStorage.removeItem("token");

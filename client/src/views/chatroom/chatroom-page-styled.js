@@ -27,6 +27,8 @@ const AccountRow = styled.div`
 	padding: 0 20px;
 `;
 
+
+
 const UserAvatar = styled.img`
 	width: 50px;
 	height: 50px;
@@ -40,6 +42,7 @@ const Username = styled.span`
 	color: ${props => props.textColor};
 	font-weight: bold;
 	font-size: 20px;
+	cursor: pointer;
 `;
 
 const ChatSectionWrapper = styled.div`
@@ -111,5 +114,5 @@ export {
 	ChatSectionWrapper,
 	Username,
 	ChatroomPage,
-	ProfilePage
+    ProfilePage,
 };

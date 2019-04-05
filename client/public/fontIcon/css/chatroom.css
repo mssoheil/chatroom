@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'chatroom';
-  src: url('../font/chatroom.eot?86587945');
-  src: url('../font/chatroom.eot?86587945#iefix') format('embedded-opentype'),
-       url('../font/chatroom.woff2?86587945') format('woff2'),
-       url('../font/chatroom.woff?86587945') format('woff'),
-       url('../font/chatroom.ttf?86587945') format('truetype'),
-       url('../font/chatroom.svg?86587945#chatroom') format('svg');
+  src: url('../font/chatroom.eot?50866241');
+  src: url('../font/chatroom.eot?50866241#iefix') format('embedded-opentype'),
+       url('../font/chatroom.woff2?50866241') format('woff2'),
+       url('../font/chatroom.woff?50866241') format('woff'),
+       url('../font/chatroom.ttf?50866241') format('truetype'),
+       url('../font/chatroom.svg?50866241#chatroom') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'chatroom';
-    src: url('../font/chatroom.svg?86587945#chatroom') format('svg');
+    src: url('../font/chatroom.svg?50866241#chatroom') format('svg');
   }
 }
 */
@@ -58,4 +58,6 @@
 .icon-user-outline:before { content: '\e800'; } /* '' */
 .icon-cancel:before { content: '\e801'; } /* '' */
 .icon-cog:before { content: '\e802'; } /* '' */
+.icon-logout:before { content: '\e803'; } /* '' */
+.icon-pencil:before { content: '\e804'; } /* '' */
 .icon-angle-down:before { content: '\f107'; } /* '' */

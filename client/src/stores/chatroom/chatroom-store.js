@@ -1,6 +1,11 @@
 import { observable, action } from "mobx";
 
+import store from "./../index";
+
 export default class Chatroom {
+	@observable
+	loginRegisterStore = store.loginRegister;
+
 	@observable
 	connectedUsers = [];
 
@@ -8,11 +13,36 @@ export default class Chatroom {
 	isProfile = false;
 
 	@observable
+	selectedSetting = "";
+
+	@observable
 	isPrivate = false;
+
+	@observable
+	openSettingDropDown = false;
 
 	@action
 	changeIsPrivate(val) {
 		this.isPrivate = val;
+	}
+
+	@action
+	changeIsProfile(val) {
+		this.isProfile = val;
+	}
+
+	@action
+	changeSetting(val) {
+		if (val === "logOut") {
+			this.loginRegisterStore.logOut();
+		} else {
+			this.changeIsProfile(true);
+		}
+	}
+
+	@action
+	changeOpenSettingDropDown(val) {
+		this.openSettingDropDown = val;
 	}
 
 	@action
