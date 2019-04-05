@@ -13,5 +13,8 @@ export default {
 		post: { v1: "rooms/room" },
 		put: { v1: "rooms/room" },
 		delete: { v1: "rooms/room" }
+	},
+	uploadImage: {
+		post: {v1: "profile/upload-image"}
 	}
 };

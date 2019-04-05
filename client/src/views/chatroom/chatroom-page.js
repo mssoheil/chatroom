@@ -99,7 +99,7 @@ class ChatroomPage extends Component {
 					>
 						<MenuItem value={"editProfile"}>Edit profile</MenuItem>
 						<MenuItem value={"logOut"}>
-							<i class="demo-icon icon-logout" /> Logout
+							<i className="demo-icon icon-logout" /> Logout
 						</MenuItem>
 					</Select>
 				</AccountRow>

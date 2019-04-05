@@ -6,6 +6,7 @@ const express = require("express");
 
 const authController = require("./auth/authController.js");
 const roomsApiController = require("./controllers/roomsController/roomsApiController.js");
+const profileApiController = require("./profile/profileApiController.js");
 
 const db = require("./db/db.js");
 
@@ -50,6 +51,7 @@ module.exports = function(app, server) {
 	chat(io);
 
 	app.use("/chatroom/v1/auth", authController(io));
+	app.use("/chatroom/v1/profile", profileApiController());
 	app.use("/chatroom/v1/rooms", roomsApiController(io));
 	app.use("/chatroom/v1/img", express.static(__dirname + "/img"));
 };
