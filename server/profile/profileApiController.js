@@ -17,12 +17,8 @@ const fs = require("fs");
 
 module.exports = function() {
 	router.post("/upload-image", (req, res, next) => {
-		console.groupEnd("REQ", req.body);
 		let form = new formidable.IncomingForm();
 
-		// form.parse(req, function(err, fields, files) {
-		// 	if (err) {
-		// 	} else {
 		form.parse(req);
 
 		form.on("fileBegin", function(name, file) {
@@ -63,7 +59,10 @@ module.exports = function() {
 			});
 		});
 
-		// });
+	});
+	router.post("/change-profile", (req, res, next) => {
+		 
+
 	});
 	return router;
 };

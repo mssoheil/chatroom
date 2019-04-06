@@ -5,6 +5,8 @@ import { observable } from "mobx";
 
 import Switch from "@material-ui/core/Switch";
 
+import purple from "@material-ui/core/colors/purple";
+
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 import {
@@ -25,10 +27,14 @@ import {
 	ActivateChangePasswordSection,
 	PasswordGridContainer,
 	PasswordGrid,
-	PasswordConfirmGrid
+	PasswordConfirmGrid,
+	ButtonsSection,
+	SaveBtn,
+	CancelBtn
 } from "./profile-styled";
 
 import customTheme from "../../config/theme";
+import { SendBtn } from "../../components/messages/messages-styled";
 
 @inject("stores")
 @observer
@@ -40,6 +46,7 @@ class Profile extends Component {
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	componentDidMount() {
+		this.store.changeDefaultUsername(this.loginRegisterStore.username);
 		this.store.changeDefaultGender(this.loginRegisterStore.userGender);
 	}
 
@@ -83,6 +90,8 @@ class Profile extends Component {
 									Change Username
 								</Label>
 								<Input
+									value={this.store.username}
+									onChange={e => this.store.changeUsername(e)}
 									id="usernameInput"
 									textColor={customTheme.color.textGray}
 									type="text"
@@ -92,7 +101,6 @@ class Profile extends Component {
 						<PasswordSection textColor={customTheme.color.textGray}>
 							<ActivateChangePasswordSection>
 								Change password{" "}
-								
 								<Switch
 									checked={this.store.activatedChangePassword}
 									onChange={e => this.store.activateChangePassword(e)}
@@ -111,6 +119,8 @@ class Profile extends Component {
 											Password
 										</Label>
 										<Input
+											value={this.store.password}
+											onChange={e => this.store.changePassword(e)}
 											id="passwordInput"
 											textColor={customTheme.color.textGray}
 											type="text"
@@ -124,6 +134,8 @@ class Profile extends Component {
 											Confirm Password
 										</Label>
 										<Input
+											value={this.store.confirmPassword}
+											onChange={e => this.store.changeConfirmPassword(e)}
 											id="confirmPasswordInput"
 											textColor={customTheme.color.textGray}
 											type="text"
@@ -133,6 +145,21 @@ class Profile extends Component {
 							) : null}
 						</PasswordSection>
 					</InfoSection>
+					<ButtonsSection>
+						<SaveBtn
+							onClick={() => this.store.saveData()}
+							variant="contained"
+							color="primary"
+						>
+							Save
+						</SaveBtn>
+						<CancelBtn
+							onClick={() => this.store.cancelData()}
+							variant="contained"
+						>
+							Cancel
+						</CancelBtn>
+					</ButtonsSection>
 				</ProfileSection>
 			</Wrapper>
 		);

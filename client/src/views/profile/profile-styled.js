@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -69,7 +70,7 @@ const EditAvatarLabel = styled.label`
 
 const InfoSection = styled.div`
 	width: 100%;
-	height: 70%;
+	height: 60%;
 `;
 const UsernameGridContainer = styled(Grid)``;
 const UsernameGrid = styled(Grid)`
@@ -119,6 +120,19 @@ const PasswordConfirmGrid = styled(Grid)`
 	box-sizing: border-box;
 `;
 
+const ButtonsSection = styled.div`
+display: flex;
+margin:0 auto;
+width: 25%;
+text-align: center;
+justify-content: space-around;
+
+`;
+
+const SaveBtn = styled(Button)`
+`;
+const CancelBtn = styled(Button)``;
+
 export {
 	Wrapper,
 	ProfileSection,
@@ -133,10 +147,12 @@ export {
 	UsernameGrid,
 	Input,
 	Label,
-
 	PasswordSection,
 	ActivateChangePasswordSection,
 	PasswordGridContainer,
 	PasswordGrid,
-	PasswordConfirmGrid
+	PasswordConfirmGrid,
+	ButtonsSection,
+	SaveBtn,
+	CancelBtn
 };

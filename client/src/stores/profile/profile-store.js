@@ -11,6 +11,15 @@ export default class Profile {
 	chatroomStore = store.chatroom;
 
 	@observable
+	username;
+
+	@observable
+	password;
+
+	@observable
+	passwordConfirm;
+
+	@observable
 	loginRegisterStore = store.loginRegister;
 
 	@observable
@@ -26,6 +35,41 @@ export default class Profile {
 	gender;
 
 	@action
+	changeUsername(event) {
+		this.username = event.target.value;
+	}
+
+	@action
+	changePassword(event) {
+		this.password = event.target.value;
+	}
+
+	@action
+	saveData() {
+		this.chatroomStore.changeIsProfile(false);
+		this.clearData();
+	}
+
+	@action
+	cancelData() {
+		this.chatroomStore.changeIsProfile(false);
+		this.clearData();
+	}
+
+	@action
+	clearData() {
+		this.username = "";
+		this.password = "";
+		this.passwordConfirm = "";
+		this.imageName = "";
+	}
+
+	@action
+	changeConfirmPasswords(event) {
+		this.passwordConfirm = event.target.value;
+	}
+
+	@action
 	activateChangePassword(event) {
 		this.activatedChangePassword = event.target.checked;
 	}
@@ -33,6 +77,11 @@ export default class Profile {
 	@action
 	changeDefaultGender(val) {
 		this.gender = val;
+	}
+
+	@action
+	changeDefaultUsername(val) {
+		this.username = val;
 	}
 
 	@action

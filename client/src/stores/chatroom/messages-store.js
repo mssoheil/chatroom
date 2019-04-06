@@ -79,21 +79,19 @@ class Message {
 	@action
 	changeMessage(event, socket, username) {
 		if (event.key === "Enter") {
-			if (this.chatRoomStore.isPrivate) {
-				this.sendMessagePrivateMessage(
-					socket,
-					username,
-					this.roomsStore.visiblePrivate
-				);
+			if (this.message !== "") {
+				if (this.chatRoomStore.isPrivate) {
+					this.sendMessagePrivateMessage(
+						socket,
+						username,
+						this.roomsStore.visiblePrivate
+					);
+				} else {
+					this.sendMessage(socket, username, this.roomsStore.visibleRoom);
+				}
 			} else {
-				this.sendMessage(
-					socket,
-					username,
-					this.roomsStore.visibleRoom
-				);
+				this.message = event.target.value;
 			}
-		} else {
-			this.message = event.target.value;
 		}
 	}
 
@@ -118,21 +116,23 @@ class Message {
 
 	@action
 	sendMessagePrivateMessage(socket, username, privateChat) {
-		let currentUser;
-		this.usersStore.usersPerRoom.map(item => {
-			if (item.username === this.usersStore.username) {
-				return (currentUser = {
-					username: this.usersStore.username,
-					socketId: item.socketId
-				});
-			}
-		});
-		socket.emit("sendPrivateMessage", {
-			message: this.message,
-			from: currentUser,
-			to: this.roomsStore.visiblePrivate
-		});
-		this.message = "";
+		if (this.message !== "") {
+			let currentUser;
+			this.usersStore.usersPerRoom.map(item => {
+				if (item.username === this.usersStore.username) {
+					return (currentUser = {
+						username: this.usersStore.username,
+						socketId: item.socketId
+					});
+				}
+			});
+			socket.emit("sendPrivateMessage", {
+				message: this.message,
+				from: currentUser,
+				to: this.roomsStore.visiblePrivate
+			});
+			this.message = "";
+		}
 	}
 
 	@action
@@ -142,12 +142,14 @@ class Message {
 
 	@action
 	sendMessage(socket, username, room) {
-		socket.emit("chatMessage", {
-			username: username,
-			message: this.message,
-			room: room
-		});
-		this.message = "";
+		if (this.message !== "") {
+			socket.emit("chatMessage", {
+				username: username,
+				message: this.message,
+				room: room
+			});
+			this.message = "";
+		}
 	}
 }
 

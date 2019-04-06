@@ -82,7 +82,7 @@ export default class LoginRegister {
 						if (response.auth !== null || response.auth !== undefined) {
 							this.changeAuthenticated(response.auth);
 							this.username = response.user.username;
-							this.userid = response.user["_id"];
+							this.userId = response.user["_id"];
 							this.userAvatar = response.user.avatar;
 							this.userGender = response.user.gender;
 							
