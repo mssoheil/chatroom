@@ -16,5 +16,8 @@ export default {
 	},
 	uploadImage: {
 		post: {v1: "profile/upload-image"}
+	},
+	changeProfile: {
+		put: {v1: "profile/change-profile"}
 	}
 };

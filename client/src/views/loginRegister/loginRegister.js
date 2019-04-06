@@ -14,6 +14,14 @@ class LoginRegister extends Component {
 	@observable
 	store = this.props.stores.loginRegister;
 
+	componentDidMount() {
+		this.store.checkAuth();
+	}
+
+	componentDidUpdate() {
+		this.store.checkAuth();
+	}
+
 	render() {
 		return (
 			<Wrapper>

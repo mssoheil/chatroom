@@ -33,14 +33,14 @@ module.exports = function(io) {
 				username: `user${cnt}`,
 				email: req.body.email,
 				password: req.body.password,
-				gender: "none",
+				gender: "male",
 				avatar: "default.png"
 			});
 			bcrypt.genSalt(10, (err, salt) => {
 				bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
 					if (err) {
 						if (environment !== "production") {
-							console.log("courld not create hash", err);
+							console.log("could not create hash", err);
 						}
 					}
 					newUser.password = hashedPassword;

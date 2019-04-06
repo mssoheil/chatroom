@@ -13,8 +13,6 @@ const formidable = require("formidable");
 
 const shortid = require("shortid");
 
-const fs = require("fs");
-
 module.exports = function() {
 	router.post("/upload-image", (req, res, next) => {
 		let form = new formidable.IncomingForm();
@@ -28,7 +26,7 @@ module.exports = function() {
 
 			let fileExtension = fileNameArray[fileNameArray.length - 1];
 			if (fileType === "jpg" || fileType === "png" || fileType === "jpeg") {
-                const randomName = `${shortid.generate()}${shortid.generate()}.${fileExtension}`;
+				const randomName = `${shortid.generate()}${shortid.generate()}.${fileExtension}`;
 
 				file.path = `${__dirname}./../img/${randomName}`;
 
@@ -58,11 +56,63 @@ module.exports = function() {
 				message: `Could not save the file due to ${err}`
 			});
 		});
-
 	});
-	router.post("/change-profile", (req, res, next) => {
-		 
-
+	router.put("/change-profile", (req, res, next) => {
+		User.findById(req.body.userId).then(user => {
+			if (req.body.changePassword) {
+				bcrypt.compare(
+					req.body.data.currentPassword,
+					user.password,
+					(err, matched) => {
+						if (err) {
+							if (environment !== "production") {
+								console.log("Authentication faild", err);
+							}
+							return;
+						}
+						if (matched) {
+							bcrypt.genSalt(10, (err, salt) => {
+								bcrypt.hash(
+									req.body.data.password,
+									salt,
+									(err, hashedPassword) => {
+										if (err) {
+											if (environment !== "production") {
+												console.log("could not create hash", err);
+											}
+										}
+										user.password = hashedPassword;
+										user.username = req.body.data.username;
+										user.avatar = req.body.data.avatar;
+										user.save().then(userSaved => {
+											res.status(200).send({
+												success: true,
+												message: "user profile changed",
+												user: { username: user.username, avatar: user.avatar }
+											});
+										});
+									}
+								);
+							});
+						} else {
+							return res
+								.status(401)
+								.send({ success: false, message: "password is not correct" });
+						}
+					}
+				);
+			} else {
+				user.username = req.body.data.username;
+				user.avatar = req.body.data.avatar;
+				user.save().then(userSaved => {
+					res.status(200).send({
+						success: true,
+						message: "user profile changed",
+						user: { username: user.username, avatar: user.avatar }
+					});
+				});
+			}
+		});
 	});
 	return router;
 };

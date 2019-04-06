@@ -116,7 +116,7 @@ class Profile extends Component {
 											textColor={customTheme.color.textGray}
 											htmlFor="passwordInput"
 										>
-											Password
+											Old Password
 										</Label>
 										<Input
 											value={this.store.password}
@@ -131,11 +131,11 @@ class Profile extends Component {
 											textColor={customTheme.color.textGray}
 											htmlFor="confirmPasswordInput"
 										>
-											Confirm Password
+											New Password
 										</Label>
 										<Input
-											value={this.store.confirmPassword}
-											onChange={e => this.store.changeConfirmPassword(e)}
+											value={() => this.store.passwordNew}
+											onChange={e => this.store.changeNewPassword(e)}
 											id="confirmPasswordInput"
 											textColor={customTheme.color.textGray}
 											type="text"

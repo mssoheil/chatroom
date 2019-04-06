@@ -11,16 +11,16 @@ export default class Profile {
 	chatroomStore = store.chatroom;
 
 	@observable
+	loginRegisterStore = store.loginRegister;
+
+	@observable
 	username;
 
 	@observable
 	password;
 
 	@observable
-	passwordConfirm;
-
-	@observable
-	loginRegisterStore = store.loginRegister;
+	passwordNew;
 
 	@observable
 	activatedChangePassword = false;
@@ -45,7 +45,38 @@ export default class Profile {
 	}
 
 	@action
-	saveData() {
+	async saveData() {
+		const header = {};
+		const body = {
+			userId: this.loginRegisterStore.userId,
+			changePassword: this.activatedChangePassword,
+			data: {
+				username: this.username,
+				avatar: this.imageName
+			}
+		};
+
+		axiousFetch
+			.put("changeProfile", "v1", header, body)
+			.then(response => {
+				if (response !== undefined && response !== null) {
+					if (response.success) {
+						this.loginRegisterStore.username = response.user.username;
+						this.loginRegisterStore.avatar = response.user.avatar;
+						toast.success(response.message, {
+							position: toast.POSITION.TOP_RIGHT
+						});
+					} else {
+						toast.error(response.message, {
+							position: toast.POSITION.TOP_RIGHT
+						});
+					}
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+
 		this.chatroomStore.changeIsProfile(false);
 		this.clearData();
 	}
@@ -60,13 +91,13 @@ export default class Profile {
 	clearData() {
 		this.username = "";
 		this.password = "";
-		this.passwordConfirm = "";
+		this.passwordNew = "";
 		this.imageName = "";
 	}
 
 	@action
-	changeConfirmPasswords(event) {
-		this.passwordConfirm = event.target.value;
+	changeNewPasswords(event) {
+		this.passwordNew = event.target.value;
 	}
 
 	@action

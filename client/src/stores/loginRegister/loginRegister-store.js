@@ -5,8 +5,6 @@ import axiousFetch from "./../../config/database/fetch";
 export default class LoginRegister {
 	@observable
 	loginMode = true;
-
-
 	@observable
 	token = "";
 
