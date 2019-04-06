@@ -8,14 +8,7 @@ const Wrapper = styled.div`
 	overflow: hidden;
 `;
 
-const ChatroomPage = styled.div`
-	width: 100%;
-	height: 100%;
-`;
-const ProfilePage = styled.div`
-	width: 100%;
-	height: 100%;
-`;
+
 
 const AccountRow = styled.div`
 	width: 100%;
@@ -113,6 +106,5 @@ export {
 	RoomsGrid,
 	ChatSectionWrapper,
 	Username,
-	ChatroomPage,
-    ProfilePage,
+
 };

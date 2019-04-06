@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 const Wrapper = styled.div`
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
+	padding: 20px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -14,21 +14,36 @@ const Wrapper = styled.div`
 
 const ProfileSection = styled.div`
 	width: 70%;
-	height: 80%;
+	overflow: auto;
+	min-height: 70%;
+	max-height: 95%;
+	@media screen and (max-width: 599px) {
+		min-height: 85%;
+		max-height: 95%;
+	}
+	border-radius: 5px;
 	background: rgba(51, 51, 51, 0.8);
-	padding: 20px;
+	padding: 10px;
 	box-sizing: border-box;
+	position: relative;
 `;
 
 const AvatarSection = styled.div`
 	text-align: center;
 	width: 100%;
 	height: 30%;
+	@media screen and (max-width: 599px) {
+		height: 30%;
+	}
 `;
 
 const AvatarImageSection = styled.div`
 	width: 150px;
 	height: 150px;
+	@media screen and (max-width: 599px) {
+		width: 100px;
+		height: 100px;
+	}
 	position: relative;
 	text-align: center;
 	margin: 0 auto;
@@ -74,7 +89,7 @@ const InfoSection = styled.div`
 `;
 const UsernameGridContainer = styled(Grid)``;
 const UsernameGrid = styled(Grid)`
-	padding: 10px 20px;
+	padding: 10px;
 	box-sizing: border-box;
 `;
 const Input = styled.input`
@@ -90,11 +105,21 @@ const Input = styled.input`
 	&:focus {
 		outline: none;
 	}
+	@media screen and (max-width: 599px) {
+		height: 30px;
+		font-size: 18px;
+	}
 `;
 
 const Label = styled.label`
 	display: block;
 	font-size: 22px;
+	@media screen and (max-width: 600px) {
+		font-size: 20px;
+	}
+	@media screen and (max-width: 420px) {
+		font-size: 18px;
+	}
 	margin-bottom: 10px;
 	color: ${props => props.textColor};
 `;
@@ -103,34 +128,60 @@ const PasswordSection = styled.div`
 	color: ${props => props.textColor};
 
 	font-size: 22px;
+	@media screen and (max-width: 600px) {
+		font-size: 20px;
+	}
+	@media screen and (max-width: 420px) {
+		font-size: 19px;
+	}
 `;
 
 const ActivateChangePasswordSection = styled.div`
-	padding: 10px 20px;
+	padding: 10px;
 	box-sizing: border-box;
+	@media screen and (max-width: 599px) {
+		font-size: 16px;
+	}
 `;
 
 const PasswordGridContainer = styled(Grid)``;
 const PasswordGrid = styled(Grid)`
-	padding: 10px 20px;
+	padding: 10px;
 	box-sizing: border-box;
 `;
 const PasswordConfirmGrid = styled(Grid)`
-	padding: 10px 20px;
+	padding: 10px;
 	box-sizing: border-box;
 `;
 
 const ButtonsSection = styled.div`
-display: flex;
-margin:0 auto;
-width: 25%;
-text-align: center;
-justify-content: space-around;
-
+	display: flex;
+	margin: 0 auto;
+	width: 20%;
+	text-align: center;
+	justify-content: space-between;
+	position: absolute;
+	bottom: 10px;
+	padding: 10px;
+	box-sizing: border-box;
+	@media screen and (max-width: 1400px) {
+		width: 30%;
+	}
+	@media screen and (max-width: 910px) {
+		width: 40%;
+	}
+	@media screen and (max-width: 690px) {
+		width: 50%;
+	}
+	@media screen and (max-width: 540px) {
+		width: 65%;
+	}
+	@media screen and (max-width: 420px) {
+		width: 90%;
+	}
 `;
 
-const SaveBtn = styled(Button)`
-`;
+const SaveBtn = styled(Button)``;
 const CancelBtn = styled(Button)``;
 
 export {

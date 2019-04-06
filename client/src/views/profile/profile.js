@@ -82,7 +82,7 @@ class Profile extends Component {
 					</AvatarSection>
 					<InfoSection>
 						<UsernameGridContainer container>
-							<UsernameGrid item xl={6} lg={6}>
+							<UsernameGrid item  xl={6} lg={6} md={6} sm={6} xs={12}>
 								<Label
 									textColor={customTheme.color.textGray}
 									htmlFor="usernameInput"
@@ -111,7 +111,7 @@ class Profile extends Component {
 
 							{this.store.activatedChangePassword ? (
 								<PasswordGridContainer container>
-									<PasswordGrid item xl={6} lg={6}>
+									<PasswordGrid item xl={6} lg={6} md={6} sm={6} xs={12}>
 										<Label
 											textColor={customTheme.color.textGray}
 											htmlFor="passwordInput"
@@ -126,7 +126,7 @@ class Profile extends Component {
 											type="text"
 										/>
 									</PasswordGrid>
-									<PasswordConfirmGrid item xl={6} lg={6}>
+									<PasswordConfirmGrid item xl={6} lg={6} md={6} sm={6} xs={12}>
 										<Label
 											textColor={customTheme.color.textGray}
 											htmlFor="confirmPasswordInput"
