@@ -44,20 +44,7 @@ module.exports = function(io) {
 				.catch(err => {
 					console.log("room not found", err);
 				});
-			// socket.broadcast.to(process.env.DEFAULT_ROOM).emit("chatMessage", {
-			// 	username: "new user",
-			// 	message: "joined the room"
-			// });
-			// setTimeout(() => {
-			// 	io.to(`${socketId}`).emit("requestUsername", socketId);
-			// 	socket.on("responeUsername", packet => {
-			// 		socket.broadcast.to(process.env.DEFAULT_ROOM).emit("chatMessage", {
-			// 			username: packet.username,
-			// 			message: "joined the room"
-			// 		});
-			// 	});
-			// 	resolve("done");
-			// }, 1000);
+			
 			resolve("done");
 		});
 
@@ -101,10 +88,7 @@ module.exports = function(io) {
 							io.to(`${itemSocketId}`).emit("getSocketUsername", item);
 							socket.on("receiveUsername", packet => {
 								sockets[packet.socketId] = packet.username;
-								// io.to(`${itemSocketId}`).emit("socketsInRoom", {
-								// 	room: room,
-								// 	sockets: sockets
-								// });
+								
 							});
 						});
 					}
@@ -125,7 +109,6 @@ module.exports = function(io) {
 								let itemSocketId = item;
 								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
 								socket.on("receiveUsername", packet => {
-									//sockets[packet.socketId] = packet.username;
 									sockets[packet.socketId] = {
 										username: packet.username,
 										avatar: packet.avatar,
@@ -141,8 +124,7 @@ module.exports = function(io) {
 							});
 						}, 1000);
 
-						// Object.keys(io.sockets.adapter.sids[socket.id]);
-						// // returns [socket.id, room-x'] || [socket.id, 'room-1', 'room-2', ...]
+						
 					}
 				})
 				.catch(err => {
@@ -244,33 +226,8 @@ module.exports = function(io) {
 			});
 		});
 
-		// Rooms.find({
-		// 	name: Object.keys(socket.rooms).filter(item => item != socket.id)
-		// })
-		// 	.then(room => {
-		// 		if (room) {
-		// 			io.to(`${socketId}`).emit("joinedRooms", room);
-		// 		}
-		// 	})
-		// 	.catch(err => {
-		// 		console.log("room not found", err);
-		// 	});
+		
 
-		// socket.on("leaveRoom", packet => {
-		// 	Rooms.find({ _id: packet.room["_id"] })
-		// 		.then(room => {
-		// 			if (room) {
-		// 				socket.leave(packet.room.name);
-		// 				socket.broadcast.to(packet.room.name).emit("chatMessage", {
-		// 					username: packet.username,
-		// 					message: "left the room"
-		// 				});
-		// 			}
-		// 		})
-		// 		.catch(err => {
-		// 			console.log("room not found", err);
-		// 		});
-		// });
 
 		socket.on("disconnect", function() {
 			io.emit("user disconnected");
