@@ -62,7 +62,7 @@ export default class Profile {
 				if (response !== undefined && response !== null) {
 					if (response.success) {
 						this.loginRegisterStore.username = response.user.username;
-						this.loginRegisterStore.avatar = response.user.avatar;
+						this.loginRegisterStore.userAvatar = response.user.avatar;
 						toast.success(response.message, {
 							position: toast.POSITION.TOP_RIGHT
 						});
@@ -78,13 +78,11 @@ export default class Profile {
 			});
 
 		this.chatroomStore.changeIsProfile(false);
-		this.clearData();
 	}
 
 	@action
 	cancelData() {
 		this.chatroomStore.changeIsProfile(false);
-		this.clearData();
 	}
 
 	@action
