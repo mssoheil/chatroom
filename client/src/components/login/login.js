@@ -21,15 +21,7 @@ import CheckboxIndicator from "./../checkboxIndicator/checkboxIndicator";
 import CheckboxContainer from "./../checkboxContainer/checkboxContainer";
 
 import { TweenLite } from "gsap/all";
-/* import {
-	TweenMax,
-	CSSPlugin,
-	ScrollToPlugin,
-	Draggable,
-	Elastic,
-	TweenLite,
-	TimelineLite
-} from "gsap/all"; */
+
 
 import {
 	Wrapper,
@@ -76,7 +68,6 @@ class Login extends Component {
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	componentDidMount() {
-		// this.myTween = TweenLite.to(this.myElement, 1, { y: "100px", opacity: 1 });
 		this.myTween = TweenLite.to(this.myElement, 1, { opacity: 1 });
 	}
 

@@ -72,6 +72,13 @@ const EditAvatar = styled.div`
 	i {
 		color: #0b8da5;
 		font-size: 27px;
+		@media screen and (max-width: 599px) {
+			font-size: 20px;
+		}
+	}
+	@media screen and (max-width: 599px) {
+			width: 30px;
+			height: 30px;
 	}
 `;
 

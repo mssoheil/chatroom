@@ -9,7 +9,6 @@ import Rooms from "./../../components/rooms/rooms";
 
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
 
 import io from "socket.io-client";
 
@@ -74,7 +73,6 @@ class ChatroomPage extends Component {
 						}`}
 					/>
 					<Username
-						onMouseEnter={this.handleOpenSetting}
 						onClick={this.handleOpenSetting}
 						textColor={customTheme.color.textGray}
 					>
@@ -86,7 +84,7 @@ class ChatroomPage extends Component {
 							visibility: "hidden",
 							position: "relative",
 							top: "50px",
-							right: "100px"
+							right: "70px"
 						}}
 						open={this.store.openSettingDropDown}
 						onClose={this.handleCloseSetting}

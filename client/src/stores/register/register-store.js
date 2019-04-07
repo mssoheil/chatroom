@@ -5,8 +5,7 @@ import { toast } from "react-toastify";
 import store from "./../index";
 
 import axiousFetch from "./../../config/database/fetch";
-// import api from "./../../config/database/api";
-// import Reactotron from "reactotron-react-js";
+
 
 export default class Register {
 	@observable

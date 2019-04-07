@@ -15,10 +15,8 @@ import purple from "@material-ui/core/colors/purple";
 
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
-// import { CSSTransition } from "react-transition-group";
 import Transition from "react-transition-group/Transition";
 
-// import { Transition } from "react-transition-group";
 
 import { Wrapper, WrapperImg } from "./app-styled";
 
@@ -27,7 +25,6 @@ const theme = createMuiTheme({
 		primary: {
 			main: purple[500]
 		}
-		// secondary: "#612345"
 	},
 	typography: {
 		useNextVariants: true

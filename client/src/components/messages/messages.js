@@ -73,25 +73,35 @@ class Messages extends Component {
 								{item.room["_id"] === this.roomsStore.visibleRoom["_id"] &&
 								!this.chatRoomStore.isPrivate ? (
 									<MessagesContainer>
-										<MessagesSender>
-											<MessagesSenderText
-												textColor={customTheme.color.textGray}
-											>
-												{item.username}
-											</MessagesSenderText>{" "}
-											<Divider textColor={customTheme.color.textGray}>
-												{" "}
-												|{" "}
-											</Divider>{" "}
-											<MessageTime textColor={customTheme.color.textGray}>
-												{`${item.time}`}
-											</MessageTime>
-										</MessagesSender>
-										<MessageContent
-											backgroundColor={customTheme.color.textGray}
-										>
-											<MessageContentText>{item.message}</MessageContentText>
-										</MessageContent>
+										{!item.isInformative ? (
+											<Fragment>
+												<MessagesSender>
+													<MessagesSenderText
+														textColor={customTheme.color.textGray}
+													>
+														{item.username}
+													</MessagesSenderText>{" "}
+													<Divider textColor={customTheme.color.textGray}>
+														{" "}
+														|{" "}
+													</Divider>{" "}
+													<MessageTime textColor={customTheme.color.textGray}>
+														{`${item.time}`}
+													</MessageTime>
+												</MessagesSender>
+												<MessageContent
+													backgroundColor={customTheme.color.textGray}
+												>
+													<MessageContentText>
+														{item.message}
+													</MessageContentText>
+												</MessageContent>
+											</Fragment>
+										) : (
+											<div style={{ color: customTheme.color.textGray }}>
+												{item.username} {item.message}
+											</div>
+										)}
 									</MessagesContainer>
 								) : null}
 							</MessagesWrapper>
@@ -121,7 +131,7 @@ class Messages extends Component {
 						lg={10}
 						md={10}
 						sm={10}
-						xs={10}
+						xs={9}
 					>
 						<InputBox
 							maxLength="60"
@@ -133,9 +143,10 @@ class Messages extends Component {
 							type="text"
 						/>
 					</MessageControllsInputGrid>
-					<MessageGontrollsBtnGrid item xl={2} lg={2} md={2} sm={2} xs={2}>
+					<MessageGontrollsBtnGrid item xl={2} lg={2} md={2} sm={2} xs={3}>
 						{this.chatRoomStore.isPrivate ? (
-							<SendBtn  variant="contained"
+							<SendBtn
+								variant="contained"
 								onClick={() => {
 									this.store.sendMessagePrivateMessage(
 										this.socket,
@@ -149,7 +160,8 @@ class Messages extends Component {
 								Send
 							</SendBtn>
 						) : (
-							<SendBtn  variant="contained"
+							<SendBtn
+								variant="contained"
 								onClick={() => {
 									this.store.sendMessage(
 										this.socket,

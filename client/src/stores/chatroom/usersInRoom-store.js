@@ -1,4 +1,4 @@
-import { observable, action, toJS } from "mobx";
+import { observable, action } from "mobx";
 
 import { toast } from "react-toastify";
 
@@ -51,6 +51,11 @@ export default class UsersInRoom {
 				socketId: packet,
 				username: this.username,
 				avatar: this.loginRegisterStore.userAvatar
+			});
+		});
+		socket.on("getSocketUsernameDefault", packet => {
+			socket.emit("receiveUsernameDefault", {
+				username: this.username
 			});
 		});
 		socket.on("socketsInRoom", packet => {

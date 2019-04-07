@@ -5,7 +5,6 @@ import { observable } from "mobx";
 
 import Switch from "@material-ui/core/Switch";
 
-import purple from "@material-ui/core/colors/purple";
 
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -34,7 +33,8 @@ import {
 } from "./profile-styled";
 
 import customTheme from "../../config/theme";
-import { SendBtn } from "../../components/messages/messages-styled";
+
+
 
 @inject("stores")
 @observer

@@ -64,6 +64,9 @@ const MessageContentText = styled.div``;
 const MessageControllsSection = styled(Grid)`
 	height: 15%;
 	padding: 20px;
+	@media screen and (max-width: 600px){
+		padding-left: 0;
+	}
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
@@ -87,6 +90,9 @@ const InputBox = styled.input`
 const SendBtn = styled(Button)`
 	height: 100%;
 	width: 100%;
+	@media screen and (max-width: 550px) {
+		width: 80%;
+	}
 `;
 
 export {

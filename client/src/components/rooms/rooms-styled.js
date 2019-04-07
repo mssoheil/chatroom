@@ -117,6 +117,11 @@ const NewRoom = styled.input`
 	&::placeholder {
 		font-size: 15px;
 	}
+	@media screen and (max-width: 600px) {
+		&::placeholder {
+		font-size: 13px;
+	}
+	}
 	&:focus {
 		border: none;
 		outline: none;

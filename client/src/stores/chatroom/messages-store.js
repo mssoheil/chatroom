@@ -89,9 +89,9 @@ class Message {
 				} else {
 					this.sendMessage(socket, username, this.roomsStore.visibleRoom);
 				}
-			} else {
-				this.message = event.target.value;
 			}
+		} else {
+			this.message = event.target.value;
 		}
 	}
 
