@@ -26,7 +26,7 @@ import {
 
 import customTheme from "../../config/theme";
 
-const socket = io("http://localhost:6464");
+//const socket = io("http://localhost:6464");
 
 const MenuProps = {
 	PaperProps: {
@@ -41,11 +41,21 @@ const MenuProps = {
 @inject("stores")
 @observer
 class ChatroomPage extends Component {
+
+	constructor(props) {
+		super(props);
+		this.socket = io("http://localhost:6464");
+	}
+
 	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	@observable
 	store = this.props.stores.chatroom;
+
+	componentDidMount() {
+		//this.store.changeSocket(io("http://localhost:6464"));
+	}
 
 	componentWillUnmount() {
 		this.store.clearData();
@@ -107,14 +117,14 @@ class ChatroomPage extends Component {
 						<UsersGrid item xl={3} lg={3} md={3} sm={6} xs={12}>
 							<User
 								username={this.loginRegisterStore.username}
-								socket={socket}
+								socket={this.socket}
 								customTheme={customTheme}
 							/>
 						</UsersGrid>
 						<MessagesGrid item xl={6} lg={6} md={6} sm={12} xs={12}>
 							<Messages
 								username={this.loginRegisterStore.username}
-								socket={socket}
+								socket={this.socket}
 								customTheme={customTheme}
 							/>
 						</MessagesGrid>
@@ -122,7 +132,7 @@ class ChatroomPage extends Component {
 							<Rooms
 								defaultRooms={this.loginRegisterStore.joinedRooms}
 								customTheme={customTheme}
-								socket={socket}
+								socket={this.socket}
 								username={this.loginRegisterStore.username}
 							/>
 						</RoomsGrid>

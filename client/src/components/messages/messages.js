@@ -42,6 +42,9 @@ class Messages extends Component {
 	loginRegisterStore = this.props.stores.loginRegister;
 
 	componentDidMount() {
+
+		
+		
 		this.socket.on("chatMessage", packet => {
 			this.store.changeMessages(packet);
 		});

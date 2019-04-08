@@ -31,6 +31,10 @@ class Users extends Component {
 	@observable
 	roomsStore = this.props.stores.rooms;
 
+	componentDidMount() {
+		this.store.changeUsername(this.props.username, this.socket);
+	}
+
 	componentWillReceiveProps = () => {
 		this.store.changeUsername(this.props.username, this.socket);
 	};

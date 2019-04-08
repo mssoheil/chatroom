@@ -44,7 +44,7 @@ module.exports = function(io) {
 				.catch(err => {
 					console.log("room not found", err);
 				});
-			
+
 			resolve("done");
 		});
 
@@ -88,7 +88,6 @@ module.exports = function(io) {
 							io.to(`${itemSocketId}`).emit("getSocketUsername", item);
 							socket.on("receiveUsername", packet => {
 								sockets[packet.socketId] = packet.username;
-								
 							});
 						});
 					}
@@ -123,8 +122,6 @@ module.exports = function(io) {
 								});
 							});
 						}, 1000);
-
-						
 					}
 				})
 				.catch(err => {
@@ -225,9 +222,6 @@ module.exports = function(io) {
 				io.to(`${socketId}`).emit("joinedRooms", room);
 			});
 		});
-
-		
-
 
 		socket.on("disconnect", function() {
 			io.emit("user disconnected");

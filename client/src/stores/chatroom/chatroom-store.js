@@ -1,8 +1,7 @@
 import { observable, action } from "mobx";
 
-
-
 import store from "./../index";
+
 
 export default class Chatroom {
 	@observable
@@ -20,8 +19,14 @@ export default class Chatroom {
 	@observable
 	isPrivate = false;
 
+
 	@observable
 	openSettingDropDown = false;
+
+	@action
+	changeSocket(val) {
+		//this.socket = val;
+	}
 
 	@action
 	changeIsPrivate(val) {

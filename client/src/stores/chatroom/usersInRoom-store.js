@@ -53,11 +53,7 @@ export default class UsersInRoom {
 				avatar: this.loginRegisterStore.userAvatar
 			});
 		});
-		socket.on("getSocketUsernameDefault", packet => {
-			socket.emit("receiveUsernameDefault", {
-				username: this.username
-			});
-		});
+		
 		socket.on("socketsInRoom", packet => {
 			let entitiesArr = [];
 			let entities = Object.entries(packet.sockets);

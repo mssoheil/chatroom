@@ -47,6 +47,8 @@ class Rooms extends Component {
 	@observable
 	loginRegisterStore = this.props.stores.loginRegister;
 
+	
+
 	componentWillMount = () => {
 		this.store.fetchDefaultJoinedRooms(this.socket, this.user);
 		this.store.fetchRooms();
