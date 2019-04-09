@@ -50,13 +50,12 @@ class ChatroomPage extends Component {
 	@observable
 	store = this.props.stores.chatroom;
 
-
 	componentWillUnmount() {
-		this.store.clearData();
 		this.socket.emit("disconnected", {
 			username: this.loginRegisterStore.username,
-			connectedUser: this.store.connectedUser
+			connectedUsers: this.store.connectedUsers
 		});
+		this.store.clearData();
 	}
 
 	handleChangeSetting(event, username) {

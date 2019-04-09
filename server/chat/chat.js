@@ -261,8 +261,23 @@ module.exports = function(io) {
 					.catch(err => {
 						console.log("room not found", err);
 					});
+
+				
+					packet.connectedUsers.map(item => {
+						io.to(`${item.socketId}`).emit("leftPrivateChat", {
+							message: `${packet.username} left the private chat`,
+							currentUser: {
+								username: packet.username,
+								socketId: socket.id
+							},
+							otherUser: item,
+							time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+							isInformative: true
+						});
+					});
+				
+
 			});
 		});
-		
 	});
 };

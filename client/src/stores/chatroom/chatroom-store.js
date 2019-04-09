@@ -24,11 +24,6 @@ export default class Chatroom {
 	openSettingDropDown = false;
 
 	@action
-	changeSocket(val) {
-		//this.socket = val;
-	}
-
-	@action
 	changeIsPrivate(val) {
 		this.isPrivate = val;
 	}
