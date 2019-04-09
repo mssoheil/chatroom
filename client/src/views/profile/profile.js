@@ -123,7 +123,7 @@ class Profile extends Component {
 											onChange={e => this.store.changePassword(e)}
 											id="passwordInput"
 											textColor={customTheme.color.textGray}
-											type="text"
+											type="password"
 										/>
 									</PasswordGrid>
 									<PasswordConfirmGrid item xl={6} lg={6} md={6} sm={6} xs={12}>
@@ -134,15 +134,15 @@ class Profile extends Component {
 											New Password
 										</Label>
 										<Input
-											value={() => this.store.passwordNew}
+											value={this.store.passwordNew}
 											onChange={e => this.store.changeNewPassword(e)}
 											id="confirmPasswordInput"
 											textColor={customTheme.color.textGray}
-											type="text"
+											type="password"
 										/>
 									</PasswordConfirmGrid>
 								</PasswordGridContainer>
-							) : null}
+							) : ""}
 						</PasswordSection>
 					</InfoSection>
 					<ButtonsSection>

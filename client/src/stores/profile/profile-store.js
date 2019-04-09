@@ -29,10 +29,10 @@ export default class Profile {
 	imageChanged = false;
 
 	@observable
-	imageName;
+	imageName = "";
 
 	@observable
-	gender;
+	gender = "";
 
 	@action
 	changeUsername(event) {
@@ -43,6 +43,8 @@ export default class Profile {
 	changePassword(event) {
 		this.password = event.target.value;
 	}
+
+	
 
 	@action
 	async saveData() {
@@ -94,7 +96,7 @@ export default class Profile {
 	}
 
 	@action
-	changeNewPasswords(event) {
+	changeNewPassword(event) {
 		this.passwordNew = event.target.value;
 	}
 
