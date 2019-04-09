@@ -223,8 +223,46 @@ module.exports = function(io) {
 			});
 		});
 
-		socket.on("disconnect", function() {
-			io.emit("user disconnected");
+		socket.on("disconnected", packet => {
+			console.log("disconnected", packet);
+			let joinedRooms = Object.keys(socket.rooms).filter(
+				item => item != socket.id
+			);
+
+			joinedRooms.map(item => {
+				Rooms.findOne({ name: item })
+					.then(room => {
+						if (room) {
+							socket.leave(item);
+							socket.broadcast.to(item).emit("chatMessage", {
+								room: room,
+								isInformative: true,
+								username: packet.username,
+								message: "left the room",
+								time: `${new Date().getHours()}:${new Date().getMinutes()}`
+							});
+							let sockets = io.sockets.adapter.rooms[room.name].sockets;
+							let socketsInRoom = Object.keys(sockets);
+
+							socketsInRoom.map(itemInner => {
+								let itemSocketId = itemInner;
+								io.to(`${itemSocketId}`).emit("getSocketUsername", itemInner);
+								socket.on("receiveUsername", packet => {
+									sockets[packet.socketId] = packet.username;
+									io.to(`${itemSocketId}`).emit("socketsInRoom", {
+										room: room,
+										sockets: sockets,
+										time: `${new Date().getHours()}:${new Date().getMinutes()}`
+									});
+								});
+							});
+						}
+					})
+					.catch(err => {
+						console.log("room not found", err);
+					});
+			});
 		});
+		
 	});
 };

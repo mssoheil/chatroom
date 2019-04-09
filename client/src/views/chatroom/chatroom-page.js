@@ -26,8 +26,6 @@ import {
 
 import customTheme from "../../config/theme";
 
-//const socket = io("http://localhost:6464");
-
 const MenuProps = {
 	PaperProps: {
 		style: {
@@ -41,7 +39,6 @@ const MenuProps = {
 @inject("stores")
 @observer
 class ChatroomPage extends Component {
-
 	constructor(props) {
 		super(props);
 		this.socket = io("http://localhost:6464");
@@ -53,12 +50,13 @@ class ChatroomPage extends Component {
 	@observable
 	store = this.props.stores.chatroom;
 
-	componentDidMount() {
-		//this.store.changeSocket(io("http://localhost:6464"));
-	}
 
 	componentWillUnmount() {
 		this.store.clearData();
+		this.socket.emit("disconnected", {
+			username: this.loginRegisterStore.username,
+			connectedUser: this.store.connectedUser
+		});
 	}
 
 	handleChangeSetting(event, username) {
