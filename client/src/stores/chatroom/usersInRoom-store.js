@@ -9,6 +9,9 @@ export default class UsersInRoom {
 	loginRegisterStore = store.loginRegister;
 
 	@observable
+	chatroomStore = store.chatroom;
+
+	@observable
 	username = "";
 
 	@observable
@@ -32,14 +35,28 @@ export default class UsersInRoom {
 				}
 			});
 
-			toast.info("Wait so the user accept your private request", {
-				position: toast.POSITION.TOP_RIGHT
+			let connectedUsersCount = 0;
+
+			this.chatroomStore.connectedUsers.map((item, index) => {
+				if (item.username === val.username) {
+					connectedUsersCount++;
+				}
 			});
 
-			socket.emit("privateMessage", {
-				from: currentUser,
-				to: { socketId: val.socketId, username: val.username }
-			});
+			if (connectedUsersCount <= 0) {
+				toast.info("Wait so the user accept your private request", {
+					position: toast.POSITION.TOP_RIGHT
+				});
+
+				socket.emit("privateMessage", {
+					from: currentUser,
+					to: { socketId: val.socketId, username: val.username }
+				});
+			} else {
+				toast.error("Already connected to user", {
+					position: toast.POSITION.TOP_RIGHT
+				});
+			}
 		}
 	}
 
@@ -53,7 +70,7 @@ export default class UsersInRoom {
 				avatar: this.loginRegisterStore.userAvatar
 			});
 		});
-		
+
 		socket.on("socketsInRoom", packet => {
 			let entitiesArr = [];
 			let entities = Object.entries(packet.sockets);
