@@ -14,13 +14,13 @@ export default class Profile {
 	loginRegisterStore = store.loginRegister;
 
 	@observable
-	username;
+	username = "";
 
 	@observable
-	password;
+	password = "";
 
 	@observable
-	passwordNew;
+	passwordNew = "";
 
 	@observable
 	activatedChangePassword = false;

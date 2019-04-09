@@ -105,7 +105,7 @@ class Profile extends Component {
 									checked={this.store.activatedChangePassword}
 									onChange={e => this.store.activateChangePassword(e)}
 									value={this.store.activatedChangePassword}
-									color={`${customTheme.color.textGray}[500]`}
+									color={`default`}
 								/>
 							</ActivateChangePasswordSection>
 
