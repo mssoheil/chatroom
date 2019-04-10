@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 
 import { inject, observer } from "mobx-react";
 
-import { observable, toJS } from "mobx";
+import { observable } from "mobx";
 
 import {
 	Wrapper,

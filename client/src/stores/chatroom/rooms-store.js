@@ -172,32 +172,38 @@ export default class Rooms {
 
 	@action
 	leaveRoom(val, socket, username) {
-		var promise = new Promise((resolve, reject) => {
-			socket.emit("leaveRoom", {
-				username: username,
-				room: val
-			});
+		if (val["_id"] !== this.defaultRooms[0]["_id"]) {
+			var promise = new Promise((resolve, reject) => {
+				socket.emit("leaveRoom", {
+					username: username,
+					room: val
+				});
 
-			this.messagesStore.messages.map((item, index) => {
-				if (item.room["_id"] === val["_id"]) {
-					this.messagesStore.messages.splice(index, 1);
+				this.messagesStore.messages.map((item, index) => {
+					if (item.room["_id"] === val["_id"]) {
+						this.messagesStore.messages.splice(index, 1);
+					}
+				});
+
+				if (this.visibleRoom["_id"] === val["_id"]) {
+					this.visibleRoom = this.defaultRooms[0];
 				}
+				resolve("done");
 			});
-
-			if (this.visibleRoom["_id"] === val["_id"]) {
-				this.visibleRoom = this.defaultRooms[0];
-			}
-			resolve("done");
-		});
-		promise.then(result => {
-			socket.emit("getJoinedRooms", {
-				username: username,
-				room: val
+			promise.then(result => {
+				socket.emit("getJoinedRooms", {
+					username: username,
+					room: val
+				});
+				socket.on("joinedRooms", packet => {
+					this.joinedRooms = packet;
+				});
 			});
-			socket.on("joinedRooms", packet => {
-				this.joinedRooms = packet;
+		} else {
+			toast.error(`Can't leave ${val.name} room`, {
+				position: toast.POSITION.TOP_RIGHT
 			});
-		});
+		}
 	}
 
 	@action
