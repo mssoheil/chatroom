@@ -105,6 +105,7 @@ class Message {
 		this.privateMessages.push({
 			from: packet.from,
 			to: packet.to,
+			time: packet.time,
 			message: packet.message
 		});
 	}

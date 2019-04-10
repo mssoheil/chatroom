@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 
 import { inject, observer } from "mobx-react";
 
-import { observable } from "mobx";
+import { observable, toJS } from "mobx";
 
 import {
 	Wrapper,
@@ -113,15 +113,47 @@ class Messages extends Component {
 					{this.store.privateMessages.map((item, index) => {
 						return (
 							<MessagesWrapper key={`msg_${index}`}>
+
 								{(item.from.username ===
 									this.roomsStore.visiblePrivate.username ||
 									item.to.username ===
 										this.roomsStore.visiblePrivate.username) &&
 								this.chatRoomStore.isPrivate ? (
 									<MessagesContainer>
-										<MessagesSender>{item.from.username}: </MessagesSender>
-										<MessageContent>{item.message}</MessageContent>
+										{!item.isInformative ? (
+											<Fragment>
+												<MessagesSender>
+													<MessagesSenderText
+														textColor={customTheme.color.textGray}
+													>
+														{item.from.username}
+													</MessagesSenderText>{" "}
+													<Divider textColor={customTheme.color.textGray}>
+														{" "}
+														|{" "}
+													</Divider>{" "}
+													<MessageTime textColor={customTheme.color.textGray}>
+													{item.time}
+													</MessageTime>
+												</MessagesSender>
+												<MessageContent
+													backgroundColor={customTheme.color.textGray}
+												>
+													<MessageContentText>
+														{item.message}
+													</MessageContentText>
+												</MessageContent>
+											</Fragment>
+										) : (
+											<div style={{ color: customTheme.color.textGray }}>
+												{item.username} {item.message}
+											</div>
+										)}
+										{/* <MessagesSender>{item.from.user.username} | {item.from.time}</MessagesSender>
+										<MessageContent>{item.message}</MessageContent> */}
 									</MessagesContainer>
+
+									
 								) : null}
 							</MessagesWrapper>
 						);

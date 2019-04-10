@@ -112,9 +112,7 @@ module.exports = function(io) {
 										username: sockets[item].username || sockets[item]
 									})
 										.then(user => {
-											
 											if (user) {
-												
 												sockets[item] = {
 													username: user.username,
 													avatar: user.avatar,
@@ -130,7 +128,6 @@ module.exports = function(io) {
 										.catch(err => {
 											console.log("user not found");
 										});
-									
 								});
 							});
 
