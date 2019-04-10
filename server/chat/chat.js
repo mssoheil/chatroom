@@ -73,6 +73,8 @@ module.exports = function(io) {
 				.then(room => {
 					if (room) {
 						socket.join(packet.room.name);
+						let sockets = io.sockets.adapter.rooms[room.name].sockets;
+						let socketsInRoom = Object.keys(sockets);
 
 						socket.broadcast.to(packet.room.name).emit("chatMessage", {
 							room: room,
@@ -81,15 +83,50 @@ module.exports = function(io) {
 							message: "joined the room",
 							time: `${new Date().getHours()}:${new Date().getMinutes()}`
 						});
-						let sockets = io.sockets.adapter.rooms[room.name].sockets;
-						let socketsInRoom = Object.keys(sockets);
 
 						socketsInRoom.map(item => {
 							let itemSocketId = item;
 							io.to(`${itemSocketId}`).emit("getSocketUsername", item);
-							socket.on("receiveUsername", packet => {
-								sockets[packet.socketId] = packet.username;
+							socket.on("receiveUsername", packetInner => {
+								sockets[packetInner.socketId] = packetInner.username;
 							});
+							var tempSockets;
+							setTimeout(() => {
+								let promise = new Promise((resolve, reject) => {
+									socketsInRoom.map((item, index) => {
+										Users.findOne({
+											username: sockets[item].username || sockets[item]
+										})
+											.then(user => {
+												if (user) {
+													sockets[item] = {
+														username: user.username,
+														avatar: user.avatar,
+														socketId: item,
+														time: `${new Date().getHours()}:${new Date().getMinutes()}`
+													};
+													tempSockets = sockets;
+													if (index === socketsInRoom.length - 1) {
+														resolve(tempSockets);
+													}
+												}
+											})
+											.catch(err => {
+												console.log("user not found");
+											});
+									});
+								});
+
+								promise.then(result => {
+									socketsInRoom.map((item, index) => {
+										io.to(`${item}`).emit("socketsInRoom", {
+											room: room,
+											sockets: result,
+											time: `${new Date().getHours()}:${new Date().getMinutes()}`
+										});
+									});
+								});
+							}, 1000);
 						});
 					}
 				})
