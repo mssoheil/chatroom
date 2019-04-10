@@ -20,12 +20,12 @@ module.exports = function() {
 		form.parse(req);
 
 		form.on("fileBegin", function(name, file) {
-			file.path = __dirname + "./../img/" + file.name;
 			let fileType = file.type.split("/").pop();
 			let fileNameArray = file.name.split(".");
-
+			
 			let fileExtension = fileNameArray[fileNameArray.length - 1];
 			if (fileType === "jpg" || fileType === "png" || fileType === "jpeg") {
+				file.path = __dirname + "./../img/" + file.name;
 				const randomName = `${shortid.generate()}${shortid.generate()}.${fileExtension}`;
 
 				file.path = `${__dirname}./../img/${randomName}`;
@@ -37,7 +37,7 @@ module.exports = function() {
 				});
 			} else {
 				console.log("incorrect file type: " + fileType);
-				res.status(500).send({
+				res.status(200).send({
 					fileName: false,
 					success: false,
 					message: `Incorrect file type`

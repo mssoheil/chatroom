@@ -76,6 +76,9 @@ export default class Profile {
 				})
 				.catch(err => {
 					console.log(err);
+					toast.error(err.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
 				});
 		}
 
