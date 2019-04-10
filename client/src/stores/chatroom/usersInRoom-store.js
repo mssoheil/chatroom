@@ -65,6 +65,7 @@ export default class UsersInRoom {
 
 	@action
 	changeUsername(val, socket) {
+		console.log("TRIG")
 		this.username = val;
 		socket.on("getSocketUsername", packet => {
 			socket.emit("receiveUsername", {

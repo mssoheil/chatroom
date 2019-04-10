@@ -44,8 +44,6 @@ export default class Profile {
 		this.password = event.target.value;
 	}
 
-	
-
 	@action
 	async saveData() {
 		const header = {};
@@ -58,26 +56,28 @@ export default class Profile {
 			}
 		};
 
-		axiousFetch
-			.put("changeProfile", "v1", header, body)
-			.then(response => {
-				if (response !== undefined && response !== null) {
-					if (response.success) {
-						this.loginRegisterStore.username = response.user.username;
-						this.loginRegisterStore.userAvatar = response.user.avatar;
-						toast.success(response.message, {
-							position: toast.POSITION.TOP_RIGHT
-						});
-					} else {
-						toast.error(response.message, {
-							position: toast.POSITION.TOP_RIGHT
-						});
+		if (this.imageChanged) {
+			axiousFetch
+				.put("changeProfile", "v1", header, body)
+				.then(response => {
+					if (response !== undefined && response !== null) {
+						if (response.success) {
+							this.loginRegisterStore.username = response.user.username;
+							this.loginRegisterStore.userAvatar = response.user.avatar;
+							toast.success(response.message, {
+								position: toast.POSITION.TOP_RIGHT
+							});
+						} else {
+							toast.error(response.message, {
+								position: toast.POSITION.TOP_RIGHT
+							});
+						}
 					}
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		}
 
 		this.chatroomStore.changeIsProfile(false);
 	}
