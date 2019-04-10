@@ -12,6 +12,9 @@ export default class UsersInRoom {
 	chatroomStore = store.chatroom;
 
 	@observable
+	roomsStore = store.rooms;
+
+	@observable
 	username = "";
 
 	@observable
@@ -72,18 +75,21 @@ export default class UsersInRoom {
 		});
 
 		socket.on("socketsInRoom", packet => {
-			let entitiesArr = [];
-			let entities = Object.entries(packet.sockets);
-			entities.map(item => {
-				entitiesArr.push({
-					room: packet.room,
-					socketId: item[1].socketId,
-					username: item[1].username,
-					avatar: item[1].avatar
+			
+			if (this.roomsStore.visibleRoom.name === packet.room.name) {
+				let entitiesArr = [];
+				let entities = Object.entries(packet.sockets);
+				entities.map(item => {
+					entitiesArr.push({
+						room: packet.room,
+						socketId: item[1].socketId,
+						username: item[1].username,
+						avatar: item[1].avatar
+					});
 				});
-			});
 
-			this.usersPerRoom = entitiesArr;
+				this.usersPerRoom = entitiesArr;
+			}
 		});
 	}
 }

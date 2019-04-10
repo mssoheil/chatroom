@@ -1,4 +1,5 @@
 const Rooms = require("./../models/rooms.js");
+const Users = require("./../models/users.js");
 /** @todo on connect get username from client to broadcast in default room */
 module.exports = function(io) {
 	io.on("connection", socket => {
@@ -103,20 +104,41 @@ module.exports = function(io) {
 					if (room) {
 						let sockets = io.sockets.adapter.rooms[room.name].sockets;
 						let socketsInRoom = Object.keys(sockets);
+						var tempSockets;
 						setTimeout(() => {
-							socketsInRoom.map(item => {
-								let itemSocketId = item;
-								io.to(`${itemSocketId}`).emit("getSocketUsername", item);
-								socket.on("receiveUsername", packet => {
-									sockets[packet.socketId] = {
-										username: packet.username,
-										avatar: packet.avatar,
-										socketId: packet.socketId,
-										time: `${new Date().getHours()}:${new Date().getMinutes()}`
-									};
-									io.to(`${itemSocketId}`).emit("socketsInRoom", {
+							let promise = new Promise((resolve, reject) => {
+								socketsInRoom.map((item, index) => {
+									Users.findOne({
+										username: sockets[item].username || sockets[item]
+									})
+										.then(user => {
+											
+											if (user) {
+												
+												sockets[item] = {
+													username: user.username,
+													avatar: user.avatar,
+													socketId: item,
+													time: `${new Date().getHours()}:${new Date().getMinutes()}`
+												};
+												tempSockets = sockets;
+												if (index === socketsInRoom.length - 1) {
+													resolve(tempSockets);
+												}
+											}
+										})
+										.catch(err => {
+											console.log("user not found");
+										});
+									
+								});
+							});
+
+							promise.then(result => {
+								socketsInRoom.map((item, index) => {
+									io.to(`${item}`).emit("socketsInRoom", {
 										room: room,
-										sockets: sockets,
+										sockets: result,
 										time: `${new Date().getHours()}:${new Date().getMinutes()}`
 									});
 								});
@@ -125,7 +147,7 @@ module.exports = function(io) {
 					}
 				})
 				.catch(err => {
-					console.log("room not found", err);
+					console.log("room not found");
 				});
 		});
 
@@ -262,21 +284,18 @@ module.exports = function(io) {
 						console.log("room not found", err);
 					});
 
-				
-					packet.connectedUsers.map(item => {
-						io.to(`${item.socketId}`).emit("leftPrivateChat", {
-							message: `${packet.username} left the private chat`,
-							currentUser: {
-								username: packet.username,
-								socketId: socket.id
-							},
-							otherUser: item,
-							time: `${new Date().getHours()}:${new Date().getMinutes()}`,
-							isInformative: true
-						});
+				packet.connectedUsers.map(item => {
+					io.to(`${item.socketId}`).emit("leftPrivateChat", {
+						message: `${packet.username} left the private chat`,
+						currentUser: {
+							username: packet.username,
+							socketId: socket.id
+						},
+						otherUser: item,
+						time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+						isInformative: true
 					});
-				
-
+				});
 			});
 		});
 	});
