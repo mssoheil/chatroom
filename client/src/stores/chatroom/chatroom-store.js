@@ -2,10 +2,12 @@ import { observable, action } from "mobx";
 
 import store from "./../index";
 
-
 export default class Chatroom {
 	@observable
 	loginRegisterStore = store.loginRegister;
+
+	@observable
+	roomsStore = store.rooms;
 
 	@observable
 	connectedUsers = [];
@@ -18,7 +20,6 @@ export default class Chatroom {
 
 	@observable
 	isPrivate = false;
-
 
 	@observable
 	openSettingDropDown = false;
@@ -52,6 +53,8 @@ export default class Chatroom {
 		socket.emit("confirmedPrivate", { to: packet.to, from: packet.from });
 
 		this.connectedUsers.push(packet.from);
+		this.changeIsPrivate(true);
+		this.roomsStore.changeVisiblePrivate(packet.from);
 	}
 
 	@action
@@ -62,6 +65,8 @@ export default class Chatroom {
 	@action
 	confirmedPrivateRequest(packet, socket) {
 		this.connectedUsers.push(packet.to);
+		this.changeIsPrivate(true);
+		this.roomsStore.changeVisiblePrivate(packet.to);
 	}
 
 	@action
