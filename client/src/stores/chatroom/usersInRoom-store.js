@@ -36,14 +36,16 @@ export default class UsersInRoom {
 						socketId: item.socketId
 					});
 				}
+				return currentUser;
 			});
 
 			let connectedUsersCount = 0;
 
 			this.chatroomStore.connectedUsers.map((item, index) => {
 				if (item.username === val.username) {
-					connectedUsersCount++;
+					return connectedUsersCount++;
 				}
+				return connectedUsersCount;
 			});
 
 			if (connectedUsersCount <= 0) {
@@ -67,7 +69,7 @@ export default class UsersInRoom {
 	changeUsername(val, socket) {
 		this.username = val;
 		socket.on("getSocketUsername", packet => {
-			socket.emit("receiveUsername", {
+			return socket.emit("receiveUsername", {
 				socketId: packet,
 				username: this.username,
 				avatar: this.loginRegisterStore.userAvatar
@@ -75,12 +77,11 @@ export default class UsersInRoom {
 		});
 
 		socket.on("socketsInRoom", packet => {
-			
 			if (this.roomsStore.visibleRoom.name === packet.room.name) {
 				let entitiesArr = [];
 				let entities = Object.entries(packet.sockets);
 				entities.map(item => {
-					entitiesArr.push({
+					return entitiesArr.push({
 						room: packet.room,
 						socketId: item[1].socketId,
 						username: item[1].username,

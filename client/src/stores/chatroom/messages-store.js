@@ -62,6 +62,7 @@ class Message {
 			if (item.username === packet.currentUser.username) {
 				return this.chatRoomStore.connectedUsers.splice(index, 1);
 			}
+			return this.chatRoomStore.connectedUsers;
 		});
 		toast.error(packet.message, {
 			position: toast.POSITION.TOP_RIGHT
@@ -126,6 +127,7 @@ class Message {
 						socketId: item.socketId
 					});
 				}
+				return currentUser;
 			});
 			socket.emit("sendPrivateMessage", {
 				message: this.message,

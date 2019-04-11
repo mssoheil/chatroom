@@ -50,7 +50,7 @@ export default class Register {
 
 		if (this.email !== "" && this.password !== "") {
 			var emailPatt = new RegExp(
-				/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
+				/^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([a-zA-Z0-9-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
 			);
 			var validation = emailPatt.test(this.email);
 			if (validation) {

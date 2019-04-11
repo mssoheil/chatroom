@@ -72,6 +72,7 @@ export default class Rooms {
 					socketId: item.socketId
 				});
 			}
+			return currentUser;
 		});
 
 		socket.emit("leftPrivate", {
@@ -82,6 +83,7 @@ export default class Rooms {
 			if (item.username === val.username) {
 				return this.chatRoomStore.connectedUsers.splice(index, 1);
 			}
+			return this.chatRoomStore.connectedUsers;
 		});
 	}
 
@@ -91,8 +93,9 @@ export default class Rooms {
 		let foundItems = 0;
 		this.joinedRooms.map(item => {
 			if (item["_id"] === val["_id"]) {
-				foundItems++;
+				return foundItems++;
 			}
+			return foundItems;
 		});
 
 		if (foundItems === 0) {
@@ -135,7 +138,7 @@ export default class Rooms {
 				username: username,
 				room: val
 			});
-			resolve("done");
+			return resolve("done");
 		});
 		promise.then(result => {
 			socket.emit("getJoinedRooms", {
@@ -145,6 +148,7 @@ export default class Rooms {
 			socket.on("joinedRooms", packet => {
 				this.joinedRooms = packet;
 			});
+			return null;
 		});
 	}
 
@@ -181,14 +185,15 @@ export default class Rooms {
 
 				this.messagesStore.messages.map((item, index) => {
 					if (item.room["_id"] === val["_id"]) {
-						this.messagesStore.messages.splice(index, 1);
+						return this.messagesStore.messages.splice(index, 1);
 					}
+					return this.messagesStore.messages;
 				});
 
 				if (this.visibleRoom["_id"] === val["_id"]) {
 					this.visibleRoom = this.defaultRooms[0];
 				}
-				resolve("done");
+				return resolve("done");
 			});
 			promise.then(result => {
 				socket.emit("getJoinedRooms", {
@@ -196,7 +201,7 @@ export default class Rooms {
 					room: val
 				});
 				socket.on("joinedRooms", packet => {
-					this.joinedRooms = packet;
+					return (this.joinedRooms = packet);
 				});
 			});
 		} else {
@@ -224,7 +229,7 @@ export default class Rooms {
 			.then(response => {
 				if (response !== null || response !== undefined) {
 					if (response.roomExist !== null || response.roomExist !== undefined) {
-						this.changeRoomsArr(response.rooms);
+						return this.changeRoomsArr(response.rooms);
 					}
 				}
 			})
@@ -247,11 +252,11 @@ export default class Rooms {
 				if (response !== null || response !== undefined) {
 					if (response.roomExist !== null || response.roomExist !== undefined) {
 						if (response.roomExist) {
-							toast.error(response.message, {
+							return toast.error(response.message, {
 								position: toast.POSITION.TOP_RIGHT
 							});
 						} else {
-							toast.success(response.message, {
+							return toast.success(response.message, {
 								position: toast.POSITION.TOP_RIGHT
 							});
 						}
@@ -259,7 +264,7 @@ export default class Rooms {
 				}
 			})
 			.catch(err => {
-				toast.error("Room already exists", {
+				return toast.error("Room already exists", {
 					position: toast.POSITION.TOP_RIGHT
 				});
 			});
