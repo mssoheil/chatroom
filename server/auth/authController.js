@@ -29,41 +29,50 @@ module.exports = function(io) {
 			});
 		});
 		promise.then(result => {
-			const newUser = new User({
-				username: `user${cnt}`,
-				email: req.body.email,
-				password: req.body.password,
-				gender: "male",
-				avatar: "default.png"
-			});
-			bcrypt.genSalt(10, (err, salt) => {
-				bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
-					if (err) {
-						if (environment !== "production") {
-							console.log("could not create hash", err);
-						}
-					}
-					newUser.password = hashedPassword;
-
-					newUser
-						.save()
-						.then(user => {
-							res.status(200).send({
-								register: true,
-								message: `User ${user.username} created successfull`
-							});
-						})
-						.catch(err => {
-							res.status(500).send({
-								register: false,
-								message: "could not register user",
-								error: err.errmsg
-							});
-							if (environment !== "production") {
-								console.log("could not register user", err);
+			User.findOne({ email: req.body.email }).then(userFound => {
+				if (userFound) {
+					res.status(200).send({
+						register: false,
+						message: "Email is already exist"
+					});
+				} else {
+					const newUser = new User({
+						username: `user${cnt}`,
+						email: req.body.email,
+						password: req.body.password,
+						gender: "male",
+						avatar: "default.png"
+					});
+					bcrypt.genSalt(10, (err, salt) => {
+						bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
+							if (err) {
+								if (environment !== "production") {
+									console.log("could not create hash", err);
+								}
 							}
+							newUser.password = hashedPassword;
+
+							newUser
+								.save()
+								.then(user => {
+									res.status(200).send({
+										register: true,
+										message: `User ${user.username} created successfull`
+									});
+								})
+								.catch(err => {
+									res.status(500).send({
+										register: false,
+										message: "could not register user",
+										error: err.errmsg
+									});
+									if (environment !== "production") {
+										console.log("could not register user", err);
+									}
+								});
 						});
-				});
+					});
+				}
 			});
 		});
 	});
@@ -111,7 +120,6 @@ module.exports = function(io) {
 	});
 
 	router.get("/authentication", VerifyToken, (req, res, next) => {
-		
 		User.findById(req.userId, { password: 0 })
 			.then(user => {
 				if (!user) {
@@ -120,8 +128,8 @@ module.exports = function(io) {
 						.send({ auth: false, message: "No user found" });
 				}
 				return res
-						.status(200)
-						.send({ auth: true, user: user, message: "No user found" });
+					.status(200)
+					.send({ auth: true, user: user, message: "No user found" });
 			})
 			.catch(err => {
 				return res.status(500).send({

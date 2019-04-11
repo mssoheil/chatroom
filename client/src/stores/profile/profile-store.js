@@ -17,7 +17,13 @@ export default class Profile {
 	username = "";
 
 	@observable
+	usernameValidation = true;
+
+	@observable
 	password = "";
+
+	@observable
+	usernameError = "";
 
 	@observable
 	passwordNew = "";
@@ -42,6 +48,44 @@ export default class Profile {
 	@action
 	changePassword(event) {
 		this.password = event.target.value;
+	}
+
+	@action
+	changeUsernameValidation(val) {
+		this.usernameValidation = val;
+	}
+
+	@action
+	changeUsernameError(val) {
+		this.usernameError = val;
+	}
+
+	@action
+	checkUsernameValidation(e) {
+		let header = {
+			username: e.target.value
+		};
+
+
+		if (this.username !== this.loginRegisterStore.username) {
+			axiousFetch
+				.get("checkUsername", "v1", header)
+				.then(response => {
+					if (response !== undefined && response !== null) {
+						if (response.success) {
+							this.changeUsernameValidation(true);
+						} else {
+							this.changeUsernameValidation(false);
+							this.changeUsernameError(response.message);
+						}
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		} else {
+			this.changeUsernameValidation(true);
+		}
 	}
 
 	@action

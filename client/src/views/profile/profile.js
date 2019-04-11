@@ -5,7 +5,6 @@ import { observable } from "mobx";
 
 import Switch from "@material-ui/core/Switch";
 
-
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 import {
@@ -20,6 +19,8 @@ import {
 	InfoSection,
 	UsernameGridContainer,
 	UsernameGrid,
+	UsernameError,
+	UsernameErrorGrid,
 	Input,
 	Label,
 	PasswordSection,
@@ -33,8 +34,6 @@ import {
 } from "./profile-styled";
 
 import customTheme from "../../config/theme";
-
-
 
 @inject("stores")
 @observer
@@ -82,7 +81,7 @@ class Profile extends Component {
 					</AvatarSection>
 					<InfoSection>
 						<UsernameGridContainer container>
-							<UsernameGrid item  xl={6} lg={6} md={6} sm={6} xs={12}>
+							<UsernameGrid item xl={6} lg={6} md={6} sm={6} xs={12}>
 								<Label
 									textColor={customTheme.color.textGray}
 									htmlFor="usernameInput"
@@ -92,11 +91,20 @@ class Profile extends Component {
 								<Input
 									value={this.store.username}
 									onChange={e => this.store.changeUsername(e)}
+									onBlur={e => this.store.checkUsernameValidation(e)}
 									id="usernameInput"
 									textColor={customTheme.color.textGray}
 									type="text"
 								/>
 							</UsernameGrid>
+
+							<UsernameErrorGrid  item xl={6} lg={6} md={6} sm={6} xs={12}>
+								<UsernameError>
+									{!this.store.usernameValidation
+										? this.store.usernameError
+										: null}
+								</UsernameError>
+							</UsernameErrorGrid>
 						</UsernameGridContainer>
 						<PasswordSection textColor={customTheme.color.textGray}>
 							<ActivateChangePasswordSection>
@@ -142,7 +150,9 @@ class Profile extends Component {
 										/>
 									</PasswordConfirmGrid>
 								</PasswordGridContainer>
-							) : ""}
+							) : (
+								""
+							)}
 						</PasswordSection>
 					</InfoSection>
 					<ButtonsSection>
@@ -150,6 +160,7 @@ class Profile extends Component {
 							onClick={() => this.store.saveData()}
 							variant="contained"
 							color="primary"
+							disabled={!this.store.usernameValidation}
 						>
 							Save
 						</SaveBtn>

@@ -77,8 +77,8 @@ const EditAvatar = styled.div`
 		}
 	}
 	@media screen and (max-width: 599px) {
-			width: 30px;
-			height: 30px;
+		width: 30px;
+		height: 30px;
 	}
 `;
 
@@ -98,6 +98,29 @@ const UsernameGridContainer = styled(Grid)``;
 const UsernameGrid = styled(Grid)`
 	padding: 10px;
 	box-sizing: border-box;
+`;
+
+const UsernameErrorGrid = styled(Grid)`
+	padding: 10px;
+	box-sizing: border-box;
+	@media screen and (max-width: 599px) {
+		padding: 0 10px;
+		height: auto;
+	}
+`;
+
+const UsernameError = styled.h4`
+	color: red;
+	font-weight: normal;
+	height: 100%;
+	display: flex;
+	align-items: center;
+
+	@media screen and (max-width: 599px) {
+		margin: 0;
+		padding: 0 10px;
+		height: auto;
+	}
 `;
 const Input = styled.input`
 	border: none;
@@ -203,6 +226,8 @@ export {
 	InfoSection,
 	UsernameGridContainer,
 	UsernameGrid,
+	UsernameError,
+	UsernameErrorGrid,
 	Input,
 	Label,
 	PasswordSection,

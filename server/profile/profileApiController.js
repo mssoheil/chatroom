@@ -22,7 +22,7 @@ module.exports = function() {
 		form.on("fileBegin", function(name, file) {
 			let fileType = file.type.split("/").pop();
 			let fileNameArray = file.name.split(".");
-			
+
 			let fileExtension = fileNameArray[fileNameArray.length - 1];
 			if (fileType === "jpg" || fileType === "png" || fileType === "jpeg") {
 				file.path = __dirname + "./../img/" + file.name;
@@ -111,6 +111,23 @@ module.exports = function() {
 						user: { username: user.username, avatar: user.avatar }
 					});
 				});
+			}
+		});
+	});
+	router.get("/check-username", (req, res, next) => {
+		User.findOne({ username: req.headers.username }).then(user => {
+			if (user) {
+				res.status(200).send({
+					success: false,
+					message: "The username is taken"
+				});
+				console.log("user exist", user);
+			} else {
+				res.status(200).send({
+					success: true,
+					message: "Valid usrname"
+				});
+				console.log("valid username");
 			}
 		});
 	});

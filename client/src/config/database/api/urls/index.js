@@ -19,5 +19,8 @@ export default {
 	},
 	changeProfile: {
 		put: {v1: "profile/change-profile"}
+	},
+	checkUsername: {
+		get: {v1: "profile/check-username"}
 	}
 };
