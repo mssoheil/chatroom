@@ -2,6 +2,12 @@
 
 ### This chatroom using nodeJs and mongodb for server and ReactJs for the client side and also uses Socket.io and hashes password and use json web token for authentication
 
+### To start server use ```yar dev``` in server directory
+
+### To start client use ```yarn start``` in client directory
+
+### To change the ```default room name``` and ```port number``` and ```secret code``` change ```.env``` file
+
 ### At first the start page will be shown
 
 ![](./start.PNG "Start page")
