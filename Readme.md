@@ -2,11 +2,19 @@
 
 ### This chatroom using nodeJs and mongodb for server and ReactJs for the client side and also uses Socket.io and hashes password and use json web token for authentication
 
-### To start server use ```yar dev``` in server directory
+### You should have mongodb installed
 
-### To start client use ```yarn start``` in client directory
+### You should create a database named chatroom in mongodb and in that database should create two collections named "rooms" and "users"
 
-### To change the ```default room name``` and ```port number``` and ```secret code``` change ```.env``` file
+### If you are using the compass user interfact after connecting click on the "CREATE DATABASE" and in the oppened modal set the database name to "chatroom" and set the collection name to one of mentioned above, after creating the data base by clicking on the "+" on database create the other collection
+
+### If you use mongo shell after running the `mongod` and `mongo` type this `use chatroom` and then `db.createCollection("rooms")` and `db.createCollection("users")`
+
+### To start server use `yar dev` in server directory
+
+### To start client use `yarn start` in client directory
+
+### To change the `default room name` and `port number` and `secret code` change `.env` file
 
 ### At first the start page will be shown
 
@@ -27,8 +35,6 @@
 ![](./chatting.PNG "chating page")
 
 ### The user can join or leave other rooms or the user can create new rooms
-
-
 
 ### The users can have private chat that should be approved by the receiver first
 
