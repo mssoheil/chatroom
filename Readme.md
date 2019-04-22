@@ -4,13 +4,21 @@
 
 ### You should have mongodb installed
 
+## For using a local database do the following
+
+### In server/db folder the connect argument should be like this ```mongoose.connect(process.env.MONGO_LOCAL_CONN_URL, { useNewUrlParser: true });``` 
+
 ### You should create a database named chatroom in mongodb and in that database should create two collections named "rooms" and "users"
 
 ### If you are using the compass user interfact after connecting click on the "CREATE DATABASE" and in the oppened modal set the database name to "chatroom" and set the collection name to one of mentioned above, after creating the data base by clicking on the "+" on database create the other collection
 
 ### If you use mongo shell after running the `mongod` and `mongo` type this `use chatroom` and then `db.createCollection("rooms")` and `db.createCollection("users")`
 
-### To start server use `yar dev` in server directory
+## For using the live ATLAS database do this
+
+### In server/db folder the connect argument should be like this ```mongoose.connect(process.env.MONGO_ATLAS_CONN_URL, { useNewUrlParser: true });``` 
+
+### To start server use `yarn dev` in server directory
 
 ### To start client use `yarn start` in client directory
 
